@@ -1,25 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const authMiddleware = require("../middleware/authMiddleware");
-const uploadSolicitud = require("../middleware/uploadSolicitud");
-
+const auth = require("../middleware/authMiddleware");
 const {
-  enviarSolicitud,
-  aprobarSolicitud,
-  programarSustentacion,
-  obtenerSustentacion,
+  generarResolucion,
+  descargarResolucion,
 } = require("../controllers/sustentacion.controller");
 
-// Enviar solicitud + PDF
-router.post(
-  "/solicitar/:id_tesis",
-  authMiddleware,
-  uploadSolicitud,
-  enviarSolicitud
-);
-
-router.post("/aprobar/:id_solicitud", authMiddleware, aprobarSolicitud);
-router.post("/programar/:id_tesis", authMiddleware, programarSustentacion);
-router.get("/:id_tesis", authMiddleware, obtenerSustentacion);
+router.post("/resolucion/:id_proyecto", auth, generarResolucion);
+router.get("/descargar/:id_resolucion", auth, descargarResolucion);
 
 module.exports = router;

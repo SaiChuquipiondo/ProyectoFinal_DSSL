@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Resolución de Sustentación</title>
+
+    <style>
+      body {
+        font-family: "Times New Roman", serif;
+        margin: 70px;
+        font-size: 15px;
+        line-height: 1.6;
+        text-align: justify;
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        margin: 0;
+      }
+
+      .facultad {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .resolucion {
+        text-align: center;
+        font-weight: bold;
+        font-size: 18px;
+        margin: 25px 0;
+      }
+
+      .fecha {
+        text-align: right;
+        margin-bottom: 25px;
+      }
+
+      .seccion {
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .titulo-tesis {
+        text-align: center;
+        font-style: italic;
+        margin: 15px 0;
+      }
+
+      ul {
+        margin-left: 40px;
+      }
+
+      .firma {
+        margin-top: 80px;
+        text-align: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>UNIVERSIDAD NACIONAL DE UCAYALI</h1>
+    <div class="facultad">
+      FACULTAD DE INGENIERÍA DE SISTEMAS E INGENIERÍA CIVIL – FISeIC
+    </div>
+
+    <div class="resolucion">RESOLUCIÓN DECANAL N.° {{NUMERO_RESOLUCION}}</div>
+
+    <div class="fecha">Pucallpa, {{FECHA}}</div>
+
+    <div class="seccion">VISTO:</div>
+
+    <p>
+      El expediente académico y digital del estudiante
+      <strong>{{NOMBRE_COMPLETO_ESTUDIANTE}}</strong>, identificado con DNI
+      <strong>{{DNI_ESTUDIANTE}}</strong>, correspondiente a la tesis titulada:
+    </p>
+
+    <div class="titulo-tesis">“{{TITULO_TESIS}}”</div>
+
+    <p>
+      y demás documentos que forman parte del proceso para la obtención del
+      Título Profesional; y,
+    </p>
+
+    <div class="seccion">CONSIDERANDO:</div>
+
+    <p>
+      Que, el estudiante <strong>{{NOMBRE_COMPLETO_ESTUDIANTE}}</strong>,
+      perteneciente a la Escuela Profesional de Ingeniería de Sistemas, ha
+      cumplido con los requisitos establecidos en el Reglamento de Grados y
+      Títulos de la Facultad de Ingeniería de Sistemas e Ingeniería Civil.
+    </p>
+
+    <p>
+      Que, el proyecto de tesis fue aprobado por su asesor designado,
+      <strong>{{NOMBRE_ASESOR}}</strong>, y posteriormente evaluado y aprobado
+      por los miembros del Jurado Revisor, quienes emitieron opinión favorable
+      conforme a los registros del Sistema de Gestión de Tesis – SGT.
+    </p>
+
+    <p>
+      Que, luego de la aprobación de su borrador final, el estudiante presentó
+      oportunamente su Tesis Final, quedando habilitado para la sustentación
+      pública de la misma.
+    </p>
+
+    <p>
+      Que, es atribución del Decano de la Facultad autorizar y oficializar las
+      sustentaciones de tesis para la obtención de los grados y títulos
+      profesionales.
+    </p>
+
+    <p>
+      Por lo expuesto, y en uso de las facultades otorgadas al Decano de la
+      Facultad de Ingeniería de Sistemas e Ingeniería Civil:
+    </p>
+
+    <div class="seccion">SE RESUELVE:</div>
+
+    <p>
+      <strong>ARTÍCULO 1.° – AUTORIZAR</strong><br />
+      La sustentación pública de la tesis titulada:
+    </p>
+
+    <div class="titulo-tesis">“{{TITULO_TESIS}}”</div>
+
+    <p>
+      presentada por el estudiante
+      <strong>{{NOMBRE_COMPLETO_ESTUDIANTE}}</strong>, con código universitario
+      <strong>{{CODIGO_ESTUDIANTE}}</strong>, en la Escuela Profesional de
+      Ingeniería de Sistemas.
+    </p>
+
+    <p>
+      <strong>ARTÍCULO 2.° – DESIGNAR AL JURADO EVALUADOR</strong><br />
+      El jurado evaluador para el acto de sustentación queda conformado por:
+    </p>
+
+    <ul>
+      <li><strong>{{PRESIDENTE}}</strong> – Presidente</li>
+      <li><strong>{{SECRETARIO}}</strong> – Secretario</li>
+      <li><strong>{{VOCAL}}</strong> – Vocal</li>
+    </ul>
+
+    <p>
+      <strong>ARTÍCULO 3.° – PROGRAMAR LA SUSTENTACIÓN</strong><br />
+      La Coordinación Académica fijará fecha, hora y modalidad de la
+      sustentación, notificando oportunamente al estudiante, asesor y miembros
+      del jurado evaluador.
+    </p>
+
+    <p>
+      <strong>ARTÍCULO 4.° – REGISTRO Y COMUNICACIÓN</strong><br />
+      Regístrese la presente resolución en el Sistema de Gestión de Tesis – SGT
+      y comuníquese al interesado, asesor y jurado evaluador para los fines
+      pertinentes.
+    </p>
+
+    <div class="firma">
+      _________________________________<br />
+      DECANO<br />
+      Facultad de Ingeniería de Sistemas e Ingeniería Civil<br />
+      Universidad Nacional de Ucayali
+    </div>
+  </body>
+</html>

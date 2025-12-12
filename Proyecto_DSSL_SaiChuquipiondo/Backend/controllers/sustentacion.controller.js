@@ -1,234 +1,196 @@
 const pool = require("../config/database");
+const fs = require("fs");
+const path = require("path");
+const puppeteer = require("puppeteer");
+const { notificar } = require("../utils/notificar");
 
-// Estudiante solicita sustentación
-const enviarSolicitud = async (req, res) => {
+/* ===============================
+   GENERAR NÚMERO DE RESOLUCIÓN
+================================ */
+const generarNumeroResolucion = async () => {
+  const anio = new Date().getFullYear();
+  const [rows] = await pool.query(
+    `SELECT COUNT(*) total FROM resolucion WHERE YEAR(fecha_resolucion)=?`,
+    [anio]
+  );
+
+  const correlativo = String(rows[0].total + 1).padStart(3, "0");
+  return `${correlativo}-${anio}-FISeIC-UNU`;
+};
+
+/* ===============================
+   GENERAR RESOLUCIÓN
+================================ */
+const generarResolucion = async (req, res) => {
   try {
-    const { rol, id_estudiante } = req.user;
-    const { id_tesis } = req.params;
-
-    if (rol !== "ESTUDIANTE") {
-      return res
-        .status(403)
-        .json({ message: "Solo estudiantes pueden solicitar sustentación" });
+    if (req.user.rol !== "COORDINACION") {
+      return res.status(403).json({ message: "Acceso restringido" });
     }
 
-    if (!req.file) {
+    const { id_proyecto } = req.params;
+
+    /* 1️⃣ Verificar tesis final */
+    const [tesis] = await pool.query(
+      `SELECT * FROM tesis WHERE id_proyecto=?`,
+      [id_proyecto]
+    );
+
+    if (!tesis.length) {
       return res
         .status(400)
-        .json({ message: "Debe adjuntar el archivo PDF de solicitud" });
+        .json({ message: "No existe tesis final registrada" });
     }
 
-    // Validar tesis pertenece al estudiante
-    const [tesis] = await pool.query(
-      "SELECT * FROM tesis WHERE id_tesis = ? AND id_estudiante = ?",
-      [id_tesis, id_estudiante]
+    /* 2️⃣ Evitar doble resolución */
+    const [existente] = await pool.query(
+      `SELECT id_resolucion FROM resolucion WHERE id_proyecto=?`,
+      [id_proyecto]
     );
 
-    if (tesis.length === 0) {
+    if (existente.length) {
       return res
-        .status(404)
-        .json({ message: "La tesis no pertenece al estudiante" });
+        .status(400)
+        .json({ message: "Este proyecto ya tiene resolución" });
     }
 
-    // Validar versión aprobada
-    const [aprobadas] = await pool.query(
+    /* 3️⃣ Datos del proyecto */
+    const [data] = await pool.query(
       `
-      SELECT COUNT(*) AS total
-      FROM revision_asesor ra
-      INNER JOIN tesis_version tv ON tv.id_version = ra.id_version
-      WHERE tv.id_tesis = ? AND ra.estado_revision = 'APROBADO'
+      SELECT 
+        p.titulo,
+        e.codigo,
+        perE.nombres,
+        perE.apellido_paterno,
+        perE.apellido_materno,
+        perE.dni,
+        d.id_docente,
+        CONCAT(perD.nombres,' ',perD.apellido_paterno,' ',perD.apellido_materno) AS asesor
+      FROM proyecto_tesis p
+      JOIN estudiante e ON e.id_estudiante=p.id_estudiante
+      JOIN persona perE ON perE.id_persona=e.id_persona
+      JOIN docente d ON d.id_docente=p.id_asesor
+      JOIN persona perD ON perD.id_persona=d.id_persona
+      WHERE p.id_proyecto=?
       `,
-      [id_tesis]
+      [id_proyecto]
     );
 
-    if (aprobadas[0].total === 0) {
-      return res.status(400).json({
-        message: "Debe tener al menos una versión aprobada por el asesor",
-      });
-    }
+    const estudiante = `${data[0].nombres} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
 
-    // Insertar solicitud con archivo
-    await pool.query(
-      `
-      INSERT INTO solicitud_sustentacion 
-      (id_tesis, fecha_solicitud, estado_solicitud, ruta_pdf)
-      VALUES (?, CURDATE(), 'PENDIENTE', ?)
-      `,
-      [id_tesis, req.file.filename]
-    );
-
-    res.json({
-      message: "Solicitud enviada correctamente",
-      archivo: req.file.filename,
-    });
-  } catch (error) {
-    console.log("Error enviar solicitud:", error);
-    res.status(500).json({ message: "Error en el servidor" });
-  }
-};
-
-const aprobarSolicitud = async (req, res) => {
-  try {
-    const { rol } = req.user;
-    const { id_solicitud } = req.params;
-    const { estado, observaciones } = req.body;
-
-    if (rol !== "COORDINACION") {
-      return res.status(403).json({ message: "Acceso restringido" });
-    }
-
-    if (!estado) {
-      return res.status(400).json({ message: "Debe indicar estado" });
-    }
-
-    // Obtener solicitud y tesis asociada
-    const [sol] = await pool.query(
-      "SELECT * FROM solicitud_sustentacion WHERE id_solicitud = ?",
-      [id_solicitud]
-    );
-
-    if (sol.length === 0) {
-      return res.status(404).json({ message: "Solicitud no encontrada" });
-    }
-
-    const id_tesis = sol[0].id_tesis;
-
-    // Actualizar solicitud
-    await pool.query(
-      `
-      UPDATE solicitud_sustentacion
-      SET estado_solicitud = ?, observaciones = ?
-      WHERE id_solicitud = ?
-      `,
-      [estado, observaciones || null, id_solicitud]
-    );
-
-    // Si fue aprobada, la tesis pasa a APTA_SUSTENTACION
-    if (estado === "APROBADA") {
-      await pool.query(
-        "UPDATE tesis SET estado_tesis = 'APTA_SUSTENTACION' WHERE id_tesis = ?",
-        [id_tesis]
-      );
-
-      // Registrar resolución
-      await pool.query(
-        `
-        INSERT INTO resolucion (tipo, id_tesis, fecha, vigente)
-        VALUES ('SOLICITUD', ?, CURDATE(), 1)
-        `,
-        [id_tesis]
-      );
-    }
-
-    res.json({ message: "Solicitud procesada correctamente" });
-  } catch (error) {
-    console.log("Error aprobar solicitud:", error);
-    res.status(500).json({ message: "Error del servidor" });
-  }
-};
-
-const programarSustentacion = async (req, res) => {
-  try {
-    const { rol } = req.user;
-    const { id_tesis } = req.params;
-    const { fecha, hora, aula, modalidad } = req.body;
-
-    if (rol !== "COORDINACION") {
-      return res.status(403).json({ message: "Acceso restringido" });
-    }
-
-    // Validar datos mínimos
-    if (!fecha || !hora || !aula || !modalidad) {
-      return res.status(400).json({ message: "Datos incompletos" });
-    }
-
-    // Validar estado de tesis
-    const [tesis] = await pool.query(
-      "SELECT id_asesor, estado_tesis FROM tesis WHERE id_tesis = ?",
-      [id_tesis]
-    );
-
-    if (tesis.length === 0) {
-      return res.status(404).json({ message: "Tesis no encontrada" });
-    }
-
-    if (tesis[0].estado_tesis !== "APTA_SUSTENTACION") {
-      return res.status(400).json({
-        message: "La tesis no está apta para programar sustentación",
-      });
-    }
-
-    // Validar que tenga 3 jurados
+    /* 4️⃣ Jurados */
     const [jurados] = await pool.query(
-      "SELECT COUNT(*) AS total FROM jurado_tesis WHERE id_tesis = ?",
-      [id_tesis]
+      `
+      SELECT pj.rol_jurado,
+             CONCAT(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) nombre
+      FROM proyecto_jurado pj
+      JOIN docente d ON d.id_docente=pj.id_jurado
+      JOIN persona per ON per.id_persona=d.id_persona
+      WHERE pj.id_proyecto=?
+      `,
+      [id_proyecto]
     );
 
-    if (jurados[0].total !== 3) {
-      return res
-        .status(400)
-        .json({ message: "Debe tener 3 jurados asignados" });
+    const presidente = jurados.find(
+      (j) => j.rol_jurado === "PRESIDENTE"
+    )?.nombre;
+    const secretario = jurados.find(
+      (j) => j.rol_jurado === "SECRETARIO"
+    )?.nombre;
+    const vocal = jurados.find((j) => j.rol_jurado === "VOCAL")?.nombre;
+
+    /* 5️⃣ Número resolución */
+    const numeroResolucion = await generarNumeroResolucion();
+
+    /* 6️⃣ HTML */
+    const template = fs.readFileSync(
+      path.join(__dirname, "../templates/resolucion.html"),
+      "utf8"
+    );
+
+    const html = template
+      .replace(/{{NUMERO_RESOLUCION}}/g, numeroResolucion)
+      .replace(/{{FECHA}}/g, new Date().toLocaleDateString("es-PE"))
+      .replace(/{{NOMBRE_COMPLETO_ESTUDIANTE}}/g, estudiante)
+      .replace(/{{DNI_ESTUDIANTE}}/g, data[0].dni)
+      .replace(/{{CODIGO_ESTUDIANTE}}/g, data[0].codigo)
+      .replace(/{{TITULO_TESIS}}/g, data[0].titulo)
+      .replace(/{{NOMBRE_ASESOR}}/g, data[0].asesor)
+      .replace(/{{PRESIDENTE}}/g, presidente)
+      .replace(/{{SECRETARIO}}/g, secretario)
+      .replace(/{{VOCAL}}/g, vocal);
+
+    /* 7️⃣ PDF */
+    const browser = await puppeteer.launch({ headless: "new" });
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "networkidle0" });
+
+    const nombrePDF = `resolucion_${numeroResolucion}.pdf`;
+    const rutaPDF = path.join(__dirname, "../uploads/resoluciones", nombrePDF);
+
+    await page.pdf({ path: rutaPDF, format: "A4" });
+    await browser.close();
+
+    /* 8️⃣ Guardar en BD */
+    await pool.query(
+      `
+      INSERT INTO resolucion
+      (id_proyecto, numero_resolucion, fecha_resolucion, ruta_pdf)
+      VALUES (?, ?, CURDATE(), ?)
+      `,
+      [id_proyecto, numeroResolucion, nombrePDF]
+    );
+
+    /* 9️⃣ Notificar estudiante */
+    const [userEst] = await pool.query(
+      `
+      SELECT u.id_usuario
+      FROM usuario u
+      JOIN estudiante e ON e.id_persona=u.id_persona
+      WHERE e.id_estudiante=?
+      `,
+      [tesis[0].id_estudiante]
+    );
+
+    if (userEst.length) {
+      await notificar(
+        userEst[0].id_usuario,
+        "Resolución de sustentación",
+        `Se generó la resolución ${numeroResolucion} para tu tesis.`
+      );
     }
 
-    // Registrar programación
-    const [result] = await pool.query(
-      `
-      INSERT INTO sustentacion (id_tesis, fecha, hora, aula, modalidad, estado_sustentacion)
-      VALUES (?, ?, ?, ?, ?, 'PROGRAMADA')
-      `,
-      [id_tesis, fecha, hora, aula, modalidad]
-    );
-
-    // Registrar resolución
-    await pool.query(
-      `
-      INSERT INTO resolucion (tipo, id_tesis, fecha, vigente)
-      VALUES ('PROGRAMACION', ?, CURDATE(), 1)
-      `,
-      [id_tesis]
-    );
-
-    // Actualizar estado de tesis
-    await pool.query(
-      "UPDATE tesis SET estado_tesis = 'PROGRAMADA' WHERE id_tesis = ?",
-      [id_tesis]
-    );
-
     res.json({
-      message: "Sustentación programada correctamente",
-      id_sustentacion: result.insertId,
+      message: "Resolución generada correctamente",
+      numero_resolucion: numeroResolucion,
+      archivo: nombrePDF,
     });
-  } catch (error) {
-    console.log("Error programar sustentación:", error);
-    res.status(500).json({ message: "Error del servidor" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error interno" });
   }
 };
 
-const obtenerSustentacion = async (req, res) => {
-  try {
-    const { id_tesis } = req.params;
+/* ===============================
+   DESCARGAR RESOLUCIÓN
+================================ */
+const descargarResolucion = async (req, res) => {
+  const [r] = await pool.query(
+    `SELECT ruta_pdf FROM resolucion WHERE id_resolucion=?`,
+    [req.params.id_resolucion]
+  );
 
-    const [rows] = await pool.query(
-      "SELECT * FROM sustentacion WHERE id_tesis = ?",
-      [id_tesis]
-    );
+  if (!r.length) return res.sendStatus(404);
 
-    if (rows.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No hay sustentación programada" });
-    }
+  const filePath = path.join(
+    __dirname,
+    "../uploads/resoluciones",
+    r[0].ruta_pdf
+  );
 
-    res.json(rows[0]);
-  } catch (error) {
-    console.log("Error obtener sustentación:", error);
-    res.status(500).json({ message: "Error del servidor" });
-  }
+  res.download(filePath);
 };
 
 module.exports = {
-  enviarSolicitud,
-  aprobarSolicitud,
-  programarSustentacion,
-  obtenerSustentacion,
+  generarResolucion,
+  descargarResolucion,
 };

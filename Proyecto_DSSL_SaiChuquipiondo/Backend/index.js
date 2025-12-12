@@ -17,6 +17,7 @@ app.use("/api/asesor", require("./routes/asesores.routes"));
 app.use("/api/jurado", require("./routes/jurados.routes"));
 app.use("/api/coordinacion", require("./routes/coordinacion.routes"));
 app.use("/api/notificaciones", require("./routes/notificacion.routes"));
+app.use("/api/sustentacion", require("./routes/sustentacion.routes"));
 
 // ... auth, otros módulos, etc.
 
