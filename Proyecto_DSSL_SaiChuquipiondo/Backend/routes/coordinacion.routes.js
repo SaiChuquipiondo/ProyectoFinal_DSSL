@@ -14,6 +14,13 @@ const {
   validarFormatoBorrador,
 } = require("../controllers/coordinacion.controller");
 
+const {
+  programarSustentacion,
+  registrarResultado,
+  generarActaPDF,
+  descargarActa,
+} = require("../controllers/sustentacion.controller");
+
 router.get("/pendientes/asesor", auth, pendientesAsesor);
 router.get("/pendientes/formato", auth, pendientesFormato);
 router.get("/pendientes/jurados", auth, pendientesJurados);
@@ -25,5 +32,29 @@ router.post("/proyecto/asignar-jurados/:id_proyecto", auth, asignarJurados);
 router.post("/proyecto/dictamen/:id_proyecto", auth, dictamenFinal);
 
 router.post("/borrador/validar/:id_borrador", auth, validarFormatoBorrador);
+
+// ETAPA 3: PROGRAMAR SUSTENTACIÓN
+router.post(
+  "/sustentacion/programar/:id_proyecto",
+  auth,
+  programarSustentacion
+);
+
+// ETAPA 3: REGISTRAR RESULTADO (nota/dictamen)
+router.post(
+  "/sustentacion/resultado/:id_sustentacion",
+  auth,
+  registrarResultado
+);
+
+// ETAPA 3: GENERAR ACTA PDF
+router.post(
+  "/sustentacion/acta/generar/:id_sustentacion",
+  auth,
+  generarActaPDF
+);
+
+// DESCARGAR ACTA
+router.get("/sustentacion/acta/descargar/:id_acta", auth, descargarActa);
 
 module.exports = router;

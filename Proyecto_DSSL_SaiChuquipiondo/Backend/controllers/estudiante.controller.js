@@ -228,66 +228,43 @@ const subirTesisFinal = async (req, res) => {
 
     const { id_proyecto } = req.body;
 
-    // Validar proyecto y estado
+    // Validar proyecto
     const [proy] = await pool.query(
       `SELECT * FROM proyecto_tesis 
        WHERE id_proyecto=? AND id_estudiante=?`,
       [id_proyecto, id_estudiante]
     );
 
-    if (proy.length === 0)
+    if (!proy.length)
       return res
         .status(403)
         .json({ message: "Proyecto no pertenece al estudiante" });
 
+    // Validar estado
     if (proy[0].estado_proyecto !== "APROBADO_FINAL")
       return res.status(400).json({
-        message: "El proyecto aún no está aprobado por jurados.",
+        message: "El proyecto aún no está aprobado por jurados",
       });
 
-    // Validar borrador aprobado por jurados
+    // Validar borrador aprobado
     const [bor] = await pool.query(
-      `SELECT * FROM tesis_borrador
+      `SELECT 1 FROM tesis_borrador
        WHERE id_proyecto=? AND estado='APROBADO_JURADOS'
-       ORDER BY numero_iteracion DESC LIMIT 1`,
+       LIMIT 1`,
       [id_proyecto]
     );
 
-    if (bor.length === 0)
+    if (!bor.length)
       return res.status(400).json({
-        message: "Debe tener un borrador aprobado por jurados.",
+        message: "Debe existir un borrador aprobado por jurados",
       });
 
-    // Revisar si ya existe tesis para este proyecto
-    const [tesis] = await pool.query(
-      `SELECT * FROM tesis WHERE id_proyecto=?`,
-      [id_proyecto]
+    // Insertar tesis final
+    await pool.query(
+      `INSERT INTO tesis (id_proyecto, ruta_pdf)
+       VALUES (?, ?)`,
+      [id_proyecto, req.file.filename]
     );
-
-    if (tesis.length === 0) {
-      // Crear nueva tesis
-      await pool.query(
-        `INSERT INTO tesis 
-          (id_proyecto, id_estudiante, id_especialidad, id_asesor, titulo, resumen, ruta_pdf)
-         VALUES (?, ?, ?, ?, ?, ?, ?)`,
-        [
-          proy[0].id_proyecto,
-          proy[0].id_estudiante,
-          proy[0].id_especialidad,
-          proy[0].id_asesor,
-          proy[0].titulo,
-          proy[0].resumen,
-          req.file.filename,
-        ]
-      );
-    } else {
-      // Reemplazar PDF final existente
-      await pool.query(
-        `UPDATE tesis SET ruta_pdf=?, fecha_subida=NOW()
-         WHERE id_tesis=?`,
-        [req.file.filename, tesis[0].id_tesis]
-      );
-    }
 
     res.json({ message: "Tesis final registrada correctamente" });
   } catch (err) {

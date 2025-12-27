@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Acta de Sustentación</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+      .center { text-align: center; }
+      .title { font-size: 16px; font-weight: bold; margin: 12px 0; }
+      .sub { font-size: 13px; margin: 8px 0; }
+      .box { border: 1px solid #333; padding: 12px; border-radius: 6px; }
+      .row { margin: 8px 0; }
+      .label { font-weight: bold; }
+      table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+      th, td { border: 1px solid #333; padding: 8px; font-size: 12px; }
+      th { background: #f2f2f2; }
+      .firma { margin-top: 35px; display: flex; gap: 20px; }
+      .firma > div { flex: 1; text-align: center; }
+      .linea { margin-top: 55px; border-top: 1px solid #333; padding-top: 6px; font-size: 12px; }
+      .muted { color: #444; font-size: 12px; }
+    </style>
+  </head>
+
+  <body>
+    <div class="center">
+      <div class="title">UNIVERSIDAD NACIONAL DE UCAYALI</div>
+      <div class="sub"><b>Facultad de Ingeniería de Sistemas e Ingeniería Civil (FISeIC)</b></div>
+      <div class="sub">ACTA DE SUSTENTACIÓN DE TESIS</div>
+      <div class="muted">N.° {{NUMERO_ACTA}}</div>
+    </div>
+
+    <div class="box" style="margin-top: 18px;">
+      <div class="row"><span class="label">Estudiante:</span> {{NOMBRE_COMPLETO_ESTUDIANTE}} (DNI: {{DNI_ESTUDIANTE}})</div>
+      <div class="row"><span class="label">Código:</span> {{CODIGO_ESTUDIANTE}}</div>
+      <div class="row"><span class="label">Escuela Profesional:</span> Ingeniería de Sistemas</div>
+      <div class="row"><span class="label">Título de tesis:</span> “{{TITULO_TESIS}}”</div>
+      <div class="row"><span class="label">Asesor:</span> {{NOMBRE_ASESOR}}</div>
+    </div>
+
+    <div class="box" style="margin-top: 12px;">
+      <div class="row"><span class="label">Fecha y hora:</span> {{FECHA_HORA}}</div>
+      <div class="row"><span class="label">Modalidad:</span> {{MODALIDAD}}</div>
+      <div class="row"><span class="label">Lugar:</span> {{LUGAR}}</div>
+    </div>
+
+    <div style="margin-top: 14px;">
+      <div class="label">Jurado evaluador</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Cargo</th>
+            <th>Docente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>PRESIDENTE</td><td>{{PRESIDENTE}}</td></tr>
+          <tr><td>SECRETARIO</td><td>{{SECRETARIO}}</td></tr>
+          <tr><td>VOCAL</td><td>{{VOCAL}}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box" style="margin-top: 14px;">
+      <div class="row"><span class="label">Dictamen:</span> {{DICTAMEN}}</div>
+      <div class="row"><span class="label">Nota:</span> {{NOTA}}</div>
+      <div class="row"><span class="label">Observaciones:</span> {{OBSERVACIONES}}</div>
+    </div>
+
+    <div class="firma">
+      <div class="linea">PRESIDENTE<br/>{{PRESIDENTE}}</div>
+      <div class="linea">SECRETARIO<br/>{{SECRETARIO}}</div>
+      <div class="linea">VOCAL<br/>{{VOCAL}}</div>
+    </div>
+
+    <div class="firma" style="margin-top: 10px;">
+      <div class="linea">ASESOR<br/>{{NOMBRE_ASESOR}}</div>
+      <div class="linea">ESTUDIANTE<br/>{{NOMBRE_COMPLETO_ESTUDIANTE}}</div>
+    </div>
+  </body>
+</html>
