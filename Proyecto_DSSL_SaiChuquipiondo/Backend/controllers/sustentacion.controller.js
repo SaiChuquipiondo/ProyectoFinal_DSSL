@@ -3,24 +3,38 @@ const fs = require("fs");
 const path = require("path");
 const puppeteer = require("puppeteer");
 const { notificar } = require("../utils/notificar");
+const logger = require("../config/logger");
+const { withTransaction } = require("../utils/transaction");
 
 // =============================
 // Helpers
 // =============================
 const ensureDir = (dir) => fs.mkdirSync(dir, { recursive: true });
 
-/* ===============================
-   GENERAR NÚMERO DE RESOLUCIÓN
-================================ */
+/**
+ * Genera número de resolución único con protección contra race conditions
+ * Usa SELECT FOR UPDATE para bloquear la fila y evitar duplicados
+ */
 const generarNumeroResolucion = async () => {
   const anio = new Date().getFullYear();
-  const [rows] = await pool.query(
-    `SELECT COUNT(*) total FROM resolucion WHERE YEAR(fecha_resolucion)=?`,
-    [anio]
-  );
 
-  const correlativo = String(rows[0].total + 1).padStart(3, "0");
-  return `${correlativo}-${anio}-FISeIC-UNU`;
+  return await withTransaction(pool, async (connection) => {
+    // Obtener el último número con lock exclusivo (SELECT FOR UPDATE)
+    const [rows] = await connection.query(
+      `SELECT COUNT(*) total FROM resolucion WHERE YEAR(fecha_resolucion)=? FOR UPDATE`,
+      [anio]
+    );
+
+    const correlativo = String(rows[0].total + 1).padStart(3, "0");
+    const numeroResolucion = `${correlativo}-${anio}-FISeIC-UNU`;
+
+    logger.debug(`Número de resolución generado: ${numeroResolucion}`, {
+      anio,
+      correlativo,
+    });
+
+    return numeroResolucion;
+  });
 };
 
 /* ===============================
@@ -206,17 +220,33 @@ const formatearFechaHoraPE = (dt) => {
   });
 };
 
-// Genera N° acta correlativo por año: 001-2025-FISeIC
+/**
+ * Genera número de acta único con protección contra race conditions
+ * Usa SELECT FOR UPDATE para bloquear la fila y evitar duplicados
+ */
 const generarNumeroActa = async () => {
   const anio = new Date().getFullYear();
-  const [rows] = await pool.query(
-    `SELECT COUNT(*) AS total FROM acta_sustentacion a
-     JOIN sustentacion s ON s.id_sustentacion=a.id_sustentacion
-     WHERE YEAR(s.fecha_registro)=?`,
-    [anio]
-  );
-  const correlativo = String(rows[0].total + 1).padStart(3, "0");
-  return `${correlativo}-${anio}-FISeIC`;
+
+  return await withTransaction(pool, async (connection) => {
+    // Obtener el último número con lock exclusivo (SELECT FOR UPDATE)
+    const [rows] = await connection.query(
+      `SELECT COUNT(*) AS total FROM acta_sustentacion a
+       JOIN sustentacion s ON s.id_sustentacion=a.id_sustentacion
+       WHERE YEAR(s.fecha_registro)=?
+       FOR UPDATE`,
+      [anio]
+    );
+
+    const correlativo = String(rows[0].total + 1).padStart(3, "0");
+    const numeroActa = `${correlativo}-${anio}-FISeIC`;
+
+    logger.debug(`Número de acta generado: ${numeroActa}`, {
+      anio,
+      correlativo,
+    });
+
+    return numeroActa;
+  });
 };
 
 // Obtiene id_usuario del estudiante del proyecto

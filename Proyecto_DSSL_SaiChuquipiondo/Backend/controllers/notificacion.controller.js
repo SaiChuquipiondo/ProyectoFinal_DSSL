@@ -1,44 +1,105 @@
-const pool = require("../config/database");
+const logger = require("../config/logger");
+const {
+  obtenerNotificaciones,
+  marcarComoLeida,
+  marcarTodasComoLeidas,
+  contarNoLeidas,
+} = require("../utils/notificar");
 
+/**
+ * Lista todas las notificaciones del usuario autenticado
+ */
 const listarNotificaciones = async (req, res) => {
   try {
     const { id_usuario } = req.user;
+    const solo_no_leidas = req.query.solo_no_leidas === "true";
+    const limit = parseInt(req.query.limit) || 50;
 
-    const [rows] = await pool.query(
-      `SELECT id_notificacion, titulo, mensaje, leido, fecha
-       FROM notificacion
-       WHERE id_usuario = ?
-       ORDER BY fecha DESC`,
-      [id_usuario]
+    const notificaciones = await obtenerNotificaciones(
+      id_usuario,
+      solo_no_leidas,
+      limit
     );
 
-    res.json(rows);
+    res.json({
+      success: true,
+      notificaciones,
+      total: notificaciones.length,
+    });
   } catch (err) {
-    console.error("ERROR listarNotificaciones:", err);
+    logger.error("Error listarNotificaciones:", { error: err.message });
     res.status(500).json({ message: "Error interno" });
   }
 };
 
+/**
+ * Obtiene el contador de notificaciones no leídas
+ */
+const contarNoLeidasController = async (req, res) => {
+  try {
+    const { id_usuario } = req.user;
+    const total = await contarNoLeidas(id_usuario);
+
+    res.json({
+      success: true,
+      no_leidas: total,
+    });
+  } catch (err) {
+    logger.error("Error contarNoLeidas:", { error: err.message });
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+/**
+ * Marca una notificación específica como leída
+ */
 const marcarLeido = async (req, res) => {
   try {
     const { id_notificacion } = req.params;
     const { id_usuario } = req.user;
 
-    await pool.query(
-      `UPDATE notificacion
-       SET leido = 1
-       WHERE id_notificacion = ? AND id_usuario = ?`,
-      [id_notificacion, id_usuario]
-    );
+    const marcada = await marcarComoLeida(id_notificacion, id_usuario);
 
-    res.json({ message: "Notificación marcada como leída" });
+    if (marcada) {
+      res.json({
+        success: true,
+        message: "Notificación marcada como leída",
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "Notificación no encontrada o ya estaba leída",
+      });
+    }
   } catch (err) {
-    console.error("ERROR marcarLeido:", err);
+    logger.error("Error marcarLeido:", { error: err.message });
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+/**
+ * Marca todas las notificaciones del usuario como leídas
+ */
+const marcarTodasLeidas = async (req, res) => {
+  try {
+    const { id_usuario } = req.user;
+
+    const cantidad = await marcarTodasComoLeidas(id_usuario);
+
+    res.json({
+      success: true,
+      message: `${cantidad} notificación(es) marcada(s) como leída(s)`,
+      cantidad,
+    });
+  } catch (err) {
+    logger.error("Error marcarTodasLeidas:", { error: err.message });
     res.status(500).json({ message: "Error interno" });
   }
 };
 
 module.exports = {
   listarNotificaciones,
+  contarNoLeidasController,
   marcarLeido,
+  marcarTodasLeidas,
 };

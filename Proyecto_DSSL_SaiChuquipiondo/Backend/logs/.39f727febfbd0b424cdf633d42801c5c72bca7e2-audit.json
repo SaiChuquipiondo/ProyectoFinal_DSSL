@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\user\\OneDrive\\Desktop\\ProyectoFinal_DSSL\\Proyecto_DSSL_SaiChuquipiondo\\Backend\\logs\\.39f727febfbd0b424cdf633d42801c5c72bca7e2-audit.json",
+    "files": [
+        {
+            "date": 1766932051973,
+            "name": "C:\\Users\\user\\OneDrive\\Desktop\\ProyectoFinal_DSSL\\Proyecto_DSSL_SaiChuquipiondo\\Backend\\logs\\application-2025-12-28.log",
+            "hash": "83230a956254c4716eb57a86160a0c8e7d1ac0d7af1ebe5bca95d5ecd1511eed"
+        }
+    ],
+    "hashType": "sha256"
+}
