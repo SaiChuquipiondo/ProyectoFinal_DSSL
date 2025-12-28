@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="nav-brand">SGT - Sistema de Gestión de Tesis</div>
+
+  <div class="nav-items">
+    <div class="notification-bell">
+      🔔 @if (noLeidas > 0) {
+      <span class="badge">{{ noLeidas }}</span>
+      }
+    </div>
+
+    <div class="user-menu">
+      <span class="user-role">{{ user?.rol }}</span>
+      <button (click)="logout()">Cerrar Sesión</button>
+    </div>
+  </div>
+</nav>

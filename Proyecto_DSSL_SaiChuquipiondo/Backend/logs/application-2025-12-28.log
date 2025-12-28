@@ -113,3 +113,62 @@
 {"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 10:01:10"}
 {"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 10:01:10"}
 {"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 10:01:10"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 10:45:20"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 10:47:18"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:19"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:47:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:47:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:20"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:20"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:23"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:23"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:25"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:28"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:30"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:33"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:38"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:43"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-28 10:47:43"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:43"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:43"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:47:43"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:45"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:45"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:46"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:47"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:48"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:50"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:51"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:53"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:47:54"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:55"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:55"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:47:57"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-28 10:48:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:03"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:06"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:07"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-28 10:48:18"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:18"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:48:18"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:18"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:20"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:20"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:23"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:25"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:29"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:31"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:35"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:37"}
