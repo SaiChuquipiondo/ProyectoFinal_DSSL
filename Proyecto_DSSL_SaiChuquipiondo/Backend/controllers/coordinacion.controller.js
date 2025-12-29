@@ -447,6 +447,99 @@ const validarFormatoBorrador = async (req, res) => {
   }
 };
 
+// =============================
+// ENDPOINTS PARA DASHBOARD
+// =============================
+
+// GET proyectos pendientes (agregador para el dashboard)
+const getProyectosPendientes = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        p.id_proyecto,
+        p.titulo,
+        p.estado_proyecto,
+        p.estado_asesor,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante
+      FROM proyecto_tesis p
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      WHERE p.estado_proyecto IN ('PENDIENTE', 'OBSERVADO_FORMATO', 'PROPUESTO')
+         OR p.estado_asesor = 'PROPUESTO'
+      ORDER BY p.fecha_subida DESC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR getProyectosPendientes:", err);
+    res.status(500).json({ message: "Error interno", error: err.message });
+  }
+};
+
+// GET borradores pendientes
+const getBorradoresPendientes = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        b.id_borrador,
+        b.numero_iteracion,
+        b.estado,
+        b.fecha_subida,
+        p.titulo AS titulo_proyecto,
+        p.id_proyecto,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante
+      FROM tesis_borrador b
+      JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      WHERE b.estado IN ('PENDIENTE', 'OBSERVADO')
+      ORDER BY b.fecha_subida DESC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR getBorradoresPendientes:", err);
+    res.status(500).json({ message: "Error interno", error: err.message });
+  }
+};
+
+// GET sustentaciones programadas
+const getSustentacionesProgramadas = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        s.id_sustentacion,
+        s.fecha_hora_sustentacion,
+        s.lugar,
+        s.nota,
+        s.dictamen,
+        p.titulo AS titulo_proyecto,
+        p.id_proyecto,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante
+      FROM sustentacion s
+      JOIN proyecto_tesis p ON p.id_proyecto = s.id_proyecto
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      WHERE DATE(s.fecha_hora_sustentacion) >= CURDATE()
+      ORDER BY s.fecha_hora_sustentacion ASC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR getSustentacionesProgramadas:", err);
+    res.status(500).json({ message: "Error interno", error: err.message });
+  }
+};
+
 module.exports = {
   pendientesAsesor,
   pendientesFormato,
@@ -457,4 +550,7 @@ module.exports = {
   asignarJurados,
   dictamenFinal,
   validarFormatoBorrador,
+  getProyectosPendientes,
+  getBorradoresPendientes,
+  getSustentacionesProgramadas,
 };

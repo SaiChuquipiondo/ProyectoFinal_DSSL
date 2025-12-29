@@ -19,25 +19,27 @@ const login = async (req, res) => {
     if (typeof username !== "string" || username.length > 100) {
       return res.status(400).json({ message: "Formato de usuario inválido" });
     }
-
+    // Buscar usuario con información de la persona
     const [rows] = await pool.query(
-      `
-      SELECT 
-        u.id_usuario,
-        u.password_hash,
+      `SELECT 
+        u.id_usuario, 
+        u.id_persona, 
+        u.id_rol, 
+        u.username, 
+        u.password_hash, 
         u.activo,
         r.nombre AS rol,
-        p.id_persona,
         e.id_estudiante,
-        d.id_docente
-      FROM usuario u
-      INNER JOIN persona p ON p.id_persona = u.id_persona
-      INNER JOIN rol r      ON r.id_rol = u.id_rol
-      LEFT JOIN estudiante e ON e.id_persona = p.id_persona
-      LEFT JOIN docente d    ON d.id_persona = p.id_persona
-      WHERE u.username = ?
-      LIMIT 1
-      `,
+        d.id_docente,
+        p.nombres,
+        p.apellido_paterno,
+        p.apellido_materno
+       FROM usuario u
+       JOIN rol r ON r.id_rol = u.id_rol
+       LEFT JOIN estudiante e ON e.id_persona = u.id_persona
+       LEFT JOIN docente d ON d.id_persona = u.id_persona
+       LEFT JOIN persona p ON p.id_persona = u.id_persona
+       WHERE u.username = ?`,
       [username]
     );
 
@@ -113,6 +115,9 @@ const login = async (req, res) => {
         rol: user.rol,
         id_estudiante: user.id_estudiante,
         id_docente: user.id_docente,
+        nombres: user.nombres,
+        apellido_paterno: user.apellido_paterno,
+        apellido_materno: user.apellido_materno,
       },
     });
   } catch (error) {

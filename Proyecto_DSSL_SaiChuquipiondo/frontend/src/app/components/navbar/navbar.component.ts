@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NotificacionService } from '../../services/notificacion.service';
 import { WebsocketService } from '../../services/websocket.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,7 +21,8 @@ export class NavbarComponent implements OnInit {
     private authService: AuthService,
     private notificacionService: NotificacionService,
     private websocketService: WebsocketService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
+    this.toastService.info('Sesión cerrada correctamente', 3000);
     this.authService.logout();
     this.websocketService.disconnect();
     this.router.navigate(['/login']);

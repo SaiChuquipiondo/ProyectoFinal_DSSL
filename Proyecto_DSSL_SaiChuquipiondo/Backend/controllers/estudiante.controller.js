@@ -16,14 +16,47 @@ const subirProyecto = async (req, res) => {
     if (!req.file)
       return res.status(400).json({ message: "Debe adjuntar un archivo PDF" });
 
-    const { titulo, resumen, id_especialidad } = req.body;
+    const { titulo, resumen, id_especialidad, id_asesor } = req.body;
 
+    // Determinar estado del asesor
+    const estado_asesor = id_asesor ? "PROPUESTO" : "SIN_ASESOR";
+
+    // Insertar proyecto con asesor propuesto (si existe)
     const [result] = await pool.query(
       `INSERT INTO proyecto_tesis
-        (id_estudiante, id_especialidad, titulo, resumen, ruta_pdf)
-       VALUES (?, ?, ?, ?, ?)`,
-      [id_estudiante, id_especialidad, titulo, resumen, req.file.filename]
+        (id_estudiante, id_especialidad, id_asesor, estado_asesor, titulo, resumen, ruta_pdf)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id_estudiante,
+        id_especialidad,
+        id_asesor || null,
+        estado_asesor,
+        titulo,
+        resumen,
+        req.file.filename,
+      ]
     );
+
+    const id_proyecto = result.insertId;
+
+    // Si se propuso un asesor, notificarlo
+    if (id_asesor) {
+      const [userAsesor] = await pool.query(
+        `SELECT u.id_usuario
+         FROM usuario u
+         JOIN docente d ON d.id_persona = u.id_persona
+         WHERE d.id_docente=?`,
+        [id_asesor]
+      );
+
+      if (userAsesor.length > 0) {
+        await notificar(
+          userAsesor[0].id_usuario,
+          "Propuesta de asesoría",
+          `Has sido propuesto como asesor del proyecto "${titulo}".`
+        );
+      }
+    }
 
     // Notificar a coordinación
     const [coord] = await pool.query(
@@ -40,7 +73,7 @@ const subirProyecto = async (req, res) => {
 
     res.json({
       message: "Proyecto subido correctamente",
-      id_proyecto: result.insertId,
+      id_proyecto: id_proyecto,
     });
   } catch (err) {
     console.error("ERROR subirProyecto:", err);
@@ -274,23 +307,128 @@ const subirTesisFinal = async (req, res) => {
 };
 
 const misResoluciones = async (req, res) => {
-  const { id_estudiante } = req.user;
+  try {
+    const { id_estudiante } = req.user;
 
-  const [rows] = await pool.query(
-    `
-    SELECT r.numero_resolucion, r.fecha_resolucion, r.id_resolucion
-    FROM resolucion r
-    JOIN proyecto_tesis p ON p.id_proyecto=r.id_proyecto
-    WHERE p.id_estudiante=?`,
-    [id_estudiante]
-  );
+    const [rows] = await pool.query(
+      `SELECT r.numero_resolucion, r.fecha_resolucion, r.id_resolucion
+       FROM resolucion r
+       JOIN proyecto_tesis p ON p.id_proyecto=r.id_proyecto
+       WHERE p.id_estudiante=?`,
+      [id_estudiante]
+    );
 
-  res.json(rows);
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR misResoluciones:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
 };
+
+// GET mis proyectos
+const misProyectos = async (req, res) => {
+  try {
+    const { id_estudiante } = req.user;
+
+    // Validar que el usuario tenga id_estudiante
+    if (!id_estudiante) {
+      return res.status(403).json({
+        message: "El usuario no es un estudiante",
+      });
+    }
+
+    const [rows] = await pool.query(
+      `SELECT 
+        p.id_proyecto,
+        p.titulo,
+        p.resumen,
+        p.ruta_pdf,
+        p.estado_proyecto,
+        p.estado_asesor,
+        p.fecha_subida,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_asesor
+       FROM proyecto_tesis p
+       LEFT JOIN docente d ON d.id_docente = p.id_asesor
+       LEFT JOIN persona pers ON pers.id_persona = d.id_persona
+       WHERE p.id_estudiante = ?
+       ORDER BY p.fecha_subida DESC`,
+      [id_estudiante]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR misProyectos:", err);
+    res.status(500).json({ message: "Error interno", error: err.message });
+  }
+};
+
+// GET mis borradores
+const misBorradores = async (req, res) => {
+  try {
+    const { id_estudiante } = req.user;
+
+    const [rows] = await pool.query(
+      `SELECT 
+        b.id_borrador,
+        b.id_proyecto,
+        b.numero_iteracion,
+        b.ruta_pdf,
+        b.estado,
+        b.fecha_subida,
+        p.titulo AS titulo_proyecto
+       FROM tesis_borrador b
+       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+       WHERE p.id_estudiante = ?
+       ORDER BY b.fecha_subida DESC`,
+      [id_estudiante]
+    );
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR misBorradores:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+// GET mi acta
+const miActa = async (req, res) => {
+  try {
+    const { id_estudiante } = req.user;
+
+    const [rows] = await pool.query(
+      `SELECT 
+        a.id_acta,
+        a.numero_acta,
+        a.fecha_acta,
+        s.nota,
+        s.dictamen,
+        p.titulo AS titulo_proyecto
+       FROM acta_sustentacion a
+       JOIN sustentacion s ON s.id_sustentacion = a.id_sustentacion
+       JOIN proyecto_tesis p ON p.id_proyecto = s.id_proyecto
+       WHERE p.id_estudiante = ?
+       LIMIT 1`,
+      [id_estudiante]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "No se ha generado acta aún" });
+    }
+
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("ERROR miActa:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
 module.exports = {
   subirProyecto,
   elegirAsesor,
   subirBorrador,
   subirTesisFinal,
   misResoluciones,
+  misProyectos,
+  misBorradores,
+  miActa,
 };

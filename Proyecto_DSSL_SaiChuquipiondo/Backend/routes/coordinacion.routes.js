@@ -12,6 +12,9 @@ const {
   asignarJurados,
   dictamenFinal,
   validarFormatoBorrador,
+  getProyectosPendientes,
+  getBorradoresPendientes,
+  getSustentacionesProgramadas,
 } = require("../controllers/coordinacion.controller");
 
 const {
@@ -21,6 +24,12 @@ const {
   descargarActa,
 } = require("../controllers/sustentacion.controller");
 
+// ENDPOINTS PARA DASHBOARD
+router.get("/proyectos-pendientes", auth, getProyectosPendientes);
+router.get("/borradores-pendientes", auth, getBorradoresPendientes);
+router.get("/sustentaciones-programadas", auth, getSustentacionesProgramadas);
+
+// ENDPOINTS DETALLADOS
 router.get("/pendientes/asesor", auth, pendientesAsesor);
 router.get("/pendientes/formato", auth, pendientesFormato);
 router.get("/pendientes/jurados", auth, pendientesJurados);

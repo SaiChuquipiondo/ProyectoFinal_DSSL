@@ -172,3 +172,347 @@
 {"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:31"}
 {"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:35"}
 {"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:37"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:43"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:47"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:49"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:53"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:55"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:48:59"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:01"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:05"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:07"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:11"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:13"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:17"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:19"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:24"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 10:49:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:41"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:49:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:49:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:42"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:42"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:44"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:44"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:49:46"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:47"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:49"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:52"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:54"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:58"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:49:59"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:50:00"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:50:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:50:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:03"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:04"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:06"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:11"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:17"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:23"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:28"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:33"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:38"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:44"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:50"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:50:56"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:02"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:08"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:14"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:20"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:26"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:32"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:38"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:44"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /socket.io/?EIO=4&transport=websocket no encontrado","method":"GET","path":"/socket.io/","statusCode":404,"timestamp":"2025-12-28 10:51:49"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 10:51:58"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 10:52:03"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=e84pSC0hSfl11IOWAAAB","timestamp":"2025-12-28 10:52:03"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:52:41"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/mis-proyectos no encontrado","method":"GET","path":"/api/estudiante/mis-proyectos","statusCode":404,"timestamp":"2025-12-28 10:52:42"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 10:54:12"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 10:54:15"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=S7BVEMdAyIi9JziWAAAB","timestamp":"2025-12-28 10:54:15"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 10:54:59"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:55:00"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 10:55:00"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=HOb50g350EBilpY0AAAD","timestamp":"2025-12-28 10:55:00"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=xSRWaTUPOn5mfJ67AAAB","timestamp":"2025-12-28 10:56:28"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 10:56:59"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 10:57:00"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=DAyvelrfaoqPK_1rAAAD","timestamp":"2025-12-28 10:57:00"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:57:00"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 10:57:18"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-28 10:57:31"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 10:57:31"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=3FGQ-gzHMlCvwirfAAAG","timestamp":"2025-12-28 10:57:31"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 10:57:31"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=F299uhpb1nkUDsmoAAAH","timestamp":"2025-12-28 10:57:31"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 10:57:31"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/coordinacion/proyectos-pendientes no encontrado","method":"GET","path":"/api/coordinacion/proyectos-pendientes","statusCode":404,"timestamp":"2025-12-28 10:57:31"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/coordinacion/sustentaciones-programadas no encontrado","method":"GET","path":"/api/coordinacion/sustentaciones-programadas","statusCode":404,"timestamp":"2025-12-28 10:57:31"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/coordinacion/borradores-pendientes no encontrado","method":"GET","path":"/api/coordinacion/borradores-pendientes","statusCode":404,"timestamp":"2025-12-28 10:57:31"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 11:03:41"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:03:42"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=m33Busg6lg8sgq0jAAAB","timestamp":"2025-12-28 11:03:42"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:03:48"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=o0Gb3q1Aw4mWMqyAAAAD","timestamp":"2025-12-28 11:03:48"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 11:04:10"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 11:04:11"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-28 11:04:20"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:04:20"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=A3a0fpgnvF97r5m3AAAF","timestamp":"2025-12-28 11:04:20"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 11:04:20"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:04:20"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=l17j4CPUQz8WUGL_AAAH","timestamp":"2025-12-28 11:04:20"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=WlKnJZ3S0ntJzs2WAAAC","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=M7-Kn6a2GLgzZ95BAAAD","timestamp":"2025-12-28 11:07:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 11:07:58"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-28 11:08:15"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-28 11:08:15"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=LAIfFAs8aHCmHjxRAAAG","timestamp":"2025-12-28 11:08:15"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-28 11:08:15"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=nX8CMny43C2ynkw2AAAH","timestamp":"2025-12-28 11:08:15"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 11:08:15"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-28 11:08:24"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-28 11:08:33"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 11:08:33"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 14:46:05"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 20:06:54"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 20:19:57"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 20:20:01"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 20:20:01"}
+{"level":"warn","message":"Rate limit excedido para login desde IP: ::1","timestamp":"2025-12-28 20:22:20"}
+{"level":"warn","message":"Rate limit excedido para login desde IP: ::1","timestamp":"2025-12-28 20:22:28"}
+{"level":"warn","message":"Rate limit excedido para login desde IP: ::1","timestamp":"2025-12-28 20:22:41"}
+{"level":"warn","message":"Rate limit excedido para login desde IP: ::1","timestamp":"2025-12-28 20:26:53"}
+{"level":"warn","message":"Rate limit excedido para login desde IP: ::1","timestamp":"2025-12-28 20:36:01"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 20:36:33"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 20:36:51"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 20:36:51"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 20:36:51"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=aSwfdAZ_JR-nIjNAAAAC","timestamp":"2025-12-28 20:36:51"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 20:36:51"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=yi_6V54YN9N5u1XsAAAD","timestamp":"2025-12-28 20:36:51"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-28 20:39:56"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 20:39:56"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=6Hed41xALR8Mb8puAAAG","timestamp":"2025-12-28 20:39:56"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 20:39:56"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=WONLi0mTuy75JA_pAAAH","timestamp":"2025-12-28 20:39:56"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 20:39:56"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 20:40:05"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 20:40:05"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 20:40:05"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 20:40:05"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Qghk2zPydjxxW6wMAAAJ","timestamp":"2025-12-28 20:40:05"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 20:40:08"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 20:40:08"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 20:40:08"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-28 20:40:08"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=XaGuQqwn1e9NwtZzAAAL","timestamp":"2025-12-28 20:40:08"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-28 20:40:57"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 20:41:01"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 20:41:35"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 20:48:10"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 20:48:10"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=HURpcs--s0teSsHVAAAC","timestamp":"2025-12-28 20:48:10"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 20:48:10"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 20:48:10"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=_1xvPO64UO15CC49AAAD","timestamp":"2025-12-28 20:48:10"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 20:48:20"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 21:00:45"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:00:47"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=mLphR_BpMwwJjnZXAAAB","timestamp":"2025-12-28 21:00:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:00:55"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 21:02:33"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:02:33"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=qbVindv1o4i0Oa31AAAE","timestamp":"2025-12-28 21:02:33"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:02:33"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=TATDOm98RcpUPbjtAAAF","timestamp":"2025-12-28 21:02:33"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 21:02:33"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=kay7A-2siXF-UsTbAAAC","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=LtJJPs-gHbt_HXiuAAAD","timestamp":"2025-12-28 21:04:27"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 21:04:48"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:04:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=RsrLsxlUbg9_v78BAAAB","timestamp":"2025-12-28 21:04:49"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:04:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=B9aGxgusQ2V6FfGrAAAD","timestamp":"2025-12-28 21:04:49"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:04:58"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:04:58"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:04:59"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=d72-foHJBSGF7aWyAAAF","timestamp":"2025-12-28 21:04:59"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 21:04:59"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=UlXx8SbgYAuZsHWlAAAB","timestamp":"2025-12-28 21:06:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:06:59"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 21:09:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:09:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=HZqR-BnDyqLoTuBlAAAE","timestamp":"2025-12-28 21:09:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:09:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=9-tUbf-rm4t3Dc_-AAAF","timestamp":"2025-12-28 21:09:07"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 21:09:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:13:24"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:15:09"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 21:16:41"}
+{"error":"Unknown column 'leida' in 'where clause'","level":"error","message":"Error contar no leídas:","timestamp":"2025-12-28 21:16:41"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:16:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=SJrh5aKGtq7AfJiDAAAI","timestamp":"2025-12-28 21:16:41"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:16:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=BRk4Bql516-fa6YsAAAJ","timestamp":"2025-12-28 21:16:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:18:27"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:18:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:18:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=txPhoZHUJ5WSEMNnAAAL","timestamp":"2025-12-28 21:18:28"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:18:40"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:18:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=kaO23gI7tTIK_3mQAAAN","timestamp":"2025-12-28 21:18:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:26:54"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:26:55"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=qfJ08bX4WgMv8XsxAAAP","timestamp":"2025-12-28 21:26:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:27:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:27:52"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=31RMbr8O2NShO6g_AAAR","timestamp":"2025-12-28 21:27:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:28:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:28:31"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JuL7V_x7vRYsGkUDAAAT","timestamp":"2025-12-28 21:28:31"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 21:28:41"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:28:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=q1NECjUM8XedwpQJAAAW","timestamp":"2025-12-28 21:28:41"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 21:28:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=zV-Xi3yvnMyWaprxAAAX","timestamp":"2025-12-28 21:28:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 21:28:43"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-28 23:12:04"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 23:12:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=sdQPLU8hIW3WpQCiAAAB","timestamp":"2025-12-28 23:12:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 23:12:13"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=OrRizWHW6RFQTvRlAAAD","timestamp":"2025-12-28 23:12:13"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 23:12:17"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 23:12:17"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-28 23:13:17"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 23:13:18"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=LGjX3O02uV8GSoooAAAF","timestamp":"2025-12-28 23:13:18"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-28 23:13:18"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=fpythUWDtQ_ih7nIAAAH","timestamp":"2025-12-28 23:13:18"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-28 23:13:25"}

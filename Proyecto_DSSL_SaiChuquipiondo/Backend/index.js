@@ -48,10 +48,18 @@ const generalLimiter = rateLimit({
 // Rate Limiting para Login - Más restrictivo
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 5, // Máximo 5 intentos de login
-  message:
-    "Demasiados intentos de inicio de sesión, intente de nuevo en 15 minutos.",
+  max: 6, // Máximo 6 intentos de login
   skipSuccessfulRequests: true, // No contar requests exitosos
+  standardHeaders: true, // Retorna info de rate limit en headers
+  legacyHeaders: false,
+  // Handler personalizado para retornar JSON consistente
+  handler: (req, res) => {
+    logger.warn(`Rate limit excedido para login desde IP: ${req.ip}`);
+    res.status(429).json({
+      message:
+        "Demasiados intentos de inicio de sesión. Por favor, intente de nuevo en 15 minutos.",
+    });
+  },
 });
 
 // Aplicar limitador general a todas las rutas
@@ -72,16 +80,42 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // RUTAS
 // =========================================
 
-// Auth con rate limiting específico
-app.use("/api/auth", loginLimiter, require("./routes/auth.routes"));
+// Rutas de autenticación
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", loginLimiter, authRoutes);
 
-// Resto de rutas
-app.use("/api/estudiante", require("./routes/estudiante.routes"));
-app.use("/api/asesor", require("./routes/asesores.routes"));
-app.use("/api/jurado", require("./routes/jurados.routes"));
-app.use("/api/coordinacion", require("./routes/coordinacion.routes"));
-app.use("/api/notificaciones", require("./routes/notificacion.routes"));
-app.use("/api/sustentacion", require("./routes/sustentacion.routes"));
+// Rutas de estudiante
+const estudianteRoutes = require("./routes/estudiante.routes");
+app.use("/api/estudiante", estudianteRoutes);
+
+// Rutas de docente (asesor/jurado)
+const asesorRoutes = require("./routes/asesores.routes");
+app.use("/api/asesor", asesorRoutes);
+const juradoRoutes = require("./routes/jurados.routes");
+app.use("/api/jurado", juradoRoutes);
+
+// Rutas de coordinación
+const coordinacionRoutes = require("./routes/coordinacion.routes");
+app.use("/api/coordinacion", coordinacionRoutes);
+
+// Rutas de notificaciones
+const notificacionRoutes = require("./routes/notificacion.routes");
+app.use("/api/notificaciones", notificacionRoutes);
+
+// Rutas de sustentación
+const sustentacionRoutes = require("./routes/sustentacion.routes");
+app.use("/api/sustentacion", sustentacionRoutes);
+
+// Ruta de especialidades (pública)
+const {
+  getEspecialidades,
+  getAsesoresByEspecialidad,
+} = require("./controllers/especialidad.controller");
+app.get("/api/especialidades", getEspecialidades);
+app.get(
+  "/api/especialidades/:id_especialidad/asesores",
+  getAsesoresByEspecialidad
+);
 
 // =========================================
 // MANEJO DE ERRORES GLOBAL
@@ -98,20 +132,31 @@ app.use(errorHandler);
 // =========================================
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+// Crear servidor HTTP para Socket.IO
+const http = require("http");
+const server = http.createServer(app);
+
+// Inicializar Socket.IO
+const { initSocketIO } = require("./config/socket");
+initSocketIO(server);
+
+server.listen(PORT, () => {
   logger.info(`🚀 Servidor escuchando en el puerto ${PORT}`);
   logger.info(`✅ Seguridad: Helmet activado`);
   logger.info(
-    `✅ Rate Limiting: Activo (100 req/15min general, 5 req/15min login)`
+    `✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)`
   );
   logger.info(`✅ Logging: Winston configurado`);
   logger.info(`📂 Logs almacenados en: ./logs/`);
   logger.info(`🌍 Entorno: ${process.env.NODE_ENV || "development"}`);
+  logger.info(`🔌 WebSocket servidor activo`);
 });
 
 // Manejo de errores no capturados
 process.on("unhandledRejection", (reason, promise) => {
   logger.error("Promesa rechazada no manejada:", { reason, promise });
+  server.close(() => process.exit(1));
 });
 
 process.on("uncaughtException", (error) => {
@@ -119,5 +164,5 @@ process.on("uncaughtException", (error) => {
     error: error.message,
     stack: error.stack,
   });
-  process.exit(1);
+  server.close(() => process.exit(1));
 });

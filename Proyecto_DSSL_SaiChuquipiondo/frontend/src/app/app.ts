@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ToastComponent } from './components/toast/toast';
 import { AuthService } from './services/auth.service';
 import { WebsocketService } from './services/websocket.service';
 import { CommonModule } from '@angular/common';
@@ -8,11 +9,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent],
+  imports: [CommonModule, RouterOutlet, ToastComponent],
   template: `
-    @if (isLoggedIn) {
-      <app-navbar />
-    }
+    <app-toast />
     <router-outlet />
   `
 })
