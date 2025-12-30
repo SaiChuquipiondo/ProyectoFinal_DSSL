@@ -10,10 +10,15 @@ const listarPendientesAsesor = async (req, res) => {
     const { id_docente } = req.user;
 
     const [proyectos] = await pool.query(
-      `SELECT id_proyecto, titulo, resumen, ruta_pdf
-       FROM proyecto_tesis
-       WHERE id_asesor = ?
-         AND estado_proyecto = 'REVISADO_FORMATO'`,
+      `SELECT p.id_proyecto, p.titulo, p.resumen, p.ruta_pdf, p.iteracion, p.estado_proyecto,
+              CONCAT(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) AS nombre_estudiante,
+              e.codigo_estudiante
+       FROM proyecto_tesis p
+       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+       JOIN persona per ON per.id_persona = e.id_persona
+       WHERE p.id_asesor = ?
+         AND p.estado_proyecto = 'REVISADO_FORMATO'
+       ORDER BY p.fecha_subida DESC`,
       [id_docente]
     );
 
@@ -34,6 +39,28 @@ const revisionAsesor = async (req, res) => {
     const { id_proyecto } = req.params;
     const { estado_revision, comentarios } = req.body;
 
+    // Validar estado
+    if (!["APROBADO", "OBSERVADO"].includes(estado_revision)) {
+      return res.status(400).json({
+        message: "Estado inválido. Use: APROBADO u OBSERVADO",
+      });
+    }
+
+    // Verificar que el proyecto pertenece al asesor
+    const [proy] = await pool.query(
+      `SELECT id_asesor, estado_proyecto FROM proyecto_tesis WHERE id_proyecto = ?`,
+      [id_proyecto]
+    );
+
+    if (proy.length === 0)
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+
+    if (proy[0].id_asesor !== id_docente)
+      return res
+        .status(403)
+        .json({ message: "Este proyecto no pertenece al asesor" });
+
+    // Registrar revisión
     await pool.query(
       `INSERT INTO revision_proyecto_asesor
        (id_proyecto, id_asesor, estado_revision, comentarios)
@@ -41,11 +68,15 @@ const revisionAsesor = async (req, res) => {
       [id_proyecto, id_docente, estado_revision, comentarios]
     );
 
+    // Determinar nuevo estado del proyecto
+    const nuevoEstadoProyecto =
+      estado_revision === "APROBADO" ? "APROBADO_ASESOR" : "OBSERVADO_ASESOR";
+
     await pool.query(
       `UPDATE proyecto_tesis
-       SET estado_proyecto = 'APROBADO_ASESOR'
+       SET estado_proyecto = ?
        WHERE id_proyecto = ?`,
-      [id_proyecto]
+      [nuevoEstadoProyecto, id_proyecto]
     );
 
     const [info] = await pool.query(
@@ -73,15 +104,26 @@ const revisionAsesor = async (req, res) => {
       );
 
       if (userEstu.length > 0) {
-        await notificar(
-          userEstu[0].id_usuario,
-          "Revisión de asesor",
-          `Tu proyecto "${titulo}" fue revisado por tu asesor. Estado: ${estado_revision}. Comentarios: ${
-            comentarios || "Sin comentarios."
-          }`
-        );
+        if (estado_revision === "APROBADO") {
+          await notificar(
+            userEstu[0].id_usuario,
+            "Proyecto aprobado por asesor",
+            `¡Felicitaciones! Tu proyecto "${titulo}" fue aprobado por tu asesor.`
+          );
+        } else {
+          const mensajeObservacion = comentarios
+            ? `Tu proyecto "${titulo}" fue observado por tu asesor. Comentarios: ${comentarios}. Por favor, corrige y vuelve a subir.`
+            : `Tu proyecto "${titulo}" fue observado por tu asesor. Por favor, corrige y vuelve a subir.`;
+
+          await notificar(
+            userEstu[0].id_usuario,
+            "Proyecto observado por asesor",
+            mensajeObservacion
+          );
+        }
       }
 
+      // Notificar a coordinación
       const [coord] = await pool.query(
         `SELECT id_usuario FROM usuario WHERE id_rol = 3`
       );
@@ -90,12 +132,17 @@ const revisionAsesor = async (req, res) => {
         await notificar(
           c.id_usuario,
           "Revisión de asesor completada",
-          `El proyecto "${titulo}" del estudiante ${estudiante} ya fue revisado por el asesor.`
+          `El proyecto "${titulo}" del estudiante ${estudiante} fue ${
+            estado_revision === "APROBADO" ? "aprobado" : "observado"
+          } por el asesor.`
         );
       }
     }
 
-    res.json({ message: "Revisión del asesor registrada" });
+    res.json({
+      message: "Revisión del asesor registrada",
+      estado: nuevoEstadoProyecto,
+    });
   } catch (err) {
     console.error("ERROR revisionAsesor:", err);
     res.status(500).json({ message: "Error interno" });

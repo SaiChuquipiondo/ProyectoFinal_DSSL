@@ -42,8 +42,8 @@ export class LoginComponent implements OnInit {
   redirectToDashboard(rol: string | undefined): void {
     if (rol === 'ESTUDIANTE') {
       this.router.navigate(['/estudiante/dashboard']);
-    } else if (rol === 'ASESOR' || rol === 'JURADO') {
-      this.router.navigate(['/docente']);
+    } else if (rol === 'DOCENTE') {
+      this.router.navigate(['/docente/dashboard']);
     } else if (rol === 'COORDINACION') {
       this.router.navigate(['/coordinacion']);
     } else {

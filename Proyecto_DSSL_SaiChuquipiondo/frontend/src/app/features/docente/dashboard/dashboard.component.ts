@@ -1,159 +1,238 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DocenteService } from '../../../services/docente.service';
+import { RouterModule } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NotificacionService } from '../../../services/notificacion.service';
+import { Subscription } from 'rxjs';
+
+interface ProyectoUnificado {
+  id_proyecto: number;
+  titulo: string;
+  resumen: string;
+  ruta_pdf: string;
+  iteracion?: number;
+  estado_proyecto?: string;
+  nombre_estudiante: string;
+  codigo_estudiante?: string;
+  rol_jurado?: string;
+  tipo: 'ASESOR' | 'JURADO';
+}
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-docente-dashboard',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="dashboard">
-      <h1>Dashboard Docente</h1>
-      
-      <div class="tabs">
-        <button (click)="activeTab = 'asesor'" 
-                [class.active]="activeTab === 'asesor'"
-                class="tab-btn">
-          Como Asesor ({{ proyectosAsesor.length }})
-        </button>
-        <button (click)="activeTab = 'jurado'" 
-                [class.active]="activeTab === 'jurado'"
-                class="tab-btn">
-          Como Jurado ({{ proyectosJurado.length }})
-        </button>
-      </div>
-
-      @if (activeTab === 'asesor') {
-        <div class="proyectos-list">
-          <h2>Proyectos como Asesor</h2>
-          @if (proyectosAsesor.length === 0) {
-            <p class="empty">No hay proyectos pendientes</p>
-          }
-          @for (proyecto of proyectosAsesor; track proyecto.id_proyecto) {
-            <div class="proyecto-card">
-              <h3>{{ proyecto.titulo }}</h3>
-              <p><strong>Estado:</strong> {{ proyecto.estado_proyecto }}</p>
-              <button class="btn-primary">Revisar</button>
-            </div>
-          }
-        </div>
-      }
-
-      @if (activeTab === 'jurado') {
-        <div class="proyectos-list">
-          <h2>Proyectos como Jurado</h2>
-          @if (proyectosJurado.length === 0) {
-            <p class="empty">No hay proyectos pendientes</p>
-          }
-          @for (proyecto of proyectosJurado; track proyecto.id_proyecto) {
-            <div class="proyecto-card">
-              <h3>{{ proyecto.titulo }}</h3>
-              <p><strong>Rol:</strong> {{ proyecto.rol_jurado }}</p>
-              <button class="btn-primary">Revisar</button>
-            </div>
-          }
-        </div>
-      }
-    </div>
-  `,
-  styles: [`
-    .dashboard {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      color: #333;
-      margin-bottom: 2rem;
-    }
-
-    h2 {
-      color: #667eea;
-      margin-bottom: 1rem;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-
-    .tab-btn {
-      padding: 0.75rem 1.5rem;
-      border: 2px solid #667eea;
-      background: white;
-      color: #667eea;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-
-    .tab-btn.active {
-      background: #667eea;
-      color: white;
-    }
-
-    .proyectos-list {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .proyecto-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .proyecto-card h3 {
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-
-    .proyecto-card p {
-      color: #666;
-      margin: 0.25rem 0;
-    }
-
-    .btn-primary {
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 1rem;
-    }
-
-    .empty {
-      color: #999;
-      text-align: center;
-      padding: 2rem;
-    }
-  `]
+  imports: [CommonModule, RouterModule],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-  activeTab: 'asesor' | 'jurado' = 'asesor';
-  proyectosAsesor: any[] = [];
-  proyectosJurado: any[] = [];
+export class DocenteDashboardComponent implements OnInit, OnDestroy {
+  // Lista unificada de todos los proyectos
+  todosProyectos: ProyectoUnificado[] = [];
+  
+  loading = true;
+  error = '';
 
-  constructor(private docenteService: DocenteService) {}
+  // Notificaciones
+  notificaciones: any[] = [];
+  noLeidasCount: number = 0;
+  showNotifications: boolean = false;
+  cargandoNotificaciones: boolean = false;
+  private noLeidasSubscription?: Subscription;
+  expandedNotifications: Set<number> = new Set();
+
+  private apiUrl = 'http://localhost:3000/api';
+
+  constructor(
+    private http: HttpClient,
+    private notificacionService: NotificacionService
+  ) {}
 
   ngOnInit(): void {
-    this.loadData();
+    this.cargarTodosProyectos();
+    this.cargarNotificaciones();
+    
+    // Suscribirse al contador de no leídas
+    this.noLeidasSubscription = this.notificacionService.noLeidas$.subscribe(
+      count => this.noLeidasCount = count
+    );
+
+    // Cargar contador inicial
+    this.notificacionService.contarNoLeidas().subscribe({
+      next: res => this.noLeidasCount = res.no_leidas,
+      error: err => console.error('Error al cargar contador de notificaciones', err)
+    });
   }
 
-  loadData(): void {
-    this.docenteService.getProyectosPendientesAsesor().subscribe({
-      next: (proyectos) => this.proyectosAsesor = proyectos,
-      error: (err) => console.error('Error loading proyectos asesor', err)
+  ngOnDestroy(): void {
+    if (this.noLeidasSubscription) {
+      this.noLeidasSubscription.unsubscribe();
+    }
+  }
+
+  cargarTodosProyectos(): void {
+    this.loading = true;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    // Cargar proyectos como asesor y jurado en paralelo
+    const asesor$ = this.http.get<any[]>(`${this.apiUrl}/asesor/pendientes`, { headers });
+    const jurado$ = this.http.get<any[]>(`${this.apiUrl}/jurados/pendientes`, { headers });
+
+    // Combinar ambos observables
+    import('rxjs').then(rxjs => {
+      rxjs.forkJoin({
+        asesor: asesor$,
+        jurado: jurado$
+      }).subscribe({
+        next: (data) => {
+          // Mapear proyectos de asesor
+          const proyectosAsesor: ProyectoUnificado[] = data.asesor.map(p => ({
+            ...p,
+            tipo: 'ASESOR' as const
+          }));
+
+          // Mapear proyectos de jurado
+          const proyectosJurado: ProyectoUnificado[] = data.jurado.map(p => ({
+            ...p,
+            tipo: 'JURADO' as const
+          }));
+
+          // Combinar ambas listas
+          this.todosProyectos = [...proyectosAsesor, ...proyectosJurado];
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error al cargar proyectos:', err);
+          this.error = 'Error al cargar los proyectos';
+          this.loading = false;
+        }
+      });
     });
-    
-    this.docenteService.getProyectosPendientesJurado().subscribe({
-      next: (proyectos) => this.proyectosJurado = proyectos,
-      error: (err) => console.error('Error loading proyectos jurado', err)
+  }
+
+  getEstadoBadge(estado: string): string {
+    switch (estado) {
+      case 'REVISADO_FORMATO':
+        return 'badge-primary';
+      case 'OBSERVADO_ASESOR':
+        return 'badge-warning';
+      default:
+        return 'badge-secondary';
+    }
+  }
+
+  getProyectosAsesor(): number {
+    return this.todosProyectos.filter(p => p.tipo === 'ASESOR').length;
+  }
+
+  getProyectosJurado(): number {
+    return this.todosProyectos.filter(p => p.tipo === 'JURADO').length;
+  }
+
+  getTipoBadge(tipo: string): string {
+    return tipo === 'ASESOR' ? 'Asesor' : 'Jurado';
+  }
+
+  getTipoIcon(tipo: string): string {
+    return tipo === 'ASESOR' ? 'edit' : 'users';
+  }
+
+  getRolJuradoBadge(rol: string): string {
+    const badges: any = {
+      'PRESIDENTE': 'Presidente',
+      'SECRETARIO': 'Secretario', 
+      'VOCAL': 'Vocal'
+    };
+    return badges[rol] || rol;
+  }
+
+  // ==================== NOTIFICACIONES ====================
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+    if (this.showNotifications) {
+      this.cargarNotificaciones();
+    }
+  }
+
+  cargarNotificaciones(): void {
+    this.cargandoNotificaciones = true;
+    this.notificacionService.getNotificaciones(false, 20).subscribe({
+      next: res => {
+        this.notificaciones = res.notificaciones || [];
+        this.cargandoNotificaciones = false;
+      },
+      error: err => {
+        console.error('Error al cargar notificaciones', err);
+        this.cargandoNotificaciones = false;
+      }
     });
+  }
+
+  toggleExpand(idNotificacion: number): void {
+    if (this.expandedNotifications.has(idNotificacion)) {
+      this.expandedNotifications.delete(idNotificacion);
+    } else {
+      this.expandedNotifications.add(idNotificacion);
+    }
+
+    const notif = this.notificaciones.find(n => n.id_notificacion === idNotificacion);
+    if (notif && !notif.leida) {
+      this.notificacionService.marcarComoLeida(idNotificacion).subscribe({
+        next: () => {
+          notif.leida = true;
+          this.notificacionService.contarNoLeidas().subscribe(
+            res => this.notificacionService.updateNoLeidasCount(res.no_leidas)
+          );
+        },
+        error: err => console.error('Error al marcar como leida', err)
+      });
+    }
+  }
+
+  isExpanded(idNotificacion: number): boolean {
+    return this.expandedNotifications.has(idNotificacion);
+  }
+
+  marcarTodasLeidas(): void {
+    this.notificacionService.marcarTodasLeidas().subscribe({
+      next: () => {
+        this.notificaciones.forEach(n => n.leida = true);
+        this.notificacionService.updateNoLeidasCount(0);
+      },
+      error: err => console.error('Error al marcar todas como leidas', err)
+    });
+  }
+
+  getTimeAgo(fecha: string): string {
+    const now = new Date();
+    const then = new Date(fecha);
+    const seconds = Math.floor((now.getTime() - then.getTime()) / 1000);
+
+    if (seconds < 60) return 'Hace unos segundos';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `Hace ${minutes} min${minutes > 1 ? 's' : ''}`;
+    const hours = Math.floor(seconds / 3600);
+    if (hours < 24) return `Hace ${hours} hora${hours > 1 ? 's' : ''}`;
+    const days = Math.floor(seconds / 86400);
+    if (days < 7) return `Hace ${days} día${days > 1 ? 's' : ''}`;
+    const weeks = Math.floor(days / 7);
+    if (weeks < 4) return `Hace ${weeks} semana${weeks > 1 ? 's' : ''}`;
+    const months = Math.floor(days / 30);
+    return `Hace ${months} mes${months > 1 ? 'es' : ''}`;
+  }
+
+  verPDF(rutaPdf: string): void {
+    window.open(`http://localhost:3000/uploads/proyectos/${rutaPdf}`, '_blank');
+  }
+
+  getUserFullName(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return `${user.nombres || ''} ${user.apellido_paterno || ''}`.trim() || 'Docente';
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
   }
 }

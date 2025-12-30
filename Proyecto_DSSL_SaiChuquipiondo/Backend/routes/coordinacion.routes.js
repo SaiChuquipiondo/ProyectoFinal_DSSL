@@ -15,6 +15,7 @@ const {
   getProyectosPendientes,
   getBorradoresPendientes,
   getSustentacionesProgramadas,
+  getProyectoDetalles,
 } = require("../controllers/coordinacion.controller");
 
 const {
@@ -28,6 +29,7 @@ const {
 router.get("/proyectos-pendientes", auth, getProyectosPendientes);
 router.get("/borradores-pendientes", auth, getBorradoresPendientes);
 router.get("/sustentaciones-programadas", auth, getSustentacionesProgramadas);
+router.get("/proyecto/detalles/:id_proyecto", auth, getProyectoDetalles);
 
 // ENDPOINTS DETALLADOS
 router.get("/pendientes/asesor", auth, pendientesAsesor);

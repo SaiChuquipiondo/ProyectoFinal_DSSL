@@ -20,12 +20,37 @@ export class CoordinacionService {
     return this.http.post(`${this.apiUrl}/proyecto/${idProyecto}/validar-formato`, data);
   }
 
+  // Obtener detalles completos de un proyecto
+  getProyectoDetalles(idProyecto: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/proyecto/detalles/${idProyecto}`);
+  }
+
+  // Aprobar formato del proyecto
+  aprobarFormato(idProyecto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/proyecto/revisar-formato/${idProyecto}`, { aprobado: true });
+  }
+
+  // Rechazar formato del proyecto con motivo
+  rechazarFormato(idProyecto: number, motivo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/proyecto/revisar-formato/${idProyecto}`, { aprobado: false, motivo });
+  }
+
+  // Aprobar asesor propuesto
+  aprobarAsesor(idProyecto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/proyecto/validar-asesor/${idProyecto}`, { aprobado: true });
+  }
+
+  // Rechazar asesor propuesto
+  rechazarAsesor(idProyecto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/proyecto/validar-asesor/${idProyecto}`, { aprobado: false });
+  }
+
   validarAsesor(idProyecto: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/proyecto/${idProyecto}/validar-asesor`, data);
+    return this.http.post(`${this.apiUrl}/proyecto/validar-asesor/${idProyecto}`, data);
   }
 
   asignarJurados(idProyecto: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/proyecto/${idProyecto}/asignar-jurados`, data);
+    return this.http.post(`${this.apiUrl}/proyecto/asignar-jurados/${idProyecto}`, data);
   }
 
   // Borradores

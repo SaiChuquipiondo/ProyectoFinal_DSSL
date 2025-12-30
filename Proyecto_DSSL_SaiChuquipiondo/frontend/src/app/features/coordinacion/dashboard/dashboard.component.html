@@ -1,0 +1,927 @@
+﻿<div class="university-dashboard">
+  <!-- Modern Header -->
+  <header class="dashboard-header">
+    <div class="header-container">
+      <div class="brand-section">
+        <div class="brand-logo-wrapper">
+          <img src="/logo-unu.png" alt="UNU Logo" class="brand-logo" />
+        </div>
+        <div class="brand-info">
+          <h1>Sistema de Gestión de Tesis</h1>
+          <p class="brand-subtitle">Panel de Coordinación Académica</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button class="notification-btn" (click)="toggleNotifications()">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          @if (noLeidasCount > 0) {
+          <span class="notification-badge">{{ noLeidasCount }}</span>
+          }
+        </button>
+
+        <div class="user-profile">
+          <div class="user-avatar-circle">
+            <span>{{ getUserInitials() }}</span>
+          </div>
+          <div class="user-details">
+            <p class="user-name">{{ getUserFullName() }}</p>
+            <p class="user-role-text">{{ getUserRole() }}</p>
+          </div>
+        </div>
+        <button class="logout-button" (click)="logout()">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notifications Panel -->
+  <div class="notifications-panel" [class.open]="showNotifications">
+    <div class="panel-header">
+      <h3>Notificaciones</h3>
+      <button class="close-panel" (click)="toggleNotifications()">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    @if (notificaciones.length > 0) {
+    <div class="panel-actions">
+      <button class="mark-all-read" (click)="marcarTodasLeidas()">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+        Marcar todas como leídas
+      </button>
+    </div>
+    }
+
+    <div class="notifications-list">
+      @if (cargandoNotificaciones) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando notificaciones...</p>
+      </div>
+      } @else if (notificaciones.length === 0) {
+      <div class="empty-notifications">
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        <p>No tienes notificaciones</p>
+      </div>
+      } @else { @for (notif of notificaciones; track notif.id_notificacion) {
+      <div
+        class="notification-item"
+        [class.unread]="!notif.leida"
+        [class.expanded]="isExpanded(notif.id_notificacion)"
+        (click)="toggleExpand(notif.id_notificacion)"
+      >
+        <div class="notif-icon">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+        </div>
+        <div class="notif-content">
+          <h4>{{ notif.titulo }}</h4>
+          <p [class.expanded-text]="isExpanded(notif.id_notificacion)">{{ notif.mensaje }}</p>
+          <span class="notif-time">{{ getTimeAgo(notif.fecha_creacion) }}</span>
+        </div>
+        @if (!notif.leida) {
+        <div class="unread-dot"></div>
+        }
+      </div>
+      } }
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  @if (showNotifications) {
+  <div class="overlay" (click)="toggleNotifications()"></div>
+  }
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="content-wrapper">
+      <!-- Welcome Section -->
+      <section class="welcome-section">
+        <div class="welcome-content">
+          <h2 class="welcome-title">Bienvenido, {{ getUserFullName() }}</h2>
+          <p class="welcome-text">Gestiona y supervisa el proceso de tesis de manera eficiente</p>
+        </div>
+        <div class="date-display">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          <span>{{ getCurrentDate() }}</span>
+        </div>
+      </section>
+
+      <!-- Statistics Grid -->
+      <section class="statistics-grid">
+        <div class="stat-card primary-card">
+          <div class="stat-content">
+            <div class="stat-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-number">{{ proyectosPendientes.length }}</h3>
+              <p class="stat-label">Proyectos Pendientes</p>
+            </div>
+          </div>
+          <div class="stat-decoration"></div>
+        </div>
+
+        <div class="stat-card secondary-card">
+          <div class="stat-content">
+            <div class="stat-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                <polyline points="13 2 13 9 20 9" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-number">{{ borradoresPendientes.length }}</h3>
+              <p class="stat-label">Borradores Pendientes</p>
+            </div>
+          </div>
+          <div class="stat-decoration"></div>
+        </div>
+
+        <div class="stat-card accent-card">
+          <div class="stat-content">
+            <div class="stat-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-number">{{ sustentacionesProgramadas.length }}</h3>
+              <p class="stat-label">Sustentaciones Programadas</p>
+            </div>
+          </div>
+          <div class="stat-decoration"></div>
+        </div>
+
+        <div class="stat-card warning-card">
+          <div class="stat-content">
+            <div class="stat-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-number">{{ getTotalPendientes() }}</h3>
+              <p class="stat-label">Total en revisión</p>
+            </div>
+          </div>
+          <div class="stat-decoration"></div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="projects-section">
+        <div class="section-header">
+          <div class="header-left">
+            <h3 class="section-title">Proyectos Pendientes de Validación</h3>
+            <p class="section-subtitle">Revisa y gestiona los proyectos enviados por estudiantes</p>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-bar">
+          <div class="filter-group">
+            <label>Buscar:</label>
+            <input
+              type="text"
+              class="filter-input"
+              placeholder="Nombre o proyecto..."
+              [(ngModel)]="filtroBusqueda"
+              (input)="onFiltroCambio()"
+            />
+          </div>
+
+          <div class="filter-group">
+            <label>Estado Proyecto:</label>
+            <select
+              class="filter-select"
+              [(ngModel)]="filtroEstadoProyecto"
+              (change)="onFiltroCambio()"
+            >
+              <option value="">Todos</option>
+              <option value="PENDIENTE">Pendiente</option>
+              <option value="OBSERVADO_FORMATO">Observado</option>
+              <option value="APROBADO_FORMATO">Aprobado</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Estado Asesor:</label>
+            <select
+              class="filter-select"
+              [(ngModel)]="filtroEstadoAsesor"
+              (change)="onFiltroCambio()"
+            >
+              <option value="">Todos</option>
+              <option value="PROPUESTO">Propuesto</option>
+              <option value="APROBADO">Aprobado</option>
+              <option value="RECHAZADO">Rechazado</option>
+              <option value="SIN_ASESOR">Sin Asesor</option>
+            </select>
+          </div>
+
+          <button class="btn-clear-filters" (click)="limpiarFiltros()">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+            Limpiar
+          </button>
+        </div>
+
+        @if (proyectosPendientes.length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg
+              width="100"
+              height="100"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <h4 class="empty-title">Todo al día</h4>
+          <p class="empty-description">No hay proyectos pendientes de Validación en este momento</p>
+        </div>
+        }
+
+        <div class="projects-grid">
+          @for (proyecto of proyectosPendientesFiltrados; track proyecto.id_proyecto) {
+          <div class="project-card">
+            <div class="card-header">
+              <div class="project-badge">
+                <span class="badge-text">ID: {{ proyecto.id_proyecto }}</span>
+              </div>
+              <span class="badge" [class]="'badge-' + proyecto.estado_proyecto">
+                {{ proyecto.estado_proyecto.replace('_', ' ') }}
+              </span>
+            </div>
+
+            <h4 class="project-title">{{ proyecto.titulo }}</h4>
+
+            <div class="project-meta">
+              <div class="meta-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span>{{ proyecto.nombre_estudiante }}</span>
+              </div>
+              @if (proyecto.estado_asesor !== 'SIN_ASESOR') {
+              <div class="meta-item">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                </svg>
+                <span class="badge-asesor" [class]="'badge-' + proyecto.estado_asesor">
+                  Asesor:
+                  {{
+                    proyecto.estado_asesor === 'PROPUESTO'
+                      ? 'Propuesto'
+                      : proyecto.estado_asesor === 'APROBADO'
+                      ? 'Aprobado'
+                      : 'Rechazado'
+                  }}
+                </span>
+              </div>
+              }
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-secondary" (click)="verDetalles(proyecto)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver Detalles
+              </button>
+
+              @if (proyecto.estado_proyecto === 'PENDIENTE') {
+              <button class="btn-primary" (click)="aprobarProyecto(proyecto.id_proyecto)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                Aprobar
+              </button>
+              <button class="btn-danger" (click)="mostrarModalRechazo(proyecto)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Rechazar
+              </button>
+              } @if (proyecto.estado_asesor === 'PROPUESTO') {
+              <button class="btn-info" (click)="mostrarModalAsesor(proyecto)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                </svg>
+                Gestionar Asesor
+              </button>
+              } @if (proyecto.estado_proyecto === 'APROBADO_ASESOR') {
+              <button class="btn-success" (click)="mostrarModalJurados(proyecto)">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M9 21v-2a4 4 0 0 1 3-3.87" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <circle cx="17" cy="7" r="4" />
+                </svg>
+                Asignar Jurados
+              </button>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal: Detalles del Proyecto -->
+  @if (showModalDetalles) {
+  <div class="modal-overlay" (click)="cerrarModalDetalles()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Detalles del Proyecto</h3>
+        <button class="modal-close" (click)="cerrarModalDetalles()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      @if (cargandoDetalles) {
+      <div class="modal-loading">
+        <div class="spinner"></div>
+        <p>Cargando detalles...</p>
+      </div>
+      } @else if (detallesProyecto) {
+      <div class="modal-body">
+        <div class="detail-section">
+          <h4>Información del Proyecto</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>ID:</label>
+              <span>{{ detallesProyecto.id_proyecto }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Iteración:</label>
+              <span>{{ detallesProyecto.iteracion }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Título:</label>
+              <span>{{ detallesProyecto.titulo }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Especialidad:</label>
+              <span>{{ detallesProyecto.especialidad_nombre }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Estado Proyecto:</label>
+              <span class="badge" [class]="'badge-' + detallesProyecto.estado_proyecto">
+                {{ detallesProyecto.estado_proyecto }}
+              </span>
+            </div>
+            <div class="detail-item">
+              <label>Estado Asesor:</label>
+              <span class="badge" [class]="'badge-' + detallesProyecto.estado_asesor">
+                {{ detallesProyecto.estado_asesor }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item full-width">
+            <label>Resumen:</label>
+            <p class="resumen-text">{{ detallesProyecto.resumen }}</p>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h4>Estudiante</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Nombre:</label>
+              <span>{{ detallesProyecto.nombre_estudiante }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Email:</label>
+              <span>{{ detallesProyecto.email_estudiante }}</span>
+            </div>
+          </div>
+        </div>
+
+        @if (detallesProyecto.nombre_asesor) {
+        <div class="detail-section">
+          <h4>Asesor Propuesto</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Nombre:</label>
+              <span>{{ detallesProyecto.nombre_asesor }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Email:</label>
+              <span>{{ detallesProyecto.email_asesor }}</span>
+            </div>
+          </div>
+        </div>
+        }
+
+        <div class="detail-section">
+          <h4>Documento PDF</h4>
+          <a
+            [href]="'http://localhost:3000/uploads/proyectos/' + detallesProyecto.ruta_pdf"
+            target="_blank"
+            class="btn-download"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Descargar PDF
+          </a>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        @if (detallesProyecto.estado_proyecto === 'PENDIENTE' || detallesProyecto.estado_proyecto
+        === 'OBSERVADO_FORMATO') {
+        <button class="btn-success" (click)="aprobarProyecto(detallesProyecto.id_proyecto)">
+          Aprobar Proyecto
+        </button>
+        <button class="btn-danger" (click)="mostrarModalRechazo(detallesProyecto)">
+          Rechazar Proyecto
+        </button>
+        }
+        <button class="btn-secondary" (click)="cerrarModalDetalles()">Cerrar</button>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Modal: Rechazar Proyecto -->
+  @if (showModalRechazo) {
+  <div class="modal-overlay" (click)="cerrarModalRechazo()">
+    <div class="modal-container modal-small" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Rechazar Proyecto</h3>
+        <button class="modal-close" (click)="cerrarModalRechazo()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (proyectoSeleccionado) {
+        <p class="modal-description">
+          Estás a punto de rechazar el proyecto
+          <strong>"{{ proyectoSeleccionado.titulo }}"</strong> de
+          <strong>{{ proyectoSeleccionado.nombre_estudiante }}</strong
+          >.
+        </p>
+
+        <div class="form-group">
+          <label for="motivoRechazo">Motivo del rechazo: <span class="required">*</span></label>
+          <textarea
+            id="motivoRechazo"
+            class="form-textarea"
+            [(ngModel)]="motivoRechazo"
+            placeholder="Especifica el motivo del rechazo (ej: formato de márgenes incorrecto, faltan referencias, etc.)"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <div class="alert-warning">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          El estudiante recibirá una notificación con este motivo y deberá corregir el proyecto.
+        </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-danger" (click)="rechazarProyecto()">Confirmar Rechazo</button>
+        <button class="btn-secondary" (click)="cerrarModalRechazo()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal: Gestionar Asesor -->
+  @if (showModalAsesor) {
+  <div class="modal-overlay" (click)="cerrarModalAsesor()">
+    <div class="modal-container modal-small" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Gestionar Asesor</h3>
+        <button class="modal-close" (click)="cerrarModalAsesor()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (proyectoSeleccionado) {
+        <p class="modal-description">
+          El estudiante <strong>{{ proyectoSeleccionado.nombre_estudiante }}</strong> ha propuesto
+          un asesor para el proyecto <strong>"{{ proyectoSeleccionado.titulo }}"</strong>.
+        </p>
+
+        @if (proyectoSeleccionado.nombre_asesor) {
+        <div class="detail-section">
+          <h4>Asesor Propuesto</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Nombre:</label>
+              <span>{{ proyectoSeleccionado.nombre_asesor }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Email:</label>
+              <span>{{ proyectoSeleccionado.email_asesor }}</span>
+            </div>
+          </div>
+        </div>
+        }
+
+        <div class="alert-info">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+          Verifica que el asesor propuesto sea adecuado para dirigir este proyecto.
+        </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-success" (click)="aprobarAsesor()">Aprobar Asesor</button>
+        <button class="btn-danger" (click)="rechazarAsesor()">Rechazar Asesor</button>
+        <button class="btn-secondary" (click)="cerrarModalAsesor()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Modal: Asignar Jurados -->
+  @if (showModalJurados) {
+  <div class="modal-overlay" (click)="cerrarModalJurados()">
+    <div class="modal-container modal-medium" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Asignar Jurados</h3>
+        <button class="modal-close" (click)="cerrarModalJurados()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        @if (proyectoSeleccionado) {
+        <p class="modal-description">
+          Asignar jurados para el proyecto
+          <strong>"{{ proyectoSeleccionado.titulo }}"</strong> de
+          <strong>{{ proyectoSeleccionado.nombre_estudiante }}</strong
+          >.
+        </p>
+
+        <div class="alert-info">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+          Se mostrarán solo docentes de la especialidad
+          <strong>{{ proyectoSeleccionado.especialidad_nombre }}</strong
+          >. El asesor del proyecto no puede ser jurado.
+        </div>
+
+        @if (cargandoDocentes) {
+        <div class="modal-loading">
+          <div class="spinner"></div>
+          <p>Cargando docentes...</p>
+        </div>
+        } @else {
+
+        <div class="form-group">
+          <label for="presidente">Presidente: <span class="required">*</span></label>
+          <select
+            id="presidente"
+            class="form-select"
+            [(ngModel)]="juradoPresidente"
+            (ngModelChange)="onPresidenteChange()"
+          >
+            <option [value]="null">Seleccione un docente</option>
+            @for (docente of docentesParaPresidente; track docente.id_docente) {
+            <option [value]="docente.id_docente">
+              {{ docente.nombre_completo }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="secretario">Secretario: <span class="required">*</span></label>
+          <select
+            id="secretario"
+            class="form-select"
+            [(ngModel)]="juradoSecretario"
+            (ngModelChange)="onSecretarioChange()"
+          >
+            <option [value]="null">Seleccione un docente</option>
+            @for (docente of docentesParaSecretario; track docente.id_docente) {
+            <option [value]="docente.id_docente">
+              {{ docente.nombre_completo }}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="vocal">Vocal: <span class="required">*</span></label>
+          <select
+            id="vocal"
+            class="form-select"
+            [(ngModel)]="juradoVocal"
+            (ngModelChange)="onVocalChange()"
+          >
+            <option [value]="null">Seleccione un docente</option>
+            @for (docente of docentesParaVocal; track docente.id_docente) {
+            <option [value]="docente.id_docente">
+              {{ docente.nombre_completo }}
+            </option>
+            }
+          </select>
+        </div>
+
+        @if (docentesDisponibles.length < 3) {
+        <div class="alert-warning">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+          No hay suficientes docentes en esta especialidad para asignar 3 jurados diferentes.
+        </div>
+        } } }
+      </div>
+
+      <div class="modal-footer">
+        <button
+          class="btn-success"
+          (click)="asignarJurados()"
+          [disabled]="docentesDisponibles.length < 3"
+        >
+          Asignar Jurados
+        </button>
+        <button class="btn-secondary" (click)="cerrarModalJurados()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

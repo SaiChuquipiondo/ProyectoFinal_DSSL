@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'docente',
     canActivate: [authGuard, roleGuard],
-    data: { role: 'ASESOR' },
+    data: { role: 'DOCENTE' },
     loadChildren: () => import('./features/docente/docente.routes').then(m => m.DOCENTE_ROUTES)
   },
   

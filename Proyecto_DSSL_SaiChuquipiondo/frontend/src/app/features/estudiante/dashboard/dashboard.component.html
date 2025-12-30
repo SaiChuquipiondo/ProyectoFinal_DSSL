@@ -1,0 +1,350 @@
+﻿<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="/logo-unu.png" alt="UNU Logo" />
+      </div>
+      <h2>SGT - UNU</h2>
+      <p class="subtitle">Sistema de Gestión de Tesis</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a routerLink="/estudiante/dashboard" class="nav-item active">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="/estudiante/proyectos" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+        <span>Mis Proyectos</span>
+      </a>
+
+      <a routerLink="/estudiante/subir" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+        <span>Subir Proyecto</span>
+      </a>
+
+      <a routerLink="/estudiante/borradores" class="nav-item">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+          <polyline points="13 2 13 9 20 9" />
+        </svg>
+        <span>Borradores</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </div>
+        <div class="user-details">
+          <p class="user-name">{{ getUserFullName() }}</p>
+          <p class="user-role">{{ getUserRole() }}</p>
+        </div>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>Cerrar Sesión</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <div>
+        <h1>Dashboard</h1>
+        <p class="breadcrumb">Inicio / Dashboard</p>
+      </div>
+
+      <!-- Botón de Notificaciones -->
+      <div class="header-actions">
+        <button class="notification-btn" (click)="toggleNotificaciones(); $event.stopPropagation()">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          @if (notificacionesNoLeidas > 0) {
+          <span class="notification-badge">{{ notificacionesNoLeidas }}</span>
+          }
+        </button>
+
+        <!-- Panel de Notificaciones -->
+        @if (showNotificaciones) {
+        <div class="notifications-panel" (click)="$event.stopPropagation()">
+          <div class="panel-header">
+            <h3>Notificaciones</h3>
+            @if (notificacionesNoLeidas > 0) {
+            <button class="mark-all-read" (click)="marcarTodasLeidas()">
+              Marcar todas como leídas
+            </button>
+            }
+          </div>
+
+          <div class="notifications-list">
+            @if (notificaciones.length === 0) {
+            <p class="no-notifications">No hay notificaciones</p>
+            } @else { @for (notif of notificaciones; track notif.id_notificacion) {
+            <div
+              class="notification-item"
+              [class.unread]="!notif.leido"
+              (click)="marcarLeida(notif.id_notificacion)"
+            >
+              <div class="notification-icon">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 16v-4" />
+                  <path d="M12 8h.01" />
+                </svg>
+              </div>
+              <div class="notification-content">
+                <h4>{{ notif.titulo }}</h4>
+                <p>{{ notif.mensaje }}</p>
+                <span class="notification-time">{{ notif.fecha | date : 'short' }}</span>
+              </div>
+            </div>
+            } }
+          </div>
+        </div>
+        }
+      </div>
+    </header>
+
+    <div class="content-body">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card green">
+          <div class="stat-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>{{ proyectos.length }}</h3>
+            <p>Proyectos Activos</p>
+          </div>
+        </div>
+
+        <div class="stat-card blue">
+          <div class="stat-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+              <polyline points="13 2 13 9 20 9" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>0</h3>
+            <p>Borradores</p>
+          </div>
+        </div>
+
+        <div class="stat-card orange">
+          <div class="stat-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>0</h3>
+            <p>Pendientes</p>
+          </div>
+        </div>
+
+        <div class="stat-card purple">
+          <div class="stat-icon">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg>
+          </div>
+          <div class="stat-info">
+            <h3>0</h3>
+            <p>Completados</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Cards -->
+      <div class="action-cards">
+        <div class="action-card">
+          <div class="action-icon green-bg">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <div class="action-content">
+            <h3>Mis Proyectos</h3>
+            <p>Consulta el estado de tus proyectos de tesis</p>
+            <button routerLink="/estudiante/proyectos" class="btn-action">
+              Ver Proyectos
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="action-card">
+          <div class="action-icon blue-bg">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </div>
+          <div class="action-content">
+            <h3>Subir Proyecto</h3>
+            <p>Sube un nuevo proyecto de tesis para revisión</p>
+            <button routerLink="/estudiante/subir" class="btn-action">
+              Subir Ahora
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

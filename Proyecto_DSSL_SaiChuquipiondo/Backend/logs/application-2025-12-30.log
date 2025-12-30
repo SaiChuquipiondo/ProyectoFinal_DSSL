@@ -1,0 +1,1071 @@
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 00:30:35"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:08:46"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 01:09:33"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:09:33"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=PXnzV7ZAqtu4HY40AAAC","timestamp":"2025-12-30 01:09:33"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:09:33"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=c9XEbZlj-8MjC2e5AAAD","timestamp":"2025-12-30 01:09:33"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=rwezOI3kCfkmLBA8AAAB","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=m0E5C4BRHVcebOo6AAAD","timestamp":"2025-12-30 01:11:56"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:16:02"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:16:02"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:16:02"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=D1xJbCKNQ-7Nkt14AAAF","timestamp":"2025-12-30 01:16:02"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:16:11"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:16:53"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 01:17:14"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:17:15"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=vQFLyXT9rtDbC1MEAAAB","timestamp":"2025-12-30 01:17:15"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:17:15"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ZvUGf6I_NwRF4dSaAAAD","timestamp":"2025-12-30 01:17:15"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:19:15"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:19:15"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:19:15"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=iUny6eSLblAd1VLMAAAF","timestamp":"2025-12-30 01:19:15"}
+{"id_notificacion":3,"id_usuario":12,"level":"info","message":"Notificación creada: Asesor aprobado","timestamp":"2025-12-30 01:19:30"}
+{"id_notificacion":4,"id_usuario":3,"level":"info","message":"Notificación creada: Asignación aprobada","timestamp":"2025-12-30 01:19:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:19:39"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 01:20:37"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:20:37"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=1KcCBKSr3h0sq-gdAAAH","timestamp":"2025-12-30 01:20:37"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:20:37"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=XN_Ql3TeXY_SHgkCAAAJ","timestamp":"2025-12-30 01:20:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:24:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:24:37"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:24:37"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=rIs2wBXj_QPGJnKAAAAL","timestamp":"2025-12-30 01:24:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:24:44"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 01:25:11"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:25:11"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=-tHlHHxslM0vLZkaAAAO","timestamp":"2025-12-30 01:25:11"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:25:11"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=bi0OjnDEdVPR-IE-AAAP","timestamp":"2025-12-30 01:25:11"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:28:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:28:16"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:30:02"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=H_OmrHK8xkLW2vz-AAAR","timestamp":"2025-12-30 01:30:02"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:31:48"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:31:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=1ErIGGwsjT3siDHPAAAT","timestamp":"2025-12-30 01:31:49"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:32:17"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:32:17"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=qvoDPS7nXtVezBmxAAAV","timestamp":"2025-12-30 01:32:17"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:32:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:32:52"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Hi2rjG8dPoJM82aEAAAX","timestamp":"2025-12-30 01:32:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:32:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:32:53"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=56tna5BgjlHKDIaMAAAZ","timestamp":"2025-12-30 01:32:53"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:34:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:34:53"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=xpzVZ4JAEjZLZOucAAAb","timestamp":"2025-12-30 01:34:53"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:35:09"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:35:09"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=vBVNW9FoeiKqAAE2AAAd","timestamp":"2025-12-30 01:35:09"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:35:41"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:35:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=qwBD3vzr5Npdi9y7AAAf","timestamp":"2025-12-30 01:35:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:38:59"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:39:00"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=_p1Mbj59vMSy6q8CAAAh","timestamp":"2025-12-30 01:39:00"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:39:29"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:39:29"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=lab055jDPQ5F8Bp-AAAj","timestamp":"2025-12-30 01:39:29"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:39:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:39:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=6H_c0rre7unfCsLtAAAl","timestamp":"2025-12-30 01:39:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:44:18"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 01:44:28"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:44:28"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=HwsbKHFKNpsxaGV3AAAn","timestamp":"2025-12-30 01:44:28"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:44:28"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=7s_3L8jCGYDQL6F9AAAp","timestamp":"2025-12-30 01:44:28"}
+{"id_notificacion":5,"id_usuario":12,"level":"info","message":"Notificación creada: Proyecto observado","timestamp":"2025-12-30 01:44:49"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:45:55"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 01:46:03"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:46:03"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=ldmq88-HCBJ4DhUKAAAr","timestamp":"2025-12-30 01:46:03"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:46:03"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=wnp1QZK7OKZZnLwCAAAt","timestamp":"2025-12-30 01:46:03"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:47:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:47:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:47:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:47:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=PnSz-38CrL6M4EwoAAAv","timestamp":"2025-12-30 01:47:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:47:09"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 01:47:23"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:47:23"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=wBgIky_T9TaIg3P1AAAy","timestamp":"2025-12-30 01:47:23"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:47:23"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JHbZcrxGx33UMpTxAAAz","timestamp":"2025-12-30 01:47:23"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:49:08"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 01:49:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:49:16"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=LzqitIDXvWrKq7whAAA1","timestamp":"2025-12-30 01:49:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:49:16"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=wCUNufyinI-6WgmoAAA3","timestamp":"2025-12-30 01:49:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:51:14"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:51:14"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:51:14"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 01:51:15"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=3VbEn0W6eXoYUoafAAA5","timestamp":"2025-12-30 01:51:15"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 01:52:37"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 01:52:45"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:52:45"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=03wVoF9es8qcaDDoAAA7","timestamp":"2025-12-30 01:52:45"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:52:45"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=aKcuwuXzl9uwPqvwAAA9","timestamp":"2025-12-30 01:52:45"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:55:03"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:55:03"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:55:04"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=zUSYPqLP05PndgpmAAA_","timestamp":"2025-12-30 01:55:04"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/proyectos/1 no encontrado","method":"GET","path":"/api/estudiante/proyectos/1","statusCode":404,"timestamp":"2025-12-30 01:55:04"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:56:29"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:56:31"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=8SPO4AJvddtqFrUkAAAB","timestamp":"2025-12-30 01:56:31"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:56:48"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:56:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=6AZDaeMK9jqr5xiFAAAB","timestamp":"2025-12-30 01:56:49"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=s-58qBYT-HOpEPPnAAAB","timestamp":"2025-12-30 01:57:09"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:57:33"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:57:33"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=BOJFqUbMoeXC7BlSAAAD","timestamp":"2025-12-30 01:57:33"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/proyectos/1 no encontrado","method":"GET","path":"/api/estudiante/proyectos/1","statusCode":404,"timestamp":"2025-12-30 01:57:35"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 01:57:50"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:57:50"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=HELQHLT2HPRbBszQAAAF","timestamp":"2025-12-30 01:57:50"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/estudiante/proyectos/1 no encontrado","method":"GET","path":"/api/estudiante/proyectos/1","statusCode":404,"timestamp":"2025-12-30 01:57:52"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=_cw19v8yDIslKlwTAAAB","timestamp":"2025-12-30 01:59:27"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JCu-QWQ3x5drpazKAAAB","timestamp":"2025-12-30 02:00:05"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=aMsNjJczh6qjJK48AAAB","timestamp":"2025-12-30 02:00:28"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 02:01:01"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 02:01:03"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Nxs4I7l_MTkGkUEkAAAD","timestamp":"2025-12-30 02:01:03"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 02:07:23"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 02:07:25"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=-E53jF727CJtZnMbAAAF","timestamp":"2025-12-30 02:07:25"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:24:51"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:24:51"}
+{"error":"jwt expired","level":"error","message":"WebSocket auth error:","timestamp":"2025-12-30 12:25:24"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 12:25:37"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:25:37"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=hHYcmCXTERfrsRK9AAAD","timestamp":"2025-12-30 12:25:37"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:25:37"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=MhNe2PXb5mSBX2h3AAAF","timestamp":"2025-12-30 12:25:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:25:43"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 12:25:57"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:25:57"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=CXsJzTySfWeiUr8YAAAI","timestamp":"2025-12-30 12:25:57"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:25:57"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=WNzQP5ExVREFXJMGAAAJ","timestamp":"2025-12-30 12:25:57"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:28:10"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:28:10"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:28:10"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:28:10"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=_5kq5gJHy5Du0CU_AAAL","timestamp":"2025-12-30 12:28:10"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:29:10"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:29:11"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=UDo_pIjw4iXBoXsiAAAN","timestamp":"2025-12-30 12:29:11"}
+{"id_notificacion":6,"id_usuario":13,"level":"info","message":"Notificación creada: Proyecto corregido","timestamp":"2025-12-30 12:29:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:30:27"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 12:30:36"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:30:36"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=mUoqHp1YtWbKsMTYAAAP","timestamp":"2025-12-30 12:30:36"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:30:36"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=kR8jEvM0WMXiHtUaAAAR","timestamp":"2025-12-30 12:30:36"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /favicon.ico no encontrado","method":"GET","path":"/favicon.ico","statusCode":404,"timestamp":"2025-12-30 12:30:54"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:34:05"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:34:05"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:34:06"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=x_ii_iQwd5bF6DjBAAAT","timestamp":"2025-12-30 12:34:06"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:41:31"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:43:46"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:43:47"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=zn5q2Y7lM0fRCzLsAAAB","timestamp":"2025-12-30 12:43:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:43:59"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:44:00"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=nbWKwcUz9GaiL-ObAAAD","timestamp":"2025-12-30 12:44:00"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 12:44:28"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=n8pvTRwIn8nrkDljAAAB","timestamp":"2025-12-30 12:44:28"}
+{"id_notificacion":7,"id_usuario":12,"level":"info","message":"Notificación creada: Proyecto aprobado","timestamp":"2025-12-30 12:44:35"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 12:44:42"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 12:44:51"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:44:51"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=AxISmh-vd44lbxe8AAAD","timestamp":"2025-12-30 12:44:51"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:44:51"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=6BwJCXaPed-C_WHQAAAF","timestamp":"2025-12-30 12:44:51"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:52:48"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:52:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=BMyTmHLnWhFuMacHAAAC","timestamp":"2025-12-30 12:52:49"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:52:49"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=vOwnu7U6T7cUVKy5AAAD","timestamp":"2025-12-30 12:52:49"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=DK0SHD-FRGxVq4YyAAAC","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=9tx7xOKOX2ARkkJpAAAD","timestamp":"2025-12-30 12:53:30"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=fe-a497lv02ArAOgAAAB","timestamp":"2025-12-30 12:54:09"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:54:14"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=FDevWWXOwjtQ9NTkAAAD","timestamp":"2025-12-30 12:54:14"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=P2P6krt75TtfhVIrAAAB","timestamp":"2025-12-30 12:54:42"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:54:46"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=I5dD8yGJ_rXpM7dbAAAD","timestamp":"2025-12-30 12:54:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:59:31"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 12:59:31"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 12:59:31"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Xgdbc6nvD0cBSvoEAAAF","timestamp":"2025-12-30 12:59:31"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 13:07:31"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 13:07:39"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:07:39"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=kTEj7K7Z2S1FSf4SAAAH","timestamp":"2025-12-30 13:07:39"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:07:39"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=wFmUxaAH7qWnyRRtAAAJ","timestamp":"2025-12-30 13:07:39"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:13:59"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:13:59"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 13:14:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 13:14:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=GPsgAJtUMEs-QXnEAAAM","timestamp":"2025-12-30 13:14:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 13:14:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=2t3fCp25gDfUl3dRAAAN","timestamp":"2025-12-30 13:14:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 13:14:32"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 13:14:38"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:14:38"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=XSaqE5flqPjNRSjIAAAP","timestamp":"2025-12-30 13:14:38"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:14:38"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=q9VUivYUBLTHSSxFAAAR","timestamp":"2025-12-30 13:14:38"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 13:16:14"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:16:14"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:16:14"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 13:22:24"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:22:24"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=HKCKDKDrBo5e9S51AAAT","timestamp":"2025-12-30 13:22:24"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:22:24"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=Ucw45KmC9ulDWCHFAAAV","timestamp":"2025-12-30 13:22:24"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:22:24"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:25:24"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:28:05"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:28:58"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:28:58"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:28:58"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=D0Imic6_OJZCzGDGAAAX","timestamp":"2025-12-30 13:28:58"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:28:58"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:29:03"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:29:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:33:00"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:33:01"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=Nyk6WS2CBBqR18y8AAAZ","timestamp":"2025-12-30 13:33:01"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:33:01"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:33:06"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 13:34:45"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:34:45"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=QrBNXjyLTCIAwHpsAAAc","timestamp":"2025-12-30 13:34:45"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:34:45"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=JXF1Tc9IbtAYAeOLAAAd","timestamp":"2025-12-30 13:34:45"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:34:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:36:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:36:55"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:36:55"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=qkSOyeCB7ntY8SBEAAAf","timestamp":"2025-12-30 13:36:55"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:36:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:36:56"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:36:56"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=OgXy96lpohNS-fJvAAAh","timestamp":"2025-12-30 13:36:56"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:36:56"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/jurados/pendientes no encontrado","method":"GET","path":"/api/jurados/pendientes","statusCode":404,"timestamp":"2025-12-30 13:38:35"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=0N8t89xMVVxdhULWAAAB","timestamp":"2025-12-30 13:44:25"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 13:44:29"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 13:44:29"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=IrznL2hltuk5IoexAAAD","timestamp":"2025-12-30 13:44:29"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 15:33:48"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 15:33:52"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=pohxN70SRnpE60M1AAAB","timestamp":"2025-12-30 15:33:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 15:33:53"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 15:33:53"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=tECxFgCllvq4k46XAAAD","timestamp":"2025-12-30 15:33:53"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 15:33:54"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 15:33:54"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=CLWupQWlJ7ufqewCAAAF","timestamp":"2025-12-30 15:33:54"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 15:35:48"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 15:35:49"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=tyV2UUpzsnVKPaf1AAAH","timestamp":"2025-12-30 15:35:49"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 15:35:50"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 15:35:50"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=YLVgpjp3v16jLj9SAAAJ","timestamp":"2025-12-30 15:35:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 15:44:53"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 15:45:01"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 15:45:01"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=Y3TSqt_4Mcr9hv_9AAAL","timestamp":"2025-12-30 15:45:01"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 15:45:01"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=iaK3-i9BmoM9ypQQAAAN","timestamp":"2025-12-30 15:45:01"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 15:45:18"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 15:45:24"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 15:45:24"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=fqgBzjZLI-hfEvX2AAAP","timestamp":"2025-12-30 15:45:24"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 15:45:24"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=PbpjzaX3GxQCMMqiAAAR","timestamp":"2025-12-30 15:45:24"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:09:19"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 16:09:26"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:09:26"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=0LWYc8dQga1RymtUAAAT","timestamp":"2025-12-30 16:09:26"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:09:26"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=2UibLbKLV6sp92dsAAAV","timestamp":"2025-12-30 16:09:26"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:10:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:10:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:10:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:10:46"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:10:47"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=ea6JMJsVmnCfAnnfAAAX","timestamp":"2025-12-30 16:10:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:15:16"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:15:16"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=IBOAAEizuVMKR6T_AAAZ","timestamp":"2025-12-30 16:15:16"}
+{"id_notificacion":8,"id_usuario":12,"level":"info","message":"Notificación creada: Proyecto observado por asesor","timestamp":"2025-12-30 16:15:47"}
+{"id_notificacion":9,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de asesor completada","timestamp":"2025-12-30 16:15:47"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 16:17:33"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:17:34"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=Q6S1bkiggFY1Z12rAAAB","timestamp":"2025-12-30 16:17:34"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:17:37"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:17:37"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=dfgmLNfNBB2QdXJWAAAD","timestamp":"2025-12-30 16:17:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:17:46"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 16:17:55"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:17:55"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=E9lwdNDsnPdw8P1NAAAF","timestamp":"2025-12-30 16:17:55"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:17:55"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=lphSt2Ls5y-ZQeI7AAAH","timestamp":"2025-12-30 16:17:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:31"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:31"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:32"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=39QuGkZQkWRnkjPTAAAJ","timestamp":"2025-12-30 16:20:32"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=5d7vwAQS5aL0Q_ugAAAL","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=RvOjFK9-oe72n9W4AAAN","timestamp":"2025-12-30 16:20:35"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:51"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:51"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=dE1fK7FWRMi2GbfRAAAP","timestamp":"2025-12-30 16:20:51"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=li04rv9uIw6yuirBAAAR","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=lCvaaAf0-WTRz1CtAAAT","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JGvFc28-byXhYis9AAAV","timestamp":"2025-12-30 16:20:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:20:53"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 16:21:01"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:21:01"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=NE2iFiANU9VzpckNAAAY","timestamp":"2025-12-30 16:21:01"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:21:01"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=oZlD1n4FCvYZ0zUwAAAZ","timestamp":"2025-12-30 16:21:01"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:23:11"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 16:23:19"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:23:19"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ixKahFE8enlTsm2eAAAb","timestamp":"2025-12-30 16:23:19"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:23:19"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=fq5iuoPyTOsCBn_8AAAd","timestamp":"2025-12-30 16:23:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:25:56"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 16:26:04"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:26:04"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=ZwUU6aGWZEm_IRYGAAAg","timestamp":"2025-12-30 16:26:04"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:26:04"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=QSZGr1gvAc9ZbRWUAAAh","timestamp":"2025-12-30 16:26:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:31:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:31:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:31:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:31:04"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:31:05"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Rs_vefZD3XVR-XitAAAj","timestamp":"2025-12-30 16:31:05"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:35:20"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:35:22"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Qg-rfR0b_stEO-11AAAl","timestamp":"2025-12-30 16:35:22"}
+{"id_notificacion":10,"id_usuario":3,"level":"info","message":"Notificación creada: Proyecto corregido","timestamp":"2025-12-30 16:35:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:35:57"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 16:36:07"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:36:07"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=BktE-I9MiYjIV01UAAAn","timestamp":"2025-12-30 16:36:07"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:36:07"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=n19K2Tg3UwK6jO0nAAAp","timestamp":"2025-12-30 16:36:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:36:09"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 16:36:17"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:36:17"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=ny1sYhVNOWySyM0PAAAr","timestamp":"2025-12-30 16:36:17"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 16:36:17"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=92Bwd_WOjoiDcUG4AAAt","timestamp":"2025-12-30 16:36:17"}
+{"id_notificacion":11,"id_usuario":12,"level":"info","message":"Notificación creada: Proyecto aprobado por asesor","timestamp":"2025-12-30 16:36:33"}
+{"id_notificacion":12,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de asesor completada","timestamp":"2025-12-30 16:36:33"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:36:43"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:36:43"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 16:36:43"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 16:36:53"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:36:53"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ziP0HF1J5z5ALT_YAAAw","timestamp":"2025-12-30 16:36:53"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:36:53"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=tHa8vjMj9rU8o49DAAAx","timestamp":"2025-12-30 16:36:53"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:37:09"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 16:37:16"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:37:16"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=TXaT1CNLSz-RsHpHAAAz","timestamp":"2025-12-30 16:37:16"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:37:16"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=KYTqeA0-nieERyP9AAA1","timestamp":"2025-12-30 16:37:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:48:42"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=oSzYUyJ5stID1qyrAAAB","timestamp":"2025-12-30 16:49:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:49:23"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 16:49:30"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:49:30"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=04P7u82xMFqrCSx0AAAE","timestamp":"2025-12-30 16:49:30"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:49:30"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=iYT_I_YKAcbXORWTAAAF","timestamp":"2025-12-30 16:49:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:50:00"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:50:00"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:50:01"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=7QGlv8JtXuUpDzI9AAAH","timestamp":"2025-12-30 16:50:01"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:50:37"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:50:37"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=EY8zYMR5wYhPBeHnAAAJ","timestamp":"2025-12-30 16:50:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:51:42"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:51:42"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ALTLJO5WSnDxpxSxAAAL","timestamp":"2025-12-30 16:51:42"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:52:04"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:52:04"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=oO5VAUl8AC4g4azSAAAN","timestamp":"2025-12-30 16:52:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:52:06"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:52:06"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=SdszY2VaMjrbV8JsAAAP","timestamp":"2025-12-30 16:52:06"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:52:21"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 16:52:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:52:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=M-UrNpdIisNE6DWwAAAR","timestamp":"2025-12-30 16:52:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:52:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=wGBLhB4wpu6UaXtcAAAT","timestamp":"2025-12-30 16:52:28"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:52:33"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 16:52:42"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:52:43"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=sZJGkwXNlKvANkImAAAW","timestamp":"2025-12-30 16:52:43"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:52:43"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=JPw71mrb1fxAEwhKAAAX","timestamp":"2025-12-30 16:52:43"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=f-xaMK4Gv0p-6VhZAAAC","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=7A02pnlQWL5lArKhAAAD","timestamp":"2025-12-30 16:55:16"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:55:18"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ayx48y1-PnWH5djrAAAF","timestamp":"2025-12-30 16:55:18"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 16:55:24"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:55:24"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:55:24"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:55:27"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=eChDJVG7fCch5w9kAAAH","timestamp":"2025-12-30 16:55:27"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:58:00"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:58:01"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=yv3S4l90dbpKBe47AAAJ","timestamp":"2025-12-30 16:58:01"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 16:58:02"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 16:58:03"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=Uh6_JVDEKifk4ms9AAAL","timestamp":"2025-12-30 16:58:03"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 17:31:49"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 17:32:29"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:32:29"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=VPZ32rlizrUeE696AAAC","timestamp":"2025-12-30 17:32:29"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:32:29"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=m4ZmdSyCrSWMPiRZAAAD","timestamp":"2025-12-30 17:32:29"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:33:58"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:33:58"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:33:59"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=PTSIaTOSONG1jIKOAAAF","timestamp":"2025-12-30 17:33:59"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:34:50"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:34:50"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=WGRuNiCTvFXCMIPeAAAH","timestamp":"2025-12-30 17:34:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:35:10"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 17:35:17"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:35:17"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=8mjB4AwFlpDd9lRrAAAK","timestamp":"2025-12-30 17:35:17"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:35:17"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=8g2HpN31awub7SqUAAAL","timestamp":"2025-12-30 17:35:17"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:36:17"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:36:17"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:36:17"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=08KuDeBCKGBDViDtAAAN","timestamp":"2025-12-30 17:36:17"}
+{"ip":"::1","level":"warn","message":"Error operacional: Ruta /api/coordinacion/proyecto/1/asignar-jurados no encontrado","method":"POST","path":"/api/coordinacion/proyecto/1/asignar-jurados","statusCode":404,"timestamp":"2025-12-30 17:37:59"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:39:29"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 17:39:30"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=sW9bp7HMldBUEJfvAAAP","timestamp":"2025-12-30 17:39:30"}
+{"id_notificacion":13,"id_usuario":4,"level":"info","message":"Notificación creada: Designación como jurado","timestamp":"2025-12-30 17:40:06"}
+{"id_notificacion":14,"id_usuario":5,"level":"info","message":"Notificación creada: Designación como jurado","timestamp":"2025-12-30 17:40:06"}
+{"id_notificacion":15,"id_usuario":1,"level":"info","message":"Notificación creada: Designación como jurado","timestamp":"2025-12-30 17:40:06"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 17:40:18"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 17:40:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 17:40:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=nA34IGmJbYqmJEQ0AAAS","timestamp":"2025-12-30 17:40:30"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 17:40:30"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=kjrZHdb8JIx3cRTrAAAT","timestamp":"2025-12-30 17:40:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 17:41:03"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 17:41:55"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:41:55"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=jIyVBrCn88pHqXu8AAAV","timestamp":"2025-12-30 17:41:55"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:41:55"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=xnn_H2kkWQp8LhTsAAAX","timestamp":"2025-12-30 17:41:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 17:42:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:42:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:42:07"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 17:42:35"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 17:42:54"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 17:42:54"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=FTdgJnWwIUWbeamsAAAB","timestamp":"2025-12-30 17:42:54"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 17:42:54"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=3Z2gwnJwFZIRFmIVAAAD","timestamp":"2025-12-30 17:42:54"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 17:43:00"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 17:43:00"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 17:43:06"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:43:06"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=kJ2SRosJNJ7Z1IOrAAAG","timestamp":"2025-12-30 17:43:06"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:43:06"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=VA5b90CQqlseycwjAAAH","timestamp":"2025-12-30 17:43:06"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:43:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:43:47"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:43:47"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=24x76gAIIjrD8eZVAAAJ","timestamp":"2025-12-30 17:43:47"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:44:02"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-30 17:44:08"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 17:44:08"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=WyfQ8w72x46f3Mn4AAAL","timestamp":"2025-12-30 17:44:08"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 17:44:08"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=WsVPlzXKUeJjuV9wAAAN","timestamp":"2025-12-30 17:44:08"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 17:44:12"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 17:44:12"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 17:44:19"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:44:19"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=PqimpJ8zrX94Io0LAAAP","timestamp":"2025-12-30 17:44:19"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:44:19"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=53c-UTmJ94yhgZOAAAAR","timestamp":"2025-12-30 17:44:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:46:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:46:41"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:46:41"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=FKKuqNk1KGv4qpNBAAAT","timestamp":"2025-12-30 17:46:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:47:06"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:47:06"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=7RyIYq09TOGOGt1HAAAV","timestamp":"2025-12-30 17:47:06"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:47:34"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:47:34"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=fZROXiToiCQTxG2CAAAX","timestamp":"2025-12-30 17:47:34"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:47:52"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:47:52"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=aL6dXvWGiR_DZqbcAAAZ","timestamp":"2025-12-30 17:47:52"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:47:53"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:47:53"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=If7xFcP-XKOdqLPpAAAb","timestamp":"2025-12-30 17:47:53"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 17:49:34"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:49:36"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=tysuJcV15lRs3SOCAAAB","timestamp":"2025-12-30 17:49:36"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:50:05"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:50:05"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=-prTQekYEUX6v0BKAAAD","timestamp":"2025-12-30 17:50:05"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=MbYgCaRecdhrWKE3AAAB","timestamp":"2025-12-30 17:51:25"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:55:20"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 17:55:20"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=E7MaQpf2y9-MUVCSAAAD","timestamp":"2025-12-30 17:55:20"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 17:55:33"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-30 17:55:41"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 17:55:41"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=GRQNtsJjLPxB_pKBAAAG","timestamp":"2025-12-30 17:55:41"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 17:55:41"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=D0Hy95Q3h2i9QujBAAAH","timestamp":"2025-12-30 17:55:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 17:56:34"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 17:56:34"}
+{"level":"info","message":"Login exitoso: usuario=clotilde, rol=DOCENTE","timestamp":"2025-12-30 17:56:50"}
+{"level":"info","message":"WebSocket: Usuario 8 autenticado","timestamp":"2025-12-30 17:56:50"}
+{"level":"info","message":"WebSocket conectado: usuario=8, socket=5c809upG6IIZm4QNAAAK","timestamp":"2025-12-30 17:56:50"}
+{"level":"info","message":"WebSocket: Usuario 8 autenticado","timestamp":"2025-12-30 17:56:50"}
+{"level":"info","message":"WebSocket conectado: usuario=8, socket=j4YoqSIX8Uj-xTf6AAAL","timestamp":"2025-12-30 17:56:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=8","timestamp":"2025-12-30 17:57:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=8","timestamp":"2025-12-30 17:57:07"}
+{"level":"info","message":"Login exitoso: usuario=ferrari, rol=DOCENTE","timestamp":"2025-12-30 17:57:16"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 17:57:16"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=HpDIPp7OW5AX3-GJAAAO","timestamp":"2025-12-30 17:57:16"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 17:57:16"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=XwxlYd-nUhC5S4-5AAAP","timestamp":"2025-12-30 17:57:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 17:57:22"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 17:57:22"}
+{"level":"info","message":"Login exitoso: usuario=clotilde, rol=DOCENTE","timestamp":"2025-12-30 17:57:36"}
+{"level":"info","message":"WebSocket: Usuario 8 autenticado","timestamp":"2025-12-30 17:57:36"}
+{"level":"info","message":"WebSocket conectado: usuario=8, socket=aynZAg-TxLNLqTPSAAAS","timestamp":"2025-12-30 17:57:36"}
+{"level":"info","message":"WebSocket: Usuario 8 autenticado","timestamp":"2025-12-30 17:57:36"}
+{"level":"info","message":"WebSocket conectado: usuario=8, socket=F-3I6R8JeSqpRapqAAAT","timestamp":"2025-12-30 17:57:36"}
+{"level":"info","message":"WebSocket desconectado: usuario=8","timestamp":"2025-12-30 17:57:40"}
+{"level":"info","message":"WebSocket desconectado: usuario=8","timestamp":"2025-12-30 17:57:40"}
+{"level":"warn","message":"Intento de login fallido (contraseña incorrecta): diana","timestamp":"2025-12-30 18:02:04"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 18:02:06"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:02:06"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=8XJaDQXJ4n9OqlsjAAAW","timestamp":"2025-12-30 18:02:06"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:02:06"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=MImX4hOfxdG9ffCQAAAX","timestamp":"2025-12-30 18:02:06"}
+{"id_notificacion":16,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:02:16"}
+{"id_notificacion":17,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:02:16"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:02:23"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:02:23"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:02:31"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:02:31"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=ZlFFbDdry_0g8vF4AAAa","timestamp":"2025-12-30 18:02:31"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:02:31"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=C0jKlX09PQi1QZzeAAAb","timestamp":"2025-12-30 18:02:31"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:02:37"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 18:02:46"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:02:46"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=f6DvABENZvRHVpB_AAAe","timestamp":"2025-12-30 18:02:46"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:02:46"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=_KXEM2-KCyIfgVF3AAAf","timestamp":"2025-12-30 18:02:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:02:57"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 18:03:08"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 18:03:08"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=B7i8KSwWv6ZJ4XCOAAAi","timestamp":"2025-12-30 18:03:08"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 18:03:08"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=JXPzUg9w6XsHRf7sAAAj","timestamp":"2025-12-30 18:03:08"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:03:12"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 18:03:12"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 18:03:12"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:03:12"}
+{"level":"info","message":"Login exitoso: usuario=ferrari, rol=DOCENTE","timestamp":"2025-12-30 18:03:20"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:03:20"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=yxJeQFY4HhDsQib4AAAm","timestamp":"2025-12-30 18:03:20"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:03:20"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=5HfjYANRVYRpZP6NAAAn","timestamp":"2025-12-30 18:03:20"}
+{"id_notificacion":18,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:03:30"}
+{"id_notificacion":19,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:03:30"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:03:38"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:03:38"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-30 18:03:46"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:03:46"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=ZQGLGFD1tsSf56BRAAAq","timestamp":"2025-12-30 18:03:46"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:03:46"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=-wf1wE0QQjU3sdvMAAAr","timestamp":"2025-12-30 18:03:46"}
+{"id_notificacion":20,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:03:54"}
+{"id_notificacion":21,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:03:54"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:03:58"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:03:58"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:04:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=1GGbbIbOoShhM7kdAAAu","timestamp":"2025-12-30 18:04:07"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:07"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=gH6wi00xNYDcJz_qAAAv","timestamp":"2025-12-30 18:04:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:12"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:12"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:13"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=pwtAlXnbfEmdKUsoAAAx","timestamp":"2025-12-30 18:04:13"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:13"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:13"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=tNLBfAdcN9SYeSR0AAAz","timestamp":"2025-12-30 18:04:13"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:36"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:36"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=nOziNOk6f70DQnCJAAA1","timestamp":"2025-12-30 18:04:36"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:37"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:04:37"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JveKpAHBAs7er5GSAAA3","timestamp":"2025-12-30 18:04:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:04:41"}
+{"level":"warn","message":"Intento de login fallido para usuario inexistente: coordinador","timestamp":"2025-12-30 18:04:48"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 18:04:55"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:04:55"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=w_x29hmtS3oACvfwAAA6","timestamp":"2025-12-30 18:04:55"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:04:55"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=qLTaOjFpwpOc4jvYAAA7","timestamp":"2025-12-30 18:04:55"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:05:52"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:06:00"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:06:00"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=GmK-wIGe--Ucu76aAAA-","timestamp":"2025-12-30 18:06:00"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:06:00"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=wV_Bla6ebd5PyoDkAAA_","timestamp":"2025-12-30 18:06:00"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=sjRHAwC-WR51-UcyAAAC","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=3fm362zlRJfnAxvqAAAD","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=XRMA36-rJINGmRgdAAAF","timestamp":"2025-12-30 18:11:21"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=nEc25YRlgE1wNT3UAAAB","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=RhELfhN7svKCz93JAAAE","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=9zwpqGaWzie9E5_aAAAF","timestamp":"2025-12-30 18:12:28"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:13:40"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:13:42"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=DR8NUpUP5Ixj37FaAAAC","timestamp":"2025-12-30 18:13:42"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:13:42"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=jZDugHXY1nJPgMWmAAAD","timestamp":"2025-12-30 18:13:42"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:13:44"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=gCTj0FMFv9YIydm5AAAF","timestamp":"2025-12-30 18:13:44"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:13:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:13:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:13:50"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:13:50"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=BXPo_qy3d9J2L2WXAAAH","timestamp":"2025-12-30 18:13:50"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:13:54"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:15:37"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:15:38"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=VdgJCbHPkjRLIG67AAAK","timestamp":"2025-12-30 18:15:38"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:15:38"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=70YQ90eZxZevdn2NAAAL","timestamp":"2025-12-30 18:15:38"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=hYDHnfwxjxHkOLhGAAAB","timestamp":"2025-12-30 18:17:05"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:17:09"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=HgyH4skVJWfZLi58AAAD","timestamp":"2025-12-30 18:17:09"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=lLOhhAWc86yreyvFAAAB","timestamp":"2025-12-30 18:21:38"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:21:41"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=-BtUhuE2llCcdlmoAAAD","timestamp":"2025-12-30 18:21:41"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=Iumq5mj80-jrAzc3AAAB","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=zzoW13xcQ7w2BAZFAAAD","timestamp":"2025-12-30 18:22:22"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:24:23"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 18:24:29"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:24:29"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=IDkVNDk668V76Na9AAAG","timestamp":"2025-12-30 18:24:29"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:24:29"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=S5cpwD5KopDiREMSAAAH","timestamp":"2025-12-30 18:24:29"}
+{"id_notificacion":22,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:24:37"}
+{"id_notificacion":23,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:24:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:24:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:24:41"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:24:41"}
+{"level":"info","message":"Login exitoso: usuario=ferrari, rol=DOCENTE","timestamp":"2025-12-30 18:24:52"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:24:52"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=zNEgUcEWupDkNPH2AAAK","timestamp":"2025-12-30 18:24:52"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:24:52"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=75_VHuKLZ39P2eRWAAAL","timestamp":"2025-12-30 18:24:52"}
+{"id_notificacion":24,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:24:59"}
+{"id_notificacion":25,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:24:59"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:25:04"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:25:04"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-30 18:25:14"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:25:14"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=5yfqMTs5E4d8Kmn2AAAO","timestamp":"2025-12-30 18:25:14"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:25:14"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=h41Y3StIDSrKRfBtAAAP","timestamp":"2025-12-30 18:25:14"}
+{"id_notificacion":26,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:25:29"}
+{"id_notificacion":27,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:25:29"}
+{"id_notificacion":28,"id_usuario":12,"level":"info","message":"Notificación creada: Proyecto observado por jurados","timestamp":"2025-12-30 18:25:29"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:25:33"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:25:33"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:25:44"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:25:44"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=K9fEoPZM9JipUbEdAAAS","timestamp":"2025-12-30 18:25:44"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:25:44"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=1AsAj8Ao-NOwG3GaAAAT","timestamp":"2025-12-30 18:25:44"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:37:13"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:37:13"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:37:14"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=mXVjOI_koJD0c1iwAAAV","timestamp":"2025-12-30 18:37:14"}
+{"id_notificacion":29,"id_usuario":1,"level":"info","message":"Notificación creada: Proyecto corregido para revisión","timestamp":"2025-12-30 18:38:13"}
+{"id_notificacion":30,"id_usuario":4,"level":"info","message":"Notificación creada: Proyecto corregido para revisión","timestamp":"2025-12-30 18:38:13"}
+{"id_notificacion":31,"id_usuario":5,"level":"info","message":"Notificación creada: Proyecto corregido para revisión","timestamp":"2025-12-30 18:38:13"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:38:19"}
+{"level":"info","message":"Login exitoso: usuario=bardales, rol=DOCENTE","timestamp":"2025-12-30 18:38:28"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 18:38:29"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=Nr2S6Snn-OEGV1IYAAAX","timestamp":"2025-12-30 18:38:29"}
+{"level":"info","message":"WebSocket: Usuario 3 autenticado","timestamp":"2025-12-30 18:38:29"}
+{"level":"info","message":"WebSocket conectado: usuario=3, socket=BES6HP1LyfF0gWS4AAAZ","timestamp":"2025-12-30 18:38:29"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 18:38:31"}
+{"level":"info","message":"WebSocket desconectado: usuario=3","timestamp":"2025-12-30 18:38:31"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 18:38:37"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:38:37"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=agyFo-NRb1Z8w_O_AAAc","timestamp":"2025-12-30 18:38:37"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:38:37"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=af6qrMdOUbrfM_oCAAAd","timestamp":"2025-12-30 18:38:37"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:38:48"}
+{"level":"info","message":"Login exitoso: usuario=diana, rol=DOCENTE","timestamp":"2025-12-30 18:38:53"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:38:53"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=Gk3yPv4KEWo3SgclAAAf","timestamp":"2025-12-30 18:38:53"}
+{"level":"info","message":"WebSocket: Usuario 4 autenticado","timestamp":"2025-12-30 18:38:53"}
+{"level":"info","message":"WebSocket conectado: usuario=4, socket=h9zLKWGrhnvjcXdpAAAh","timestamp":"2025-12-30 18:38:53"}
+{"id_notificacion":32,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:39:08"}
+{"id_notificacion":33,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:39:08"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-30 18:39:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:39:19"}
+{"level":"info","message":"WebSocket desconectado: usuario=4","timestamp":"2025-12-30 18:39:19"}
+{"level":"info","message":"Login exitoso: usuario=ferrari, rol=DOCENTE","timestamp":"2025-12-30 18:39:28"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:39:29"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=xuu_-j71y5ODTP9UAAAj","timestamp":"2025-12-30 18:39:29"}
+{"level":"info","message":"WebSocket: Usuario 5 autenticado","timestamp":"2025-12-30 18:39:29"}
+{"level":"info","message":"WebSocket conectado: usuario=5, socket=US7E5n0Y8On9c2wsAAAl","timestamp":"2025-12-30 18:39:29"}
+{"id_notificacion":34,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:39:39"}
+{"id_notificacion":35,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:39:39"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:39:46"}
+{"level":"info","message":"WebSocket desconectado: usuario=5","timestamp":"2025-12-30 18:39:46"}
+{"level":"info","message":"Login exitoso: usuario=augurto, rol=DOCENTE","timestamp":"2025-12-30 18:39:53"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:39:53"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=sfGWdh50Q5v_zfTHAAAn","timestamp":"2025-12-30 18:39:53"}
+{"level":"info","message":"WebSocket: Usuario 1 autenticado","timestamp":"2025-12-30 18:39:53"}
+{"level":"info","message":"WebSocket conectado: usuario=1, socket=mAN1QCuCFW_81pmsAAAp","timestamp":"2025-12-30 18:39:53"}
+{"id_notificacion":36,"id_usuario":12,"level":"info","message":"Notificación creada: Revisión de jurado","timestamp":"2025-12-30 18:40:00"}
+{"id_notificacion":37,"id_usuario":13,"level":"info","message":"Notificación creada: Revisión de jurado registrada","timestamp":"2025-12-30 18:40:00"}
+{"id_notificacion":38,"id_usuario":12,"level":"info","message":"Notificación creada: Evaluación de jurados completada","timestamp":"2025-12-30 18:40:00"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:40:07"}
+{"level":"info","message":"WebSocket desconectado: usuario=1","timestamp":"2025-12-30 18:40:07"}
+{"level":"info","message":"Login exitoso: usuario=saichuquipiondo, rol=ESTUDIANTE","timestamp":"2025-12-30 18:40:53"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:40:53"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=JkfZoUp7cSJHdE5WAAAr","timestamp":"2025-12-30 18:40:53"}
+{"level":"info","message":"WebSocket: Usuario 12 autenticado","timestamp":"2025-12-30 18:40:53"}
+{"level":"info","message":"WebSocket conectado: usuario=12, socket=7R5TEHUtCH24XD1gAAAt","timestamp":"2025-12-30 18:40:53"}
+{"level":"info","message":"WebSocket desconectado: usuario=12","timestamp":"2025-12-30 18:41:36"}
+{"level":"info","message":"Login exitoso: usuario=coordinacion, rol=COORDINACION","timestamp":"2025-12-30 18:41:44"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:41:44"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=dpngkgxYgwEkOVV0AAAv","timestamp":"2025-12-30 18:41:44"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-30 18:41:44"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=ZU6aIR_Mupc3L2sGAAAx","timestamp":"2025-12-30 18:41:44"}

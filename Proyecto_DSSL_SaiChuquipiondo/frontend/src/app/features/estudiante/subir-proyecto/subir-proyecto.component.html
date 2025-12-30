@@ -72,21 +72,6 @@
         </svg>
         <span>Borradores</span>
       </a>
-
-      <a routerLink="/estudiante/notificaciones" class="nav-item">
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-        </svg>
-        <span>Notificaciones</span>
-      </a>
     </nav>
 
     <div class="sidebar-footer">
@@ -131,8 +116,10 @@
   <main class="main-content">
     <header class="content-header">
       <div>
-        <h1>Subir Proyecto de Tesis</h1>
-        <p class="breadcrumb">Inicio / Subir Proyecto</p>
+        <h1>{{ isEditMode ? 'Resubir Proyecto Corregido' : 'Subir Proyecto de Tesis' }}</h1>
+        <p class="breadcrumb">
+          Inicio / {{ isEditMode ? 'Actualizar Proyecto' : 'Subir Proyecto' }}
+        </p>
       </div>
     </header>
 
@@ -151,8 +138,14 @@
             <polyline points="17 8 12 3 7 8" />
             <line x1="12" y1="3" x2="12" y2="15" />
           </svg>
-          <h2>Nuevo Proyecto de Tesis</h2>
-          <p>Completa el formulario para subir tu proyecto de tesis</p>
+          <h2>{{ isEditMode ? 'Resubir Proyecto Corregido' : 'Nuevo Proyecto de Tesis' }}</h2>
+          <p>
+            {{
+              isEditMode
+                ? 'Corrige las observaciones y vuelve a subir tu proyecto'
+                : 'Completa el formulario para subir tu proyecto de tesis'
+            }}
+          </p>
         </div>
 
         <form [formGroup]="proyectoForm" (ngSubmit)="onSubmit()" class="upload-form">
@@ -229,7 +222,11 @@
               [class.invalid]="
                 proyectoForm.get('id_asesor')?.invalid && proyectoForm.get('id_asesor')?.touched
               "
-              [disabled]="!proyectoForm.get('id_especialidad')?.value || loadingAsesores"
+              [disabled]="
+                !proyectoForm.get('id_especialidad')?.value ||
+                loadingAsesores ||
+                (isEditMode && proyectoActual?.estado_asesor === 'APROBADO')
+              "
             >
               <option value="">
                 {{
@@ -246,7 +243,11 @@
             </select>
             <p
               class="field-info"
-              *ngIf="proyectoForm.get('id_especialidad')?.value && !loadingAsesores"
+              *ngIf="
+                proyectoForm.get('id_especialidad')?.value &&
+                !loadingAsesores &&
+                !(isEditMode && proyectoActual?.estado_asesor === 'APROBADO')
+              "
             >
               <svg
                 width="14"
@@ -261,6 +262,23 @@
                 <line x1="12" y1="8" x2="12.01" y2="8" />
               </svg>
               Los asesores mostrados pertenecen a la especialidad seleccionada
+            </p>
+            <p
+              class="field-info field-locked"
+              *ngIf="isEditMode && proyectoActual?.estado_asesor === 'APROBADO'"
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#047857"
+                stroke-width="2"
+              >
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+              El asesor ya fue aprobado por coordinación y no puede ser modificado
             </p>
             <div
               class="form-help"
@@ -308,7 +326,8 @@
           <div class="form-group">
             <label for="pdf">
               Archivo PDF
-              <span class="required">*</span>
+              <span class="required" *ngIf="!isEditMode">*</span>
+              <span class="optional" *ngIf="isEditMode">(opcional: solo si cambias el PDF)</span>
             </label>
             <div class="file-upload-container">
               <input
@@ -364,7 +383,7 @@
                 >
                   <polyline points="20 6 9 17 4 12" />
                 </svg>
-                Subir Proyecto
+                Subir {{ isEditMode ? 'Correcciones' : 'Proyecto' }}
               </span>
               <span *ngIf="uploading" class="uploading">
                 <div class="spinner-small"></div>

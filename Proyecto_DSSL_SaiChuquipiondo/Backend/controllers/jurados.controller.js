@@ -11,9 +11,20 @@ const listarPendientesJurado = async (req, res) => {
 
     const [rows] = await pool.query(
       `
-      SELECT p.id_proyecto, p.titulo, p.ruta_pdf, pj.rol_jurado
+      SELECT 
+        p.id_proyecto, 
+        p.titulo, 
+        p.resumen,
+        p.ruta_pdf, 
+        p.iteracion,
+        p.estado_proyecto,
+        pj.rol_jurado,
+        CONCAT(per.nombres, ' ', per.apellido_paterno, ' ', per.apellido_materno) AS nombre_estudiante,
+        e.codigo_estudiante
       FROM proyecto_jurado pj
       JOIN proyecto_tesis p ON p.id_proyecto = pj.id_proyecto
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona per ON per.id_persona = e.id_persona
       WHERE pj.id_jurado = ?
         AND p.estado_proyecto = 'ASIGNADO_JURADOS'
         AND NOT EXISTS (
@@ -90,6 +101,78 @@ const revisionJurado = async (req, res) => {
           "Revisión de jurado registrada",
           `Un jurado ha registrado revisión para el proyecto "${titulo}".`
         );
+      }
+    }
+
+    // VERIFICAR SI LOS 3 JURADOS YA REVISARON
+    const [reviews] = await pool.query(
+      `SELECT estado_revision 
+       FROM revision_proyecto_jurado 
+       WHERE id_proyecto = ?`,
+      [id_proyecto]
+    );
+
+    // Si ya hay 3 revisiones (los 3 jurados revisaron)
+    console.log(
+      `[JURADOS] Proyecto ${id_proyecto}: ${reviews.length} revisiones encontradas`
+    );
+
+    if (reviews.length === 3) {
+      const aprobados = reviews.filter(
+        (r) => r.estado_revision === "APROBADO"
+      ).length;
+      const observados = reviews.filter(
+        (r) => r.estado_revision === "OBSERVADO"
+      ).length;
+
+      console.log(
+        `[JURADOS] Aprobados: ${aprobados}, Observados: ${observados}`
+      );
+
+      let nuevoEstado = "";
+      let mensajeEstudiante = "";
+
+      if (observados >= 2) {
+        // 2 O MÁS JURADOS RECHAZARON
+        nuevoEstado = "OBSERVADO_JURADOS";
+        mensajeEstudiante = `Tu proyecto "${info[0]?.titulo}" fue observado por la mayoría de jurados. Revisa los comentarios, corrige y vuelve a subir la nueva versión.`;
+        console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
+      } else if (aprobados >= 2) {
+        // 2 O MÁS JURADOS APROBARON
+        nuevoEstado = "APROBADO_JURADOS";
+        mensajeEstudiante = `¡Felicidades! Tu proyecto "${info[0]?.titulo}" fue aprobado por la mayoría de jurados.`;
+        console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
+      }
+
+      // Actualizar estado del proyecto
+      await pool.query(
+        `UPDATE proyecto_tesis 
+         SET estado_proyecto = ? 
+         WHERE id_proyecto = ?`,
+        [nuevoEstado, id_proyecto]
+      );
+
+      // Notificar al estudiante
+      if (info.length > 0) {
+        const [userEstu] = await pool.query(
+          `SELECT u.id_usuario
+           FROM usuario u
+           JOIN estudiante e ON e.id_persona = u.id_persona
+           WHERE e.id_estudiante = ?`,
+          [info[0].id_estudiante]
+        );
+
+        if (userEstu.length > 0) {
+          await notificar(
+            userEstu[0].id_usuario,
+            observados === 3
+              ? "Proyecto observado por jurados"
+              : aprobados === 3
+              ? "Proyecto aprobado por jurados"
+              : "Evaluación de jurados completada",
+            mensajeEstudiante
+          );
+        }
       }
     }
 

@@ -191,16 +191,19 @@ const revisarFormato = async (req, res) => {
       return res.status(403).json({ message: "Acceso solo coordinación" });
 
     const { id_proyecto } = req.params;
-    const { estado } = req.body;
+    const { aprobado, motivo } = req.body;
+
+    // Determinar nuevo estado
+    const nuevoEstado = aprobado ? "REVISADO_FORMATO" : "OBSERVADO_FORMATO";
 
     await pool.query(
       `UPDATE proyecto_tesis SET estado_proyecto=? WHERE id_proyecto=?`,
-      [estado, id_proyecto]
+      [nuevoEstado, id_proyecto]
     );
 
-    // Obtener estudiante
+    // Obtener información del proyecto y estudiante
     const [info] = await pool.query(
-      `SELECT p.titulo, e.id_estudiante
+      `SELECT p.titulo, p.iteracion, e.id_estudiante
        FROM proyecto_tesis p
        JOIN estudiante e ON e.id_estudiante = p.id_estudiante
        WHERE id_proyecto=?`,
@@ -208,6 +211,7 @@ const revisarFormato = async (req, res) => {
     );
 
     const titulo = info[0].titulo;
+    const iteracion = info[0].iteracion;
 
     const [userEstu] = await pool.query(
       `SELECT u.id_usuario
@@ -216,13 +220,26 @@ const revisarFormato = async (req, res) => {
       [info[0].id_estudiante]
     );
 
-    await notificar(
-      userEstu[0].id_usuario,
-      "Revisión de formato",
-      `La coordinación revisó el formato de tu proyecto "${titulo}". Estado: ${estado}.`
-    );
+    // Enviar notificación personalizada
+    if (aprobado) {
+      await notificar(
+        userEstu[0].id_usuario,
+        "Proyecto aprobado",
+        `Tu proyecto "${titulo}" (Iteración ${iteracion}) fue aprobado por la coordinación. ¡Felicidades!`
+      );
+    } else {
+      const mensajeRechazo = motivo
+        ? `Tu proyecto "${titulo}" (Iteración ${iteracion}) fue observado por la coordinación. Motivo: ${motivo}. Por favor, corrige y vuelve a subir.`
+        : `Tu proyecto "${titulo}" (Iteración ${iteracion}) fue observado por la coordinación. Por favor, corrige el formato y vuelve a subir.`;
 
-    res.json({ message: "Formato revisado" });
+      await notificar(
+        userEstu[0].id_usuario,
+        "Proyecto observado",
+        mensajeRechazo
+      );
+    }
+
+    res.json({ message: "Formato revisado", nuevoEstado });
   } catch (err) {
     console.error("ERROR revisarFormato:", err);
     res.status(500).json({ message: "Error interno" });
@@ -463,11 +480,19 @@ const getProyectosPendientes = async (req, res) => {
         p.titulo,
         p.estado_proyecto,
         p.estado_asesor,
-        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante
+        p.id_especialidad,
+        p.id_asesor,
+        esp.nombre AS especialidad_nombre,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
+        CONCAT(pers_asesor.nombres, ' ', pers_asesor.apellido_paterno, ' ', pers_asesor.apellido_materno) AS nombre_asesor,
+        pers_asesor.correo AS email_asesor
       FROM proyecto_tesis p
       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
       JOIN persona pers ON pers.id_persona = e.id_persona
-      WHERE p.estado_proyecto IN ('PENDIENTE', 'OBSERVADO_FORMATO', 'PROPUESTO')
+      LEFT JOIN especialidad esp ON esp.id_especialidad = p.id_especialidad
+      LEFT JOIN docente d ON d.id_docente = p.id_asesor
+      LEFT JOIN persona pers_asesor ON pers_asesor.id_persona = d.id_persona
+      WHERE p.estado_proyecto IN ('PENDIENTE', 'OBSERVADO_FORMATO', 'PROPUESTO', 'APROBADO_ASESOR')
          OR p.estado_asesor = 'PROPUESTO'
       ORDER BY p.fecha_subida DESC
     `);
@@ -518,7 +543,7 @@ const getSustentacionesProgramadas = async (req, res) => {
     const [rows] = await pool.query(`
       SELECT 
         s.id_sustentacion,
-        s.fecha_hora_sustentacion,
+        s.fecha_hora,
         s.lugar,
         s.nota,
         s.dictamen,
@@ -529,13 +554,61 @@ const getSustentacionesProgramadas = async (req, res) => {
       JOIN proyecto_tesis p ON p.id_proyecto = s.id_proyecto
       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
       JOIN persona pers ON pers.id_persona = e.id_persona
-      WHERE DATE(s.fecha_hora_sustentacion) >= CURDATE()
-      ORDER BY s.fecha_hora_sustentacion ASC
+      WHERE DATE(s.fecha_hora) >= CURDATE()
+      ORDER BY s.fecha_hora ASC
     `);
 
     res.json(rows);
   } catch (err) {
     console.error("ERROR getSustentacionesProgramadas:", err);
+    res.status(500).json({ message: "Error interno", error: err.message });
+  }
+};
+
+// GET detalles completos de un proyecto
+const getProyectoDetalles = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const { id_proyecto } = req.params;
+
+    const [rows] = await pool.query(
+      `
+      SELECT 
+        p.id_proyecto,
+        p.titulo,
+        p.resumen,
+        p.ruta_pdf,
+        p.iteracion,
+        p.estado_proyecto,
+        p.estado_asesor,
+        p.fecha_subida,
+        p.id_especialidad,
+        esp.nombre AS especialidad_nombre,
+        CONCAT(perEst.nombres, ' ', perEst.apellido_paterno, ' ', perEst.apellido_materno) AS nombre_estudiante,
+        perEst.correo AS email_estudiante,
+        CONCAT(perAse.nombres, ' ', perAse.apellido_paterno, ' ', perAse.apellido_materno) AS nombre_asesor,
+        perAse.correo AS email_asesor,
+        p.id_asesor
+      FROM proyecto_tesis p
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona perEst ON perEst.id_persona = e.id_persona
+      LEFT JOIN especialidad esp ON esp.id_especialidad = p.id_especialidad
+      LEFT JOIN docente d ON d.id_docente = p.id_asesor
+      LEFT JOIN persona perAse ON perAse.id_persona = d.id_persona
+      WHERE p.id_proyecto = ?
+    `,
+      [id_proyecto]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+
+    res.json(rows[0]);
+  } catch (err) {
+    console.error("ERROR getProyectoDetalles:", err);
     res.status(500).json({ message: "Error interno", error: err.message });
   }
 };
@@ -553,4 +626,5 @@ module.exports = {
   getProyectosPendientes,
   getBorradoresPendientes,
   getSustentacionesProgramadas,
+  getProyectoDetalles,
 };

@@ -39,7 +39,7 @@ app.use(
 // Rate Limiting General - Limitar requests globales
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // Máximo 100 requests por IP
+  max: 1000, // Máximo 1000 requests por IP (aumentado para desarrollo)
   message: "Demasiadas peticiones desde esta IP, intente de nuevo más tarde.",
   standardHeaders: true,
   legacyHeaders: false,
@@ -92,7 +92,7 @@ app.use("/api/estudiante", estudianteRoutes);
 const asesorRoutes = require("./routes/asesores.routes");
 app.use("/api/asesor", asesorRoutes);
 const juradoRoutes = require("./routes/jurados.routes");
-app.use("/api/jurado", juradoRoutes);
+app.use("/api/jurados", juradoRoutes);
 
 // Rutas de coordinación
 const coordinacionRoutes = require("./routes/coordinacion.routes");

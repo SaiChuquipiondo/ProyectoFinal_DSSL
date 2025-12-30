@@ -90,7 +90,7 @@ const marcarComoLeida = async (id_notificacion, id_usuario) => {
   try {
     const [result] = await pool.query(
       `UPDATE notificacion 
-       SET leida = TRUE 
+       SET leido = TRUE 
        WHERE id_notificacion = ? AND id_usuario = ?`,
       [id_notificacion, id_usuario]
     );
@@ -108,7 +108,7 @@ const marcarComoLeida = async (id_notificacion, id_usuario) => {
 const marcarTodasComoLeidas = async (id_usuario) => {
   try {
     const [result] = await pool.query(
-      `UPDATE notificacion SET leida = TRUE WHERE id_usuario = ? AND leida = FALSE`,
+      `UPDATE notificacion SET leido = TRUE WHERE id_usuario = ? AND leido = FALSE`,
       [id_usuario]
     );
 
@@ -129,13 +129,13 @@ const obtenerNotificaciones = async (
 ) => {
   try {
     let query = `
-      SELECT id_notificacion, titulo, mensaje, leida, fecha_creacion
+      SELECT id_notificacion, titulo, mensaje, leido AS leida, fecha AS fecha_creacion
       FROM notificacion
       WHERE id_usuario = ?
     `;
 
-    if (solo_no_leidas) query += " AND leida = FALSE";
-    query += " ORDER BY fecha_creacion DESC LIMIT ?";
+    if (solo_no_leidas) query += " AND leido = FALSE";
+    query += " ORDER BY fecha DESC LIMIT ?";
 
     const [notificaciones] = await pool.query(query, [id_usuario, limit]);
     return notificaciones;
@@ -151,7 +151,7 @@ const obtenerNotificaciones = async (
 const contarNoLeidas = async (id_usuario) => {
   try {
     const [rows] = await pool.query(
-      `SELECT COUNT(*) as total FROM notificacion WHERE id_usuario = ? AND leida = FALSE`,
+      `SELECT COUNT(*) as total FROM notificacion WHERE id_usuario = ? AND leido = FALSE`,
       [id_usuario]
     );
     return rows[0].total;

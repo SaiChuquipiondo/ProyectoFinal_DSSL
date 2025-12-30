@@ -51,6 +51,7 @@ export class ProyectosListComponent implements OnInit {
       'PENDIENTE': 'badge-warning',
       'OBSERVADO_FORMATO': 'badge-error',
       'REVISADO_FORMATO': 'badge-info',
+      'OBSERVADO_ASESOR': 'badge-error',
       'APROBADO_ASESOR': 'badge-success',
       'ASIGNADO_JURADOS': 'badge-info',
       'OBSERVADO_JURADOS': 'badge-error',
@@ -72,6 +73,13 @@ export class ProyectosListComponent implements OnInit {
 
   verPDF(rutaPdf: string): void {
     window.open(`http://localhost:3000/uploads/proyectos/${rutaPdf}`, '_blank');
+  }
+
+  resubirProyecto(proyecto: any): void {
+    // Navegar a la página de subir proyecto con el ID para editar
+    this.router.navigate(['/estudiante/subir'], {
+      queryParams: { proyectoId: proyecto.id_proyecto }
+    });
   }
 
   getUserFullName(): string {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { EstudianteService } from '../../../services/estudiante.service';
 import { AuthService } from '../../../services/auth.service';
@@ -25,12 +25,18 @@ export class SubirProyectoComponent implements OnInit {
   loading = false;
   loadingAsesores = false;
   uploading = false;
+  
+  // Variables para modo edición
+  isEditMode = false;
+  proyectoId: number | null = null;
+  proyectoActual: any = null;
 
   constructor(
     private fb: FormBuilder,
     private estudianteService: EstudianteService,
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private websocketService: WebsocketService,
     private toastService: ToastService,
     private http: HttpClient
@@ -47,6 +53,15 @@ export class SubirProyectoComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     this.loadEspecialidades();
     
+    // Verificar si es modo edición
+    this.route.queryParams.subscribe(params => {
+      if (params['proyectoId']) {
+        this.isEditMode = true;
+        this.proyectoId = +params['proyectoId'];
+        this.loadProyectoData(this.proyectoId);
+      }
+    });
+    
     // Escuchar cambios en especialidad para cargar asesores
     this.proyectoForm.get('id_especialidad')?.valueChanges.subscribe(idEspecialidad => {
       if (idEspecialidad) {
@@ -54,6 +69,54 @@ export class SubirProyectoComponent implements OnInit {
       } else {
         this.asesores = [];
         this.proyectoForm.patchValue({ id_asesor: '' });
+      }
+    });
+  }
+
+  loadProyectoData(proyectoId: number): void {
+    this.loading = true;
+    this.http.get<any>(`${environment.apiUrl}/estudiante/proyectos/${proyectoId}`).subscribe({
+      next: (proyecto) => {
+        this.proyectoActual = proyecto;
+        console.log('Proyecto cargado:', proyecto);
+        console.log('Estado proyecto:', proyecto.estado_proyecto);
+        console.log('Estado asesor:', proyecto.estado_asesor);
+        
+        this.proyectoForm.patchValue({
+          titulo: proyecto.titulo,
+          resumen: proyecto.resumen,
+          id_especialidad: proyecto.id_especialidad,
+          id_asesor: proyecto.id_asesor
+        });
+        
+        // Si el asesor ya fue aprobado, deshabilitar el campo
+        if (proyecto.estado_asesor === 'APROBADO') {
+          this.proyectoForm.get('id_asesor')?.disable();
+        }
+        
+        // Si el proyecto fue observado por el asesor, deshabilitar todos los campos excepto el PDF
+        if (proyecto.estado_proyecto === 'OBSERVADO_ASESOR') {
+          this.proyectoForm.get('titulo')?.disable();
+          this.proyectoForm.get('resumen')?.disable();
+          this.proyectoForm.get('id_especialidad')?.disable();
+          this.proyectoForm.get('id_asesor')?.disable();
+        }
+
+        // Si el proyecto fue observado por el jurado, deshabilitar todos los campos excepto el PDF
+        if (proyecto.estado_proyecto === 'OBSERVADO_JURADOS') {
+          this.proyectoForm.get('titulo')?.disable();
+          this.proyectoForm.get('resumen')?.disable();
+          this.proyectoForm.get('id_especialidad')?.disable();
+          this.proyectoForm.get('id_asesor')?.disable();
+        }
+        
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading proyecto', err);
+        this.toastService.error('Error al cargar proyecto', 3000);
+        this.loading = false;
+        this.router.navigate(['/estudiante/proyectos']);
       }
     });
   }
@@ -119,12 +182,21 @@ export class SubirProyectoComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.proyectoForm.invalid) {
+    // Para proyectos en OBSERVADO_ASESOR, los campos están deshabilitados pero son válidos
+    const esResubmisionAsesor = this.proyectoActual?.estado_proyecto === 'OBSERVADO_ASESOR';
+    
+    if (this.proyectoForm.invalid && !esResubmisionAsesor) {
       this.toastService.warning('Por favor completa todos los campos correctamente', 3000);
       return;
     }
 
-    if (!this.selectedFile) {
+    // En modo edición con OBSERVADO_ASESOR, requiere PDF nuevo obligatoriamente
+    if (esResubmisionAsesor && !this.selectedFile) {
+      this.toastService.warning('Debes subir el proyecto corregido en PDF', 3000);
+      return;
+    }
+
+    if (!this.selectedFile && !this.isEditMode) {
       this.toastService.warning('Debes seleccionar un archivo PDF', 3000);
       return;
     }
@@ -132,15 +204,29 @@ export class SubirProyectoComponent implements OnInit {
     this.uploading = true;
 
     const formData = new FormData();
-    formData.append('titulo', this.proyectoForm.value.titulo);
-    formData.append('resumen', this.proyectoForm.value.resumen);
-    formData.append('id_especialidad', this.proyectoForm.value.id_especialidad);
-    formData.append('id_asesor', this.proyectoForm.value.id_asesor);
-    formData.append('archivo', this.selectedFile);  // Changed from 'pdf' to 'archivo'
+    // Usar getRawValue() para incluir campos deshabilitados
+    const formValues = this.proyectoForm.getRawValue();
+    
+    formData.append('titulo', formValues.titulo);
+    formData.append('resumen', formValues.resumen);
+    formData.append('id_especialidad', formValues.id_especialidad);
+    formData.append('id_asesor', formValues.id_asesor);
+    
+    if (this.selectedFile) {
+      formData.append('archivo', this.selectedFile);
+    }
 
-    this.estudianteService.subirProyecto(formData).subscribe({
+    // Si es modo edición, actualizar; si no, crear
+    const request = this.isEditMode && this.proyectoId
+      ? this.http.put(`${environment.apiUrl}/estudiante/proyectos/${this.proyectoId}`, formData)
+      : this.estudianteService.subirProyecto(formData);
+
+    request.subscribe({
       next: (response) => {
-        this.toastService.success('¡Proyecto subido exitosamente!', 3000);
+        const mensaje = this.isEditMode 
+          ? '¡Proyecto actualizado exitosamente!' 
+          : '¡Proyecto subido exitosamente!';
+        this.toastService.success(mensaje, 3000);
         this.uploading = false;
         // Redirigir a la lista de proyectos
         setTimeout(() => {

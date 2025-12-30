@@ -126,7 +126,7 @@ CREATE TABLE `proyecto_tesis` (
   `resumen` text COLLATE utf8mb4_unicode_ci,
   `ruta_pdf` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `iteracion` int DEFAULT '1',
-  `estado_proyecto` enum('PENDIENTE','OBSERVADO_FORMATO','REVISADO_FORMATO','APROBADO_ASESOR','ASIGNADO_JURADOS','OBSERVADO_JURADOS','APROBADO_JURADOS','APROBADO_FINAL') COLLATE utf8mb4_unicode_ci DEFAULT 'PENDIENTE',
+  `estado_proyecto` enum('PENDIENTE','OBSERVADO_FORMATO','REVISADO_FORMATO','OBSERVADO_ASESOR','APROBADO_ASESOR','ASIGNADO_JURADOS','OBSERVADO_JURADOS','APROBADO_JURADOS','APROBADO_FINAL') COLLATE utf8mb4_unicode_ci DEFAULT 'PENDIENTE',
   `fecha_subida` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_proyecto`),
   KEY `id_estudiante` (`id_estudiante`),
