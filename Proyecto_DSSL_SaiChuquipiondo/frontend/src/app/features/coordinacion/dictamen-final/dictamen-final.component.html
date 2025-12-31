@@ -1,0 +1,121 @@
+<div class="page-container">
+  <main class="main-content">
+    <header class="content-header">
+      <div>
+        <h1>Borradores Aprobados por Jurados</h1>
+        <p class="breadcrumb">
+          Emit ir dictamen final para autorizar la programación de sustentación
+        </p>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando borradores...</p>
+      </div>
+
+      <!-- Lista de Borradores -->
+      <div *ngIf="!loading && borradores.length > 0" class="borradores-grid">
+        <div *ngFor="let borrador of borradores" class="borrador-card">
+          <!-- Header -->
+          <div class="card-header">
+            <div class="badge-container">
+              <span class="version-badge">Borrador #{{ borrador.numero_iteracion }}</span>
+              <span class="estado-badge">APROBADO POR JURADOS</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="card-body">
+            <h3 class="titulo">{{ borrador.titulo }}</h3>
+
+            <div class="info-section">
+              <div class="info-row">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7c3aed"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <div>
+                  <span class="label">Estudiante</span>
+                  <p class="value">{{ borrador.nombre_estudiante }}</p>
+                  <p class="codigo">Código: {{ borrador.codigo_estudiante }}</p>
+                </div>
+              </div>
+
+              <div class="info-row">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#047857"
+                  stroke-width="2"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <div>
+                  <span class="label">Asesor</span>
+                  <p class="value">{{ borrador.nombre_asesor }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="card-footer">
+            <button
+              class="btn-emit"
+              (click)="emitirDictamen(borrador)"
+              [disabled]="emitiendoDictamen[borrador.id_borrador]"
+            >
+              <div *ngIf="emitiendoDictamen[borrador.id_borrador]" class="spinner-small"></div>
+              <svg
+                *ngIf="!emitiendoDictamen[borrador.id_borrador]"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+              </svg>
+              {{
+                emitiendoDictamen[borrador.id_borrador] ? 'Emit iendo...' : 'Emitir Dictamen Final'
+              }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && borradores.length === 0" class="empty-state">
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#d1d5db"
+          stroke-width="2"
+        >
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+        <p>No hay borradores pendientes de dictamen final</p>
+      </div>
+    </div>
+  </main>
+</div>

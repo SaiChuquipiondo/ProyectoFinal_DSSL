@@ -1,15 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <title>Resolución de Sustentación</title>
 
     <style>
+      @page {
+        margin: 1.8cm 2.2cm;
+        size: A4;
+      }
       body {
         font-family: "Times New Roman", serif;
-        margin: 70px;
-        font-size: 15px;
-        line-height: 1.6;
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.25;
         text-align: justify;
       }
 
@@ -17,45 +19,64 @@
       h2 {
         text-align: center;
         margin: 0;
+        font-size: 15px;
       }
 
       .facultad {
         text-align: center;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 8px;
+        font-size: 13px;
       }
 
       .resolucion {
         text-align: center;
         font-weight: bold;
-        font-size: 18px;
-        margin: 25px 0;
+        font-size: 15px;
+        margin: 10px 0;
+        text-decoration: underline;
       }
 
       .fecha {
         text-align: right;
-        margin-bottom: 25px;
+        margin-bottom: 15px;
+        font-size: 13px;
       }
 
       .seccion {
         font-weight: bold;
-        margin-top: 20px;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        text-decoration: underline;
+        font-size: 13px;
       }
 
-      .titulo-tesis {
-        text-align: center;
-        font-style: italic;
-        margin: 15px 0;
+      p {
+        margin: 3px 0 6px 0;
       }
 
       ul {
-        margin-left: 40px;
+        margin-left: 20px;
+        margin-top: 4px;
+        margin-bottom: 8px;
+        padding-left: 15px;
+      }
+
+      li {
+        margin-bottom: 2px;
       }
 
       .firma {
-        margin-top: 80px;
+        margin-top: 40px;
         text-align: center;
         font-weight: bold;
+        page-break-inside: avoid;
+        font-size: 13px;
+      }
+      
+      .titulo-inline {
+        font-weight: bold;
+        font-style: italic;
       }
     </style>
   </head>
@@ -75,13 +96,8 @@
     <p>
       El expediente académico y digital del estudiante
       <strong>{{NOMBRE_COMPLETO_ESTUDIANTE}}</strong>, identificado con DNI
-      <strong>{{DNI_ESTUDIANTE}}</strong>, correspondiente a la tesis titulada:
-    </p>
-
-    <div class="titulo-tesis">“{{TITULO_TESIS}}”</div>
-
-    <p>
-      y demás documentos que forman parte del proceso para la obtención del
+      <strong>{{DNI_ESTUDIANTE}}</strong>, correspondiente a la tesis titulada: 
+      <span class="titulo-inline">“{{TITULO_TESIS}}”</span>; y demás documentos que forman parte del proceso para la obtención del
       Título Profesional; y,
     </p>
 
@@ -122,12 +138,8 @@
 
     <p>
       <strong>ARTÍCULO 1.° – AUTORIZAR</strong><br />
-      La sustentación pública de la tesis titulada:
-    </p>
-
-    <div class="titulo-tesis">“{{TITULO_TESIS}}”</div>
-
-    <p>
+      La sustentación pública de la tesis titulada: 
+      <span class="titulo-inline">“{{TITULO_TESIS}}”</span>;
       presentada por el estudiante
       <strong>{{NOMBRE_COMPLETO_ESTUDIANTE}}</strong>, con código universitario
       <strong>{{CODIGO_ESTUDIANTE}}</strong>, en la Escuela Profesional de

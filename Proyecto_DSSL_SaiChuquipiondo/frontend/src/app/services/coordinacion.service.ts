@@ -53,13 +53,36 @@ export class CoordinacionService {
     return this.http.post(`${this.apiUrl}/proyecto/asignar-jurados/${idProyecto}`, data);
   }
 
+  // Proyectos aprobados por jurados
+  getProyectosAprobadosJurados(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/proyectos-aprobados-jurados`);
+  }
+
+  // Emitir dictamen final
+  dictamenFinal(idProyecto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/proyecto/dictamen/${idProyecto}`, {});
+  }
+
+  // Borradores aprobados por jurados
+  getBorradoresAprobadosJurados(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/borradores-aprobados-jurados`);
+  }
+
+  getPendientesBorradoresFormato(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/pendientes/borradores-formato`);
+  }
+
+  dictamenBorrador(id_borrador: number, formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/borrador/dictamen/${id_borrador}`, formData);
+  }
+
   // Borradores
   getBorradoresPendientes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/borradores-pendientes`);
   }
 
   revisarFormatoBorrador(idBorrador: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/borrador/${idBorrador}/revisar-formato`, data);
+    return this.http.post(`${this.apiUrl}/borrador/validar/${idBorrador}`, data);
   }
 
   // Sustentación

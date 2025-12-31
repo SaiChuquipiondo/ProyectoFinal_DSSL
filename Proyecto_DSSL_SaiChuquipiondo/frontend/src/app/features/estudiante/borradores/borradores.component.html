@@ -1,0 +1,392 @@
+<div class="page-container">
+  <!-- Sidebar -->
+  <app-estudiante-sidebar></app-estudiante-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <div>
+        <h1>Mis Borradores</h1>
+        <p class="breadcrumb">Inicio / Mis Borradores</p>
+      </div>
+      <button routerLink="/estudiante/subir-borrador" class="btn-primary">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        Subir Nuevo Borrador
+      </button>
+    </header>
+
+    <div class="content-body">
+      <!-- Tesis Final -->
+      <div *ngIf="tesisFinal" style="margin-bottom: 2rem">
+        <h3
+          style="
+            color: #1f2937;
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          "
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#7c3aed"
+            stroke-width="2"
+          >
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+            <polyline points="22 4 12 14.01 9 11.01" />
+          </svg>
+          Tesis Final Registrada
+        </h3>
+        <div
+          style="
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            border: 2px solid #7c3aed;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+          "
+        >
+          <div style="flex-shrink: 0">
+            <svg
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#7c3aed"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div style="flex: 1">
+            <p style="font-weight: 700; color: #6d28d9; font-size: 1.125rem; margin-bottom: 0.5rem">
+              {{ tesisFinal.titulo }}
+            </p>
+            <p style="color: #7c3aed; font-size: 0.875rem; margin-bottom: 0.25rem">
+              Registrada el {{ tesisFinal.fecha_registro | date : 'dd/MM/yyyy - HH:mm' }}
+            </p>
+            <p style="color: #6d28d9; font-size: 0.75rem">Estado: {{ tesisFinal.estado }}</p>
+          </div>
+          <div style="flex-shrink: 0">
+            <button
+              (click)="verPDFTesis(tesisFinal.ruta_pdf)"
+              style="
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                color: white;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+              "
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Ver Tesis Final
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando borradores...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && borradores.length === 0" class="empty-state">
+        <svg
+          width="120"
+          height="120"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#d1d5db"
+          stroke-width="1"
+        >
+          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+          <polyline points="13 2 13 9 20 9" />
+        </svg>
+        <h3>No tienes borradores</h3>
+        <p>Sube tu primer borrador de tesis para continuar con el proceso</p>
+        <button routerLink="/estudiante/subir-borrador" class="btn-primary-large">
+          Subir Borrador
+        </button>
+      </div>
+
+      <!-- Lista de Borradores con Cards Horizontales -->
+      <div
+        *ngIf="!loading && borradores.length > 0"
+        style="display: flex; flex-direction: column; gap: 1rem"
+      >
+        <div
+          *ngFor="let borrador of borradores"
+          style="
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.2s;
+          "
+          onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.12)'; this.style.borderColor='#047857'"
+          onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)'; this.style.borderColor='#e5e7eb'"
+        >
+          <!-- Badge de Versión -->
+          <div style="flex-shrink: 0">
+            <div
+              style="
+                background: linear-gradient(135deg, #047857, #059669);
+                color: white;
+                padding: 0.625rem 1rem;
+                border-radius: 8px;
+                font-weight: 700;
+                text-align: center;
+                min-width: 90px;
+                box-shadow: 0 2px 8px rgba(4, 120, 87, 0.2);
+              "
+            >
+              <div style="font-size: 0.75rem; opacity: 0.9">VERSIÓN</div>
+              <div style="font-size: 1.25rem">#{{ borrador.numero_iteracion }}</div>
+            </div>
+          </div>
+
+          <!-- Información del Proyecto -->
+          <div style="flex: 1; min-width: 0">
+            <h3
+              style="
+                margin: 0 0 0.5rem 0;
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #1f2937;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              "
+            >
+              {{ borrador.titulo }}
+            </h3>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: #6b7280;
+                font-size: 0.875rem;
+              "
+            >
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>{{ borrador.fecha_subida | date : 'dd/MM/yyyy - HH:mm' }}</span>
+            </div>
+          </div>
+
+          <!-- Estado -->
+          <div style="flex-shrink: 0">
+            <span
+              class="badge"
+              [ngClass]="getEstadoBadgeClass(borrador.estado)"
+              style="
+                padding: 0.625rem 1.25rem;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 0.8125rem;
+                white-space: nowrap;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+              "
+            >
+              {{ getEstadoTexto(borrador.estado) }}
+            </span>
+          </div>
+
+          <!-- Botón de Acción -->
+          <div style="flex-shrink: 0; display: flex; gap: 0.5rem">
+            <!-- Botón Resubir (Solo si estatus es OBSERVADO o OBSERVADO_ASESOR) -->
+            <button
+              *ngIf="
+                borrador.estado === 'OBSERVADO' ||
+                borrador.estado === 'OBSERVADO_ASESOR' ||
+                borrador.estado === 'OBSERVADO_JURADOS'
+              "
+              routerLink="/estudiante/subir-borrador"
+              style="
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.2s;
+                box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(245, 158, 11, 0.3)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(245, 158, 11, 0.2)'"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+              Resubir
+            </button>
+
+            <!-- Botón Ver PDF -->
+            <button
+              (click)="verPDF(borrador.ruta_pdf)"
+              style="
+                background: linear-gradient(135deg, #047857, #059669);
+                color: white;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.2s;
+                box-shadow: 0 2px 8px rgba(4, 120, 87, 0.2);
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(4, 120, 87, 0.3)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(4, 120, 87, 0.2)'"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              Ver PDF
+            </button>
+
+            <!-- Botón Subir Tesis Final (Solo si estado es APROBADO_FINAL y NO tiene tesis final) -->
+            <button
+              *ngIf="borrador.estado === 'APROBADO_FINAL' && !borrador.tiene_tesis_final"
+              routerLink="/estudiante/subir-tesis-final"
+              [queryParams]="{ id_proyecto: borrador.id_proyecto }"
+              style="
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                color: white;
+                border: none;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: all 0.2s;
+                box-shadow: 0 2px 8px rgba(124, 58, 237, 0.2);
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(124, 58, 237, 0.3)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(124, 58, 237, 0.2)'"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M12 2v20M17 7l-5-5-5 5" />
+              </svg>
+              Subir Tesis Final
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  .badge-warning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+  }
+
+  .badge-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+  }
+
+  .badge-info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+  }
+
+  .badge-primary {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+  }
+
+  .badge-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+  }
+
+  .badge-secondary {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+  }
+</style>

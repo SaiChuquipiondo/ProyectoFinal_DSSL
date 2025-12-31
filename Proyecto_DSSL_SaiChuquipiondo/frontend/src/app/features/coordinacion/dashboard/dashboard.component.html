@@ -254,6 +254,34 @@
           <div class="stat-decoration"></div>
         </div>
 
+        <div class="stat-card danger-card">
+          <div class="stat-content">
+            <div class="stat-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <h3 class="stat-number">
+                {{ tesisPendientesResolucion.length }}
+              </h3>
+              <p class="stat-label">Tesis Finales por Revisar</p>
+            </div>
+          </div>
+          <div class="stat-decoration"></div>
+        </div>
+
         <div class="stat-card warning-card">
           <div class="stat-content">
             <div class="stat-icon">
@@ -279,32 +307,121 @@
 
       <!-- Projects Section -->
       <section class="projects-section">
-        <div class="section-header">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.15);
+          "
+        >
           <div class="header-left">
-            <h3 class="section-title">Proyectos Pendientes de Validación</h3>
-            <p class="section-subtitle">Revisa y gestiona los proyectos enviados por estudiantes</p>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  style="display: block"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="section-title"
+                  style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700"
+                >
+                  Proyectos Pendientes de Validación
+                </h3>
+                <p
+                  class="section-subtitle"
+                  style="color: rgba(255, 255, 255, 0.9); margin: 0.25rem 0 0 0; font-size: 0.95rem"
+                >
+                  Revisa y gestiona los proyectos enviados por estudiantes
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Filtros -->
-        <div class="filters-bar">
+        <div
+          class="filters-bar"
+          style="
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+          "
+        >
           <div class="filter-group">
-            <label>Buscar:</label>
+            <label
+              style="
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+                display: block;
+                font-size: 0.875rem;
+              "
+            >
+              Buscar:
+            </label>
             <input
               type="text"
               class="filter-input"
               placeholder="Nombre o proyecto..."
               [(ngModel)]="filtroBusqueda"
               (input)="onFiltroCambio()"
+              style="
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+                transition: all 0.2s;
+              "
             />
           </div>
 
           <div class="filter-group">
-            <label>Estado Proyecto:</label>
+            <label
+              style="
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+                display: block;
+                font-size: 0.875rem;
+              "
+            >
+              Estado Proyecto:
+            </label>
             <select
               class="filter-select"
               [(ngModel)]="filtroEstadoProyecto"
               (change)="onFiltroCambio()"
+              style="
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+              "
             >
               <option value="">Todos</option>
               <option value="PENDIENTE">Pendiente</option>
@@ -314,11 +431,27 @@
           </div>
 
           <div class="filter-group">
-            <label>Estado Asesor:</label>
+            <label
+              style="
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+                display: block;
+                font-size: 0.875rem;
+              "
+            >
+              Estado Asesor:
+            </label>
             <select
               class="filter-select"
               [(ngModel)]="filtroEstadoAsesor"
               (change)="onFiltroCambio()"
+              style="
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+              "
             >
               <option value="">Todos</option>
               <option value="PROPUESTO">Propuesto</option>
@@ -328,7 +461,26 @@
             </select>
           </div>
 
-          <button class="btn-clear-filters" (click)="limpiarFiltros()">
+          <button
+            class="btn-clear-filters"
+            (click)="limpiarFiltros()"
+            style="
+              background: linear-gradient(135deg, #ef4444, #dc2626);
+              color: white;
+              border: none;
+              border-radius: 8px;
+              padding: 0.625rem 1.25rem;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.2s;
+              box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            "
+            onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 10px rgba(239, 68, 68, 0.4)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 6px rgba(239, 68, 68, 0.3)'"
+          >
             <svg
               width="16"
               height="16"
@@ -503,6 +655,1527 @@
           }
         </div>
       </section>
+
+      <!-- Tesis Finales Section -->
+      <section class="projects-section" style="margin-top: 3rem">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+          "
+        >
+          <div class="header-left">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  style="display: block"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="section-title"
+                  style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700"
+                >
+                  Tesis Finales por Revisar
+                </h3>
+                <p
+                  class="section-subtitle"
+                  style="color: rgba(255, 255, 255, 0.9); margin: 0.25rem 0 0 0; font-size: 0.95rem"
+                >
+                  Gestiona las resoluciones y programación de sustentaciones
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        @if (tesisPendientesResolucion.length === 0) {
+        <div
+          class="empty-state"
+          style="
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 16px;
+            border: 2px dashed #e5e7eb;
+          "
+        >
+          <div class="empty-icon" style="color: #9ca3af; margin-bottom: 1.5rem">
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <h4 style="font-size: 1.25rem; font-weight: 600; color: #374151; margin: 0 0 0.5rem 0">
+            Sin tesis pendientes
+          </h4>
+          <p style="color: #6b7280; margin: 0">No hay tesis finales que requieran revisión</p>
+        </div>
+        }
+
+        <div
+          class="projects-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+          "
+        >
+          @for (t of tesisPendientesResolucion; track t.id_tesis) {
+          <div
+            class="project-card"
+            style="
+              background: white;
+              border-radius: 16px;
+              padding: 1.5rem;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+              border: 1px solid #e5e7eb;
+              transition: transform 0.2s, box-shadow 0.2s;
+            "
+          >
+            <!-- Badge Estado -->
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+              "
+            >
+              <span
+                style="
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                  color: #6b7280;
+                  background: #f3f4f6;
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 1rem;
+                "
+              >
+                ID: {{ t.id_proyecto }}
+              </span>
+              <span
+                class="badge"
+                [style.background]="t.numero_resolucion ? '#dcfce7' : '#fef3c7'"
+                [style.color]="t.numero_resolucion ? '#166534' : '#92400e'"
+                style="
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 1rem;
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                "
+              >
+                {{ t.numero_resolucion ? 'RESOLUCIÓN GENERADA' : 'PENDIENTE RESOLUCIÓN' }}
+              </span>
+            </div>
+
+            <h4
+              class="project-title"
+              style="
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #111827;
+                margin: 0 0 1rem 0;
+                line-height: 1.5;
+              "
+            >
+              {{ t.titulo }}
+            </h4>
+
+            <div
+              class="project-meta"
+              style="border-top: 1px solid #f3f4f6; padding-top: 1rem; margin-top: 1rem"
+            >
+              <div
+                class="meta-item"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  color: #4b5563;
+                  font-size: 0.875rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span style="font-weight: 500">{{ t.estudiante }}</span>
+              </div>
+              <div
+                class="meta-item"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  color: #6b7280;
+                  font-size: 0.875rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span>Código: {{ t.codigo }}</span>
+              </div>
+            </div>
+
+            @if (t.numero_resolucion) {
+            <div
+              style="
+                background: #f0fdf4;
+                border: 1px solid #bbf7d0;
+                border-radius: 8px;
+                padding: 0.75rem;
+                margin-top: 1rem;
+              "
+            >
+              <p style="color: #166534; font-size: 0.875rem; margin: 0; font-weight: 500">
+                Resolución: {{ t.numero_resolucion }}
+              </p>
+            </div>
+            }
+
+            <div
+              class="card-actions"
+              style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem"
+            >
+              <button
+                class="btn-secondary"
+                (click)="verPDF(t.ruta_pdf)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  border: 1px solid #d1d5db;
+                  background: white;
+                  border-radius: 8px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver PDF
+              </button>
+
+              @if (t.ruta_resolucion) {
+              <button
+                class="btn-secondary"
+                (click)="verResolucion(t.ruta_resolucion)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  border: 1px solid #d1d5db;
+                  background: white;
+                  border-radius: 8px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+                Ver Resolución
+              </button>
+              } @if (!t.numero_resolucion) {
+              <button
+                class="btn-primary"
+                (click)="generarResolucion(t.id_proyecto)"
+                [disabled]="generandoResolucion[t.id_proyecto]"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #2563eb;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                {{ generandoResolucion[t.id_proyecto] ? 'Generando...' : 'Generar Resolución' }}
+              </button>
+              } @if (t.numero_resolucion && !t.id_sustentacion) {
+              <button
+                class="btn-primary"
+                (click)="abrirModalProgramacion(t)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #f59e0b;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                Programar Sustentación
+              </button>
+              } @if (t.id_sustentacion && !t.dictamen && t.estado_sustentacion !== 'CANCELADA') {
+              <button
+                class="btn-primary"
+                (click)="abrirModalResultado(t)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #6366f1;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                Registrar Resultado
+              </button>
+              } @if (t.dictamen && !t.id_acta) {
+              <button
+                class="btn-success"
+                (click)="generarActa(t.id_sustentacion)"
+                [disabled]="generandoActa[t.id_sustentacion]"
+              >
+                {{ generandoActa[t.id_sustentacion] ? 'Generando...' : 'Generar Acta' }}
+              </button>
+              } @if (t.id_acta) {
+              <button
+                class="btn-secondary"
+                (click)="verActa(t.ruta_acta)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+                Ver Acta
+              </button>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+
+      <!-- Modal Programar Sustentación -->
+      @if (showModalProgramacion) {
+      <div class="modal-overlay" (click)="cerrarModalProgramacion()">
+        <div class="modal-container modal-small" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Programar Sustentación</h2>
+            <button class="modal-close" (click)="cerrarModalProgramacion()">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          @if (tesisSeleccionadaSustentacion) {
+          <div class="modal-body">
+            <div class="tesis-info">
+              <p class="tesis-title">{{ tesisSeleccionadaSustentacion.titulo }}</p>
+              <p class="tesis-student">{{ tesisSeleccionadaSustentacion.estudiante }}</p>
+            </div>
+
+            <form (ngSubmit)="programarSustentacion()">
+              <div class="form-group">
+                <label for="fecha_hora_sus">Fecha y Hora <span class="required">*</span></label>
+                <input
+                  type="datetime-local"
+                  id="fecha_hora_sus"
+                  [(ngModel)]="formSustentacion.fecha_hora"
+                  name="fecha_hora_sus"
+                  class="form-control"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="modalidad_sus">Modalidad <span class="required">*</span></label>
+                <select
+                  id="modalidad_sus"
+                  [(ngModel)]="formSustentacion.modalidad"
+                  name="modalidad_sus"
+                  class="form-control"
+                  required
+                >
+                  <option value="PRESENCIAL">Presencial</option>
+                  <option value="VIRTUAL">Virtual</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lugar_sus">Lugar</label>
+                <input
+                  type="text"
+                  id="lugar_sus"
+                  [(ngModel)]="formSustentacion.lugar"
+                  name="lugar_sus"
+                  class="form-control"
+                  placeholder="Ej: Auditorio Principal, Enlace Zoom, etc."
+                />
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  (click)="cerrarModalProgramacion()"
+                  [disabled]="programandoSustentacion"
+                >
+                  Cancelar
+                </button>
+                <button type="submit" class="btn-primary" [disabled]="programandoSustentacion">
+                  @if (programandoSustentacion) {
+                  <div class="spinner-small"></div>
+                  }
+                  {{ programandoSustentacion ? 'Programando...' : 'Confirmar Programación' }}
+                </button>
+              </div>
+            </form>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Modal Registrar Resultado -->
+      @if (showModalResultado) {
+      <div class="modal-overlay" (click)="cerrarModalResultado()">
+        <div class="modal-container modal-small" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h2>Registrar Resultado de Sustentación</h2>
+            <button class="modal-close" (click)="cerrarModalResultado()">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          @if (tesisSeleccionadaSustentacion) {
+          <div class="modal-body">
+            <div class="tesis-info">
+              <p class="tesis-title">{{ tesisSeleccionadaSustentacion.titulo }}</p>
+              <p class="tesis-student">{{ tesisSeleccionadaSustentacion.estudiante }}</p>
+            </div>
+
+            <form (ngSubmit)="registrarResultado()">
+              <div class="form-group">
+                <label for="dictamen_res">Dictamen <span class="required">*</span></label>
+                <select
+                  id="dictamen_res"
+                  [(ngModel)]="formResultado.dictamen"
+                  name="dictamen_res"
+                  class="form-control"
+                  required
+                >
+                  <option value="APROBADO">APROBADO</option>
+                  <option value="DESAPROBADO">DESAPROBADO</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="nota_res">Nota (0-20)</label>
+                <input
+                  type="number"
+                  id="nota_res"
+                  [(ngModel)]="formResultado.nota"
+                  name="nota_res"
+                  class="form-control"
+                  min="0"
+                  max="20"
+                  placeholder="Ingrese nota final"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="observaciones_res">Observaciones</label>
+                <textarea
+                  id="observaciones_res"
+                  [(ngModel)]="formResultado.observaciones"
+                  name="observaciones_res"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Observaciones adicionales..."
+                ></textarea>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn-secondary"
+                  (click)="cerrarModalResultado()"
+                  [disabled]="registrandoResultado"
+                >
+                  Cancelar
+                </button>
+                <button type="submit" class="btn-primary" [disabled]="registrandoResultado">
+                  @if (registrandoResultado) {
+                  <div class="spinner-small"></div>
+                  }
+                  {{ registrandoResultado ? 'Registrando...' : 'Guardar Resultado' }}
+                </button>
+              </div>
+            </form>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      <!-- Proyectos Aprobados por Jurados (Pendientes de Dictamen) -->
+      @if (proyectosAprobadosJurados.length > 0) {
+      <section class="projects-section" style="margin-top: 2rem">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+          "
+        >
+          <div class="header-left">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  style="display: block"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="section-title"
+                  style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700"
+                >
+                  Proyectos Aprobados por Jurados
+                </h3>
+                <p
+                  class="section-subtitle"
+                  style="color: rgba(255, 255, 255, 0.9); margin: 0.25rem 0 0 0; font-size: 0.95rem"
+                >
+                  Emitir dictamen para autorizar la presentación del borrador de tesis
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          @for (proyecto of proyectosAprobadosJurados; track proyecto.id_proyecto) {
+          <div
+            class="project-card"
+            style="
+              border: 2px solid #10b981;
+              background: linear-gradient(to bottom right, #ffffff, #f0fdf4);
+              position: relative;
+              overflow: hidden;
+            "
+          >
+            <!-- Decorative corner -->
+            <div
+              style="
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100px;
+                height: 100px;
+                background: linear-gradient(135deg, #10b981, #059669);
+                opacity: 0.1;
+                border-radius: 0 0 0 100%;
+              "
+            ></div>
+
+            <div class="card-header" style="position: relative; z-index: 1">
+              <div
+                class="project-badge"
+                style="
+                  background: linear-gradient(135deg, #10b981, #059669);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+                "
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  style="display: inline-block; margin-right: 0.5rem; vertical-align: middle"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                </svg>
+                <span class="badge-text" style="vertical-align: middle"
+                  >ID: {{ proyecto.id_proyecto }}</span
+                >
+              </div>
+              <span
+                class="badge"
+                style="
+                  background: linear-gradient(135deg, #10b981, #059669);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  font-size: 0.75rem;
+                  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+                "
+              >
+                ? APROBADO POR JURADOS
+              </span>
+            </div>
+
+            <h4
+              class="project-title"
+              style="
+                color: #065f46;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 1.25rem 0;
+                line-height: 1.4;
+              "
+            >
+              {{ proyecto.titulo }}
+            </h4>
+
+            <!-- Info Cards -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0">
+              <div
+                style="
+                  background: white;
+                  border-left: 4px solid #10b981;
+                  padding: 0.875rem;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 0.75rem">
+                  <div
+                    style="
+                      background: linear-gradient(135deg, #10b981, #059669);
+                      padding: 0.5rem;
+                      border-radius: 8px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                        font-weight: 500;
+                        margin-bottom: 0.125rem;
+                      "
+                    >
+                      Estudiante
+                    </div>
+                    <div style="font-weight: 600; color: #065f46">
+                      {{ proyecto.nombre_estudiante }}
+                    </div>
+                    @if (proyecto.codigo_estudiante) {
+                    <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.125rem">
+                      Código: {{ proyecto.codigo_estudiante }}
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              @if (proyecto.nombre_asesor) {
+              <div
+                style="
+                  background: white;
+                  border-left: 4px solid #3b82f6;
+                  padding: 0.875rem;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 0.75rem">
+                  <div
+                    style="
+                      background: linear-gradient(135deg, #3b82f6, #2563eb);
+                      padding: 0.5rem;
+                      border-radius: 8px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                        font-weight: 500;
+                        margin-bottom: 0.125rem;
+                      "
+                    >
+                      Asesor
+                    </div>
+                    <div style="font-weight: 600; color: #1e40af">{{ proyecto.nombre_asesor }}</div>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="card-actions" style="margin-top: 1.5rem">
+              <button
+                class="btn-success"
+                (click)="emitirDictamen(proyecto)"
+                style="
+                  width: 100%;
+                  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                  color: white;
+                  padding: 1rem 1.5rem;
+                  border: none;
+                  border-radius: 12px;
+                  font-weight: 600;
+                  font-size: 1rem;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 0.75rem;
+                "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.4)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <polyline points="9 15 12 12 15 15" />
+                  <line x1="12" y1="12" x2="12" y2="19" />
+                </svg>
+                <span>Emitir Dictamen y Aprobar</span>
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+      }
+
+      <!-- Borradores Pendientes de Validación de Formato -->
+      @if (borradoresPendientes.length > 0) {
+      <section class="projects-section" style="margin-top: 2rem">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+          "
+        >
+          <div class="header-left">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                >
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+              </div>
+              <h3 style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700">
+                Borradores Pendientes de Validación
+              </h3>
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.9); margin: 0; font-size: 0.95rem">
+              Revisa y valida el formato de los borradores enviados por estudiantes
+            </p>
+          </div>
+        </div>
+
+        <!-- Lista de Borradores -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+            gap: 1.5rem;
+          "
+        >
+          @for (borrador of borradoresPendientes; track borrador.id_borrador) {
+          <div
+            style="
+              background: white;
+              border-radius: 16px;
+              padding: 2rem;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+              border-left: 6px solid #8b5cf6;
+              transition: all 0.3s ease;
+            "
+            onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 25px rgba(139, 92, 246, 0.15)'"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.08)'"
+          >
+            <!-- Header con iteración -->
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: start;
+                margin-bottom: 1.5rem;
+              "
+            >
+              <div
+                style="
+                  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                  color: white;
+                  padding: 0.5rem 1.25rem;
+                  border-radius: 10px;
+                  font-weight: 700;
+                  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+                Versión #{{ borrador.numero_iteracion }}
+              </div>
+              <span
+                style="
+                  background: linear-gradient(135deg, #f59e0b, #d97706);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  font-size: 0.8125rem;
+                  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+                "
+              >
+                PENDIENTE
+              </span>
+            </div>
+
+            <!-- Título proyecto -->
+            <h4
+              style="
+                color: #1f2937;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 0 0 1.25rem 0;
+                line-height: 1.4;
+              "
+            >
+              {{ borrador.titulo }}
+            </h4>
+
+            <!-- Información del estudiante y fecha -->
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  padding: 1rem;
+                  background: linear-gradient(to right, #f9fafb, #f3f4f6);
+                  border-radius: 12px;
+                "
+              >
+                <div
+                  style="
+                    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                    padding: 0.75rem;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="2"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 0.75rem;
+                      color: #6b7280;
+                      font-weight: 500;
+                      margin-bottom: 0.125rem;
+                    "
+                  >
+                    Estudiante
+                  </div>
+                  <div style="font-weight: 60; color: #7c3aed">
+                    {{ borrador.nombre_estudiante }} ({{ borrador.codigo_estudiante }})
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 1rem;
+                  padding: 1rem;
+                  background: linear-gradient(to right, #f9fafb, #f3f4f6);
+                  border-radius: 12px;
+                "
+              >
+                <div
+                  style="
+                    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                    padding: 0.75rem;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 0.75rem;
+                      color: #6b7280;
+                      font-weight: 500;
+                      margin-bottom: 0.125rem;
+                    "
+                  >
+                    Fecha de Subida
+                  </div>
+                  <div style="font-weight: 600; color: #7c3aed">
+                    {{ borrador.fecha_subida | date : 'dd/MM/yyyy - HH:mm' }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div style="display: flex; flex-direction: column; gap: 1rem">
+              <!-- Botón Ver PDF -->
+              <a
+                href="http://localhost:3000/uploads/borradores/{{ borrador.ruta_pdf }}"
+                target="_blank"
+                style="
+                  background: linear-gradient(135deg, #3b82f6, #2563eb);
+                  color: white;
+                  padding: 1rem 1.5rem;
+                  border: none;
+                  border-radius: 12px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 0.5rem;
+                  text-decoration: none;
+                "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.4)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59, 130, 246, 0.3)'"
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver Documento PDF
+              </a>
+
+              <!-- Botones Aprobar/Rechazar -->
+              <div style="display: flex; gap: 1rem">
+                <button
+                  (click)="validarFormatoBorrador(borrador, true)"
+                  style="
+                    flex: 1;
+                    background: linear-gradient(135deg, #10b981, #059669);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border: none;
+                    border-radius: 12px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                  "
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.4)'"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                  Aprobar Formato
+                </button>
+                <button
+                  (click)="validarFormatoBorrador(borrador, false)"
+                  style="
+                    flex: 1;
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border: none;
+                    border-radius: 12px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 0.5rem;
+                  "
+                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.4)'"
+                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.3)'"
+                >
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                  Rechazar
+                </button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+      }
+
+      <!-- Borradores Aprobados por Jurados (Pendientes de Dictamen) -->
+      @if (borradoresAprobadosJurados.length > 0) {
+      <section class="projects-section" style="margin-top: 2rem">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
+          "
+        >
+          <div class="header-left">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  style="display: block"
+                >
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="section-title"
+                  style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700"
+                >
+                  Borradores Aprobados por Jurados
+                </h3>
+                <p
+                  class="section-subtitle"
+                  style="color: rgba(255, 255, 255, 0.9); margin: 0.25rem 0 0 0; font-size: 0.95rem"
+                >
+                  Emitir dictamen final para autorizar la programación de sustentación
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="projects-grid">
+          @for (borrador of borradoresAprobadosJurados; track borrador.id_borrador) {
+          <div
+            class="project-card"
+            style="
+              border: 2px solid #8b5cf6;
+              background: linear-gradient(to bottom right, #ffffff, #faf5ff);
+              position: relative;
+              overflow: hidden;
+            "
+          >
+            <!-- Decorative corner -->
+            <div
+              style="
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 100px;
+                height: 100px;
+                background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                opacity: 0.1;
+                border-radius: 0 0 0 100%;
+              "
+            ></div>
+
+            <div class="card-header" style="position: relative; z-index: 1">
+              <div
+                class="project-badge"
+                style="
+                  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+                "
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  style="display: inline-block; margin-right: 0.5rem; vertical-align: middle"
+                >
+                  <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                  <polyline points="13 2 13 9 20 9" />
+                </svg>
+                <span class="badge-text" style="vertical-align: middle"
+                  >Borrador #{{ borrador.numero_iteracion }}</span
+                >
+              </div>
+              <span
+                class="badge"
+                style="
+                  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                  color: white;
+                  padding: 0.5rem 1rem;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  font-size: 0.75rem;
+                  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+                "
+              >
+                ? APROBADO POR JURADOS
+              </span>
+            </div>
+
+            <h4
+              class="project-title"
+              style="
+                color: #5b21b6;
+                font-size: 1.25rem;
+                font-weight: 700;
+                margin: 1.25rem 0;
+                line-height: 1.4;
+              "
+            >
+              {{ borrador.titulo }}
+            </h4>
+
+            <!-- Info Cards -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0">
+              <div
+                style="
+                  background: white;
+                  border-left: 4px solid #8b5cf6;
+                  padding: 0.875rem;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 0.75rem">
+                  <div
+                    style="
+                      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                      padding: 0.5rem;
+                      border-radius: 8px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path d="M20 21v-2 a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                        font-weight: 500;
+                        margin-bottom: 0.125rem;
+                      "
+                    >
+                      Estudiante
+                    </div>
+                    <div style="font-weight: 600; color: #5b21b6">
+                      {{ borrador.nombre_estudiante }}
+                    </div>
+                    @if (borrador.codigo_estudiante) {
+                    <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.125rem">
+                      Código: {{ borrador.codigo_estudiante }}
+                    </div>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              @if (borrador.nombre_asesor) {
+              <div
+                style="
+                  background: white;
+                  border-left: 4px solid #3b82f6;
+                  padding: 0.875rem;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 0.75rem">
+                  <div
+                    style="
+                      background: linear-gradient(135deg, #3b82f6, #2563eb);
+                      padding: 0.5rem;
+                      border-radius: 8px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                    "
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div
+                      style="
+                        font-size: 0.75rem;
+                        color: #6b7280;
+                        font-weight: 500;
+                        margin-bottom: 0.125rem;
+                      "
+                    >
+                      Asesor
+                    </div>
+                    <div style="font-weight: 600; color: #1e40af">{{ borrador.nombre_asesor }}</div>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+
+            <div class="card-actions" style="margin-top: 1.5rem">
+              <button
+                class="btn-success"
+                (click)="emitirDictamenBorrador(borrador)"
+                style="
+                  width: 100%;
+                  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+                  color: white;
+                  padding: 1rem 1.5rem;
+                  border: none;
+                  border-radius: 12px;
+                  font-weight: 600;
+                  font-size: 1rem;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 0.75rem;
+                "
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(139, 92, 246, 0.4)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(139, 92, 246, 0.3)'"
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <polyline points="9 15 12 12 15 15" />
+                  <line x1="12" y1="12" x2="12" y2="19" />
+                </svg>
+                <span>Emitir Dictamen Final</span>
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+      }
     </div>
   </main>
 

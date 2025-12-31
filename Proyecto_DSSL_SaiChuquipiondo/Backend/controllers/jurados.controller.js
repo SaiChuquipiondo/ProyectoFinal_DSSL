@@ -187,6 +187,9 @@ const revisionJurado = async (req, res) => {
 // =========================================
 // LISTAR BORRADORES PENDIENTES PARA EL JURADO
 // =========================================
+// =========================================
+// LISTAR BORRADORES PENDIENTES PARA EL JURADO
+// =========================================
 const borradoresPendientesJurado = async (req, res) => {
   try {
     const { rol, id_docente } = req.user;
@@ -198,8 +201,8 @@ const borradoresPendientesJurado = async (req, res) => {
 
     const [rows] = await pool.query(
       `
-      SELECT b.id_borrador, b.numero_iteracion, b.estado, b.ruta_pdf,
-             p.titulo,
+      SELECT b.id_borrador, b.numero_iteracion, b.estado, b.ruta_pdf, p.id_proyecto,
+             p.titulo, pj.rol_jurado,
              CONCAT(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) AS estudiante
       FROM tesis_borrador b
       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
@@ -207,6 +210,12 @@ const borradoresPendientesJurado = async (req, res) => {
       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
       JOIN persona per ON per.id_persona = e.id_persona
       WHERE pj.id_jurado = ?
+        AND b.estado = 'APROBADO_ASESOR'
+        AND NOT EXISTS (
+          SELECT 1 FROM revision_borrador_jurado r 
+          WHERE r.id_borrador = b.id_borrador 
+          AND r.id_jurado = pj.id_jurado
+        )
       ORDER BY b.fecha_subida DESC
       `,
       [id_docente]
@@ -265,6 +274,16 @@ const revisarBorradorJurado = async (req, res) => {
     if (valJur.length === 0)
       return res.status(403).json({ message: "No estás asignado como jurado" });
 
+    // Verificar si ya revisó
+    const [yaReviso] = await pool.query(
+      `SELECT 1 FROM revision_borrador_jurado WHERE id_borrador=? AND id_jurado=?`,
+      [id_borrador, id_docente]
+    );
+
+    if (yaReviso.length > 0) {
+      return res.status(400).json({ message: "Ya has revisado este borrador" });
+    }
+
     // Registrar revisión
     await pool.query(
       `
@@ -275,123 +294,97 @@ const revisarBorradorJurado = async (req, res) => {
       [id_borrador, id_docente, estado_revision, comentarios || null]
     );
 
-    // =========================
-    // SI EL JURADO OBSERVA
-    // =========================
-    if (estado_revision === "OBSERVADO") {
-      // Notificar estudiante
-      const [usrEst] = await pool.query(
-        `
-        SELECT u.id_usuario
-        FROM usuario u JOIN estudiante e ON e.id_persona=u.id_persona
-        WHERE e.id_estudiante=?
-        `,
-        [id_estudiante]
-      );
-
-      await notificar(
-        usrEst[0].id_usuario,
-        "Observación de jurado",
-        `Un jurado observó el borrador de la tesis "${titulo}".`
-      );
-
-      // Notificar asesor
-      const [asesorUsr] = await pool.query(
-        `
-        SELECT u.id_usuario
-        FROM proyecto_tesis p
-        JOIN docente d ON d.id_docente = p.id_asesor
-        JOIN usuario u ON u.id_persona = d.id_persona
-        WHERE p.id_proyecto = ?
-        `,
-        [id_proyecto]
-      );
-
-      await notificar(
-        asesorUsr[0].id_usuario,
-        "Observación de jurado",
-        `Un jurado observó el borrador de la tesis "${titulo}".`
-      );
-
-      // Actualizar estado del borrador
-      await pool.query(
-        `UPDATE tesis_borrador SET estado='OBSERVADO' WHERE id_borrador=?`,
-        [id_borrador]
-      );
-
-      return res.json({ message: "Observación registrada correctamente" });
-    }
-
-    // =========================
-    // SI EL JURADO APRUEBA
-    // =========================
-    if (estado_revision === "APROBADO") {
-      // Revisar si TODOS los jurados ya aprobaron este borrador
-      const [revisiones] = await pool.query(
-        `
-        SELECT estado_revision 
+    // Verificar cuántos jurados han revisado
+    const [revisiones] = await pool.query(
+      `SELECT estado_revision 
         FROM revision_borrador_jurado
-        WHERE id_borrador = ?
-        `,
-        [id_borrador]
-      );
+        WHERE id_borrador = ?`,
+      [id_borrador]
+    );
 
-      const aprobados = revisiones.filter(
-        (r) => r.estado_revision === "APROBADO"
-      ).length;
+    // Cantidad total de jurados asignados
+    const [totalJur] = await pool.query(
+      `SELECT COUNT(*) AS total FROM proyecto_jurado WHERE id_proyecto=?`,
+      [id_proyecto]
+    );
 
-      // Cantidad total de jurados asignados
-      const [totalJur] = await pool.query(
-        `SELECT COUNT(*) AS total FROM proyecto_jurado WHERE id_proyecto=?`,
-        [id_proyecto]
-      );
+    const total = totalJur[0].total;
 
-      const total = totalJur[0].total;
-
-      // SI NO TODOS APRUEBAN todavía
-      if (aprobados < total) {
-        return res.json({
-          message: "Aprobado por este jurado. Esperando revisiones restantes.",
-        });
-      }
-
-      // SI TODOS LOS JURADOS APRUEBAN → BORRADOR APROBADO
-      await pool.query(
-        `UPDATE tesis_borrador SET estado='APROBADO_JURADOS' WHERE id_borrador=?`,
-        [id_borrador]
-      );
-
-      // Notificar estudiante
-      const [usrEst] = await pool.query(
-        `
-        SELECT u.id_usuario
-        FROM usuario u JOIN estudiante e ON e.id_persona=u.id_persona
-        WHERE e.id_estudiante=?
-        `,
-        [id_estudiante]
-      );
-
-      await notificar(
-        usrEst[0].id_usuario,
-        "Borrador aprobado",
-        `Todos los jurados aprobaron el borrador de la tesis "${titulo}".`
-      );
-
-      // Notificar coordinación
-      const [coord] = await pool.query(
-        `SELECT id_usuario FROM usuario WHERE id_rol = 3`
-      );
-
-      for (const c of coord) {
-        await notificar(
-          c.id_usuario,
-          "Borrador aprobado por jurados",
-          `El borrador de la tesis "${titulo}" ha sido aprobado por todos los jurados.`
-        );
-      }
-
-      return res.json({ message: "Borrador aprobado por todos los jurados" });
+    // Si aún faltan revisiones, esperar a que todos revisen
+    if (revisiones.length < total) {
+      return res.json({
+        message:
+          "Revisión registrada. Esperando a que los demás jurados revisen.",
+      });
     }
+
+    // Los 3 jurados ya revisaron - calcular mayoría
+    const aprobados = revisiones.filter(
+      (r) => r.estado_revision === "APROBADO"
+    ).length;
+
+    const observados = revisiones.filter(
+      (r) => r.estado_revision === "OBSERVADO"
+    ).length;
+
+    let nuevoEstado = "";
+    let mensajeEstudiante = "";
+    let mensajeCoord = "";
+
+    // Determinar resultado por mayoría
+    if (aprobados >= 2) {
+      nuevoEstado = "APROBADO_JURADOS";
+      mensajeEstudiante = `Tu borrador de tesis "${titulo}" ha sido aprobado por la mayoría de los jurados (${aprobados} de ${total}).`;
+      mensajeCoord = `El borrador de la tesis "${titulo}" ha sido aprobado por la mayoría de los jurados (${aprobados} de ${total}).`;
+    } else {
+      nuevoEstado = "OBSERVADO_JURADOS";
+      mensajeEstudiante = `Tu borrador de tesis "${titulo}" ha sido observado por la mayoría de los jurados (${observados} de ${total}). Revisa los comentarios y vuelve a enviar.`;
+      mensajeCoord = `El borrador de la tesis "${titulo}" ha sido observado por la mayoría de los jurados (${observados} de ${total}).`;
+    }
+
+    // Actualizar estado del borrador
+    await pool.query(`UPDATE tesis_borrador SET estado=? WHERE id_borrador=?`, [
+      nuevoEstado,
+      id_borrador,
+    ]);
+
+    // Notificar estudiante
+    const [usrEst] = await pool.query(
+      `SELECT u.id_usuario
+        FROM usuario u JOIN estudiante e ON e.id_persona=u.id_persona
+        WHERE e.id_estudiante=?`,
+      [id_estudiante]
+    );
+
+    await notificar(
+      usrEst[0].id_usuario,
+      nuevoEstado === "APROBADO_JURADOS"
+        ? "Borrador aprobado por jurados"
+        : "Borrador observado por jurados",
+      mensajeEstudiante
+    );
+
+    // Notificar coordinación
+    const [coord] = await pool.query(
+      `SELECT id_usuario FROM usuario WHERE id_rol = 3`
+    );
+
+    for (const c of coord) {
+      await notificar(
+        c.id_usuario,
+        nuevoEstado === "APROBADO_JURADOS"
+          ? "Borrador aprobado por jurados"
+          : "Borrador observado por jurados",
+        mensajeCoord
+      );
+    }
+
+    return res.json({
+      message:
+        nuevoEstado === "APROBADO_JURADOS"
+          ? "Borrador aprobado por mayoría de jurados"
+          : "Borrador observado por mayoría de jurados",
+    });
   } catch (err) {
     console.error("ERROR revisarBorradorJurado:", err);
     res.status(500).json({ message: "Error interno" });

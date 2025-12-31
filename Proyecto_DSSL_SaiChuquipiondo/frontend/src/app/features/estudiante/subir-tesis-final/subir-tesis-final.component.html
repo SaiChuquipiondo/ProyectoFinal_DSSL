@@ -1,0 +1,158 @@
+<div class="page-container">
+  <!-- Sidebar -->
+  <app-estudiante-sidebar></app-estudiante-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <div>
+        <h1>Subir Tesis Final</h1>
+        <p class="breadcrumb">Inicio / Subir Tesis Final</p>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <div class="form-container">
+        <div
+          class="form-header"
+          style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)"
+        >
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#7c3aed"
+            stroke-width="2"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <path d="M12 18v-6M9 15l3 3 3-3" />
+          </svg>
+          <h2 style="color: #7c3aed">Subir Tesis Final para Sustentación</h2>
+          <p style="color: #6d28d9">
+            Tu borrador ha sido aprobado por los jurados. Sube tu tesis final para continuar con el
+            proceso.
+          </p>
+        </div>
+
+        <!-- Información del Proyecto -->
+        @if (proyectoInfo) {
+        <div style="padding: 2rem; background: #f0fdf4; border-bottom: 1px solid #d1fae5">
+          <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#047857"
+              stroke-width="2"
+            >
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+            <h3 style="color: #047857; font-size: 1.125rem; margin: 0">Proyecto Aprobado</h3>
+          </div>
+          <div
+            style="
+              background: white;
+              padding: 1.25rem;
+              border-radius: 8px;
+              border: 2px solid #047857;
+            "
+          >
+            <p style="font-weight: 700; color: #1f2937; margin-bottom: 0.5rem">
+              {{ proyectoInfo.titulo }}
+            </p>
+            <p style="font-size: 0.875rem; color: #6b7280">
+              Borrador versión #{{ proyectoInfo.numero_iteracion }} - Aprobado Final
+            </p>
+          </div>
+        </div>
+        }
+
+        <!-- Formulario de Subida -->
+        <form (ngSubmit)="onSubmit()" class="upload-form">
+          <!-- Archivo PDF -->
+          <div class="form-group">
+            <label for="pdf">
+              Archivo PDF de la Tesis Final
+              <span class="required">*</span>
+            </label>
+            <div class="file-upload-container">
+              <input
+                type="file"
+                id="pdf"
+                (change)="onFileSelected($event)"
+                accept=".pdf"
+                class="file-input"
+                required
+              />
+              <label for="pdf" class="file-label">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                @if (!selectedFile) {
+                <span>Seleccionar archivo PDF</span>
+                } @if (selectedFile) {
+                <span class="file-name">{{ selectedFile.name }}</span>
+                }
+              </label>
+            </div>
+            <p class="file-help">Formato: PDF | Tamaño máximo: 10MB</p>
+          </div>
+
+          <!-- Botones -->
+          <div class="form-actions">
+            <button
+              type="button"
+              routerLink="/estudiante/borradores"
+              class="btn-secondary"
+              [disabled]="isSubmitting"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="isSubmitting || !selectedFile"
+              style="background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)"
+            >
+              @if (isSubmitting) {
+              <div class="uploading">
+                <div class="spinner-small"></div>
+                <span>Subiendo...</span>
+              </div>
+              } @if (!isSubmitting) {
+              <div>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <span>Subir Tesis Final</span>
+              </div>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>

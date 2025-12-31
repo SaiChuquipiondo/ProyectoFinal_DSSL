@@ -6,16 +6,18 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { NotificacionService } from '../../../services/notificacion.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
+import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, EstudianteSidebarComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
   proyectos: any[] = [];
+  borradores: any[] = [];
   currentUser: any;
   
   // Notificaciones
@@ -45,10 +47,57 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Estadísticas
+  pendientes = 0;
+  completados = 0;
+
   loadData(): void {
+    // Usamos forkJoin para esperar a que ambas peticiones terminen antes de calcular estadísticas
+    // pero como no importé forkJoin, lo haré de forma encadenada o simple en el subscribe
+    
     this.estudianteService.getMisProyectos().subscribe({
-      next: (proyectos) => this.proyectos = proyectos,
+      next: (proyectos) => {
+        this.proyectos = proyectos;
+        this.calculateStats();
+      },
       error: (err) => console.error('Error loading proyectos', err)
+    });
+
+    this.estudianteService.getMisBorradores().subscribe({
+      next: (borradores) => {
+        this.borradores = borradores;
+        this.calculateStats();
+      },
+      error: (err) => console.error('Error loading borradores', err)
+    });
+  }
+
+  calculateStats(): void {
+    this.pendientes = 0;
+    this.completados = 0;
+
+    // Calcular Proyectos
+    this.proyectos.forEach(p => {
+      // Pendientes: Requieren acción del estudiante
+      if (['OBSERVADO_FORMATO', 'OBSERVADO_ASESOR', 'OBSERVADO_JURADOS', 'PENDIENTE'].includes(p.estado_proyecto)) {
+        this.pendientes++;
+      }
+      // Completados: Aprobados totalmente (Fase de proyecto terminada)
+      if (['APROBADO_FINAL', 'APROBADO_JURADOS'].includes(p.estado_proyecto)) {
+        this.completados++;
+      }
+    });
+
+    // Calcular Borradores
+    this.borradores.forEach(b => {
+      // Pendientes
+      if (['OBSERVADO', 'OBSERVADO_ASESOR', 'OBSERVADO_JURADOS', 'PENDIENTE'].includes(b.estado)) {
+        this.pendientes++;
+      }
+      // Completados
+      if (b.estado === 'APROBADO_FINAL') {
+        this.completados++;
+      }
     });
   }
 
@@ -94,26 +143,5 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getUserFullName(): string {
-    if (!this.currentUser) return 'Usuario';
-    const nombres = this.currentUser.nombres || '';
-    const apellido = this.currentUser.apellido_paterno || '';
-    return `${nombres} ${apellido}`.trim() || 'Usuario';
-  }
 
-  getUserRole(): string {
-    if (!this.currentUser) return '';
-    const rol = this.currentUser.rol;
-    if (rol === 'ESTUDIANTE') return 'Estudiante';
-    if (rol === 'ASESOR' || rol === 'JURADO') return 'Docente';
-    if (rol === 'COORDINACION') return 'Coordinador';
-    return rol;
-  }
-
-  logout(): void {
-    this.toastService.info('Sesión cerrada correctamente', 3000);
-    this.authService.logout();
-    this.websocketService.disconnect();
-    this.router.navigate(['/login']);
-  }
 }

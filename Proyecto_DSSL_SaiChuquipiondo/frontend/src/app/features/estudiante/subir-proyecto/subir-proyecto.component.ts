@@ -8,13 +8,14 @@ import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
 
 @Component({
   selector: 'app-subir-proyecto',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, EstudianteSidebarComponent],
   templateUrl: './subir-proyecto.component.html',
-  styleUrl: './subir-proyecto.component.css'
+  styleUrls: ['./subir-proyecto.component.css']
 })
 export class SubirProyectoComponent implements OnInit {
   proyectoForm: FormGroup;
@@ -241,26 +242,5 @@ export class SubirProyectoComponent implements OnInit {
     });
   }
 
-  getUserFullName(): string {
-    if (!this.currentUser) return 'Usuario';
-    const nombres = this.currentUser.nombres || '';
-    const apellido = this.currentUser.apellido_paterno || '';
-    return `${nombres} ${apellido}`.trim() || 'Usuario';
-  }
 
-  getUserRole(): string {
-    if (!this.currentUser) return '';
-    const rol = this.currentUser.rol;
-    if (rol === 'ESTUDIANTE') return 'Estudiante';
-    if (rol === 'ASESOR' || rol === 'JURADO') return 'Docente';
-    if (rol === 'COORDINACION') return 'Coordinador';
-    return rol;
-  }
-
-  logout(): void {
-    this.toastService.info('Sesión cerrada correctamente', 3000);
-    this.authService.logout();
-    this.websocketService.disconnect();
-    this.router.navigate(['/login']);
-  }
 }

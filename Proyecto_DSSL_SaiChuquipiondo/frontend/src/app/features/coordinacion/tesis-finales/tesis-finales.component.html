@@ -1,0 +1,598 @@
+<div class="university-dashboard" style="padding: 2rem">
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="content-wrapper">
+      <!-- Tesis Section -->
+      <section class="projects-section">
+        <div
+          class="section-header"
+          style="
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+          "
+        >
+          <div class="header-left">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem">
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.2);
+                  padding: 0.75rem;
+                  border-radius: 12px;
+                  backdrop-filter: blur(10px);
+                "
+              >
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                  style="display: block"
+                >
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="section-title"
+                  style="color: white; margin: 0; font-size: 1.5rem; font-weight: 700"
+                >
+                  Tesis Finales por Revisar
+                </h3>
+                <p
+                  class="section-subtitle"
+                  style="color: rgba(255, 255, 255, 0.9); margin: 0.25rem 0 0 0; font-size: 0.95rem"
+                >
+                  Gestiona las resoluciones y programación de sustentaciones
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtros (Visual por ahora, para coincidir con el diseño) -->
+        <div
+          class="filters-bar"
+          style="
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-end;
+          "
+        >
+          <div class="filter-group" style="flex: 1">
+            <label
+              style="
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+                display: block;
+                font-size: 0.875rem;
+              "
+              >Buscar:</label
+            >
+            <input
+              type="text"
+              placeholder="Nombre o título..."
+              style="
+                width: 100%;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+              "
+            />
+          </div>
+          <div class="filter-group" style="width: 200px">
+            <label
+              style="
+                font-weight: 600;
+                color: #374151;
+                margin-bottom: 0.5rem;
+                display: block;
+                font-size: 0.875rem;
+              "
+              >Estado:</label
+            >
+            <select
+              style="
+                width: 100%;
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 0.625rem 1rem;
+                font-size: 0.875rem;
+              "
+            >
+              <option>Todos</option>
+              <option>Pendiente Resolución</option>
+              <option>Con Resolución</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        @if (loading) {
+        <div class="loading-state" style="text-align: center; padding: 3rem">
+          <div class="spinner"></div>
+          <p style="color: #6b7280; margin-top: 1rem">Cargando tesis finales...</p>
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (!loading && tesis.length === 0) {
+        <div
+          class="empty-state"
+          style="
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 16px;
+            border: 2px dashed #e5e7eb;
+          "
+        >
+          <div class="empty-icon" style="color: #9ca3af; margin-bottom: 1.5rem">
+            <svg
+              width="64"
+              height="64"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <h4 style="font-size: 1.25rem; font-weight: 600; color: #374151; margin: 0 0 0.5rem 0">
+            Todo al día
+          </h4>
+          <p style="color: #6b7280; margin: 0">No hay tesis finales pendientes de gestión</p>
+        </div>
+        }
+
+        <!-- Lista de Tesis Grid -->
+        <div
+          class="projects-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+          "
+        >
+          @for (t of tesis; track t.id_tesis) {
+          <div
+            class="project-card"
+            style="
+              background: white;
+              border-radius: 16px;
+              padding: 1.5rem;
+              box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+              border: 1px solid #e5e7eb;
+              transition: transform 0.2s, box-shadow 0.2s;
+            "
+          >
+            <!-- Badge Estado -->
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+              "
+            >
+              <span
+                style="
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                  color: #6b7280;
+                  background: #f3f4f6;
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 1rem;
+                "
+              >
+                ID: {{ t.id_proyecto }}
+              </span>
+              <span
+                class="badge"
+                [style.background]="t.numero_resolucion ? '#dcfce7' : '#fef3c7'"
+                [style.color]="t.numero_resolucion ? '#166534' : '#92400e'"
+                style="
+                  padding: 0.25rem 0.75rem;
+                  border-radius: 1rem;
+                  font-size: 0.75rem;
+                  font-weight: 600;
+                "
+              >
+                {{ t.numero_resolucion ? 'RESOLUCIÓN GENERADA' : 'PENDIENTE RESOLUCIÓN' }}
+              </span>
+            </div>
+
+            <h4
+              class="project-title"
+              style="
+                font-size: 1.125rem;
+                font-weight: 700;
+                color: #111827;
+                margin: 0 0 1rem 0;
+                line-height: 1.5;
+              "
+            >
+              {{ t.titulo }}
+            </h4>
+
+            <div
+              class="project-meta"
+              style="border-top: 1px solid #f3f4f6; padding-top: 1rem; margin-top: 1rem"
+            >
+              <div
+                class="meta-item"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  color: #4b5563;
+                  font-size: 0.875rem;
+                  margin-bottom: 0.5rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span style="font-weight: 500">{{ t.estudiante }}</span>
+              </div>
+              <div
+                class="meta-item"
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                  color: #6b7280;
+                  font-size: 0.875rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" />
+                  <line x1="8" y1="2" x2="8" y2="6" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <span>Código: {{ t.codigo }}</span>
+              </div>
+            </div>
+
+            <!-- Resolution Info if exists -->
+            @if (t.numero_resolucion) {
+            <div
+              style="
+                background: #f0fdf4;
+                border: 1px solid #bbf7d0;
+                border-radius: 8px;
+                padding: 0.75rem;
+                margin-top: 1rem;
+              "
+            >
+              <p style="color: #166534; font-size: 0.875rem; margin: 0; font-weight: 500">
+                Resolución: {{ t.numero_resolucion }}
+              </p>
+            </div>
+            }
+
+            <!-- Actions -->
+            <div
+              class="card-actions"
+              style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem"
+            >
+              <button
+                class="btn-secondary"
+                (click)="verPDF(t.ruta_pdf)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  border: 1px solid #d1d5db;
+                  background: white;
+                  border-radius: 8px;
+                  font-weight: 500;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                Ver PDF
+              </button>
+
+              @if (!t.numero_resolucion) {
+              <button
+                class="btn-primary"
+                (click)="generarResolucion(t.id_proyecto)"
+                [disabled]="generandoResolucion[t.id_proyecto]"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #2563eb;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                {{ generandoResolucion[t.id_proyecto] ? 'Generando...' : 'Generar Resolución' }}
+              </button>
+              } @if (t.numero_resolucion && !t.id_sustentacion) {
+              <button
+                class="btn-primary"
+                (click)="abrirModalProgramacion(t)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #f59e0b;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                Programar Sustentación
+              </button>
+              } @if (t.id_sustentacion && !t.dictamen && t.estado_sustentacion !== 'CANCELADA') {
+              <button
+                class="btn-primary"
+                (click)="abrirModalResultado(t)"
+                style="
+                  width: 100%;
+                  justify-content: center;
+                  padding: 0.75rem;
+                  background: #6366f1;
+                  color: white;
+                  border: none;
+                  border-radius: 8px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  align-items: center;
+                  gap: 0.5rem;
+                "
+              >
+                Registrar Resultado
+              </button>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Modal Programar Sustentación -->
+@if (showModal) {
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Programar Sustentación</h2>
+      <button class="close-btn" (click)="cerrarModal()">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    @if (tesisSeleccionada) {
+    <div class="modal-body">
+      <div class="tesis-info">
+        <p class="tesis-title">{{ tesisSeleccionada.titulo }}</p>
+        <p class="tesis-student">{{ tesisSeleccionada.estudiante }}</p>
+      </div>
+
+      <form (ngSubmit)="programarSustentacion()">
+        <div class="form-group">
+          <label for="fecha_hora">Fecha y Hora <span class="required">*</span></label>
+          <input
+            type="datetime-local"
+            id="fecha_hora"
+            [(ngModel)]="formSustentacion.fecha_hora"
+            name="fecha_hora"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="modalidad">Modalidad <span class="required">*</span></label>
+          <select
+            id="modalidad"
+            [(ngModel)]="formSustentacion.modalidad"
+            name="modalidad"
+            class="form-control"
+            required
+          >
+            <option value="PRESENCIAL">Presencial</option>
+            <option value="VIRTUAL">Virtual</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="lugar">Lugar</label>
+          <input
+            type="text"
+            id="lugar"
+            [(ngModel)]="formSustentacion.lugar"
+            name="lugar"
+            class="form-control"
+            placeholder="Ej: Auditorio Principal, Enlace Zoom, etc."
+          />
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="cerrarModal()"
+            [disabled]="programandoSustentacion"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="programandoSustentacion">
+            @if (programandoSustentacion) {
+            <div class="spinner-small"></div>
+            }
+            {{ programandoSustentacion ? 'Programando...' : 'Confirmar Programación' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+  </div>
+</div>
+}
+
+<!-- Modal Registrar Resultado -->
+@if (showResultadoModal) {
+<div class="modal-overlay" (click)="cerrarModalResultado()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Registrar Resultado de Sustentación</h2>
+      <button class="close-btn" (click)="cerrarModalResultado()">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+    </div>
+
+    @if (tesisSeleccionada) {
+    <div class="modal-body">
+      <div class="tesis-info">
+        <p class="tesis-title">{{ tesisSeleccionada.titulo }}</p>
+        <p class="tesis-student">{{ tesisSeleccionada.estudiante }}</p>
+      </div>
+
+      <form (ngSubmit)="registrarResultado()">
+        <div class="form-group">
+          <label for="dictamen">Dictamen <span class="required">*</span></label>
+          <select
+            id="dictamen"
+            [(ngModel)]="formResultado.dictamen"
+            name="dictamen"
+            class="form-control"
+            required
+          >
+            <option value="APROBADO">APROBADO</option>
+            <option value="DESAPROBADO">DESAPROBADO</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="nota">Nota (0-20)</label>
+          <input
+            type="number"
+            id="nota"
+            [(ngModel)]="formResultado.nota"
+            name="nota"
+            class="form-control"
+            min="0"
+            max="20"
+            placeholder="Ingrese nota final"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="observaciones">Observaciones</label>
+          <textarea
+            id="observaciones"
+            [(ngModel)]="formResultado.observaciones"
+            name="observaciones"
+            class="form-control"
+            rows="3"
+            placeholder="Observaciones adicionales..."
+          ></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="cerrarModalResultado()"
+            [disabled]="registrandoResultado"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary" [disabled]="registrandoResultado">
+            @if (registrandoResultado) {
+            <div class="spinner-small"></div>
+            }
+            {{ registrandoResultado ? 'Registrando...' : 'Guardar Resultado' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    }
+  </div>
+</div>
+}

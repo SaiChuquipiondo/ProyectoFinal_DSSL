@@ -7,6 +7,7 @@ const {
   pendientesFormato,
   pendientesJurados,
   pendientesDictamen,
+  pendientesBorradoresFormato,
   validarAsesor,
   revisarFormato,
   asignarJurados,
@@ -16,6 +17,9 @@ const {
   getBorradoresPendientes,
   getSustentacionesProgramadas,
   getProyectoDetalles,
+  getProyectosAprobadosJurados,
+  dictamenFinalBorrador,
+  getBorradoresAprobadosJurados,
 } = require("../controllers/coordinacion.controller");
 
 const {
@@ -27,6 +31,12 @@ const {
 
 // ENDPOINTS PARA DASHBOARD
 router.get("/proyectos-pendientes", auth, getProyectosPendientes);
+router.get("/proyectos-aprobados-jurados", auth, getProyectosAprobadosJurados);
+router.get(
+  "/borradores-aprobados-jurados",
+  auth,
+  getBorradoresAprobadosJurados
+);
 router.get("/borradores-pendientes", auth, getBorradoresPendientes);
 router.get("/sustentaciones-programadas", auth, getSustentacionesProgramadas);
 router.get("/proyecto/detalles/:id_proyecto", auth, getProyectoDetalles);
@@ -36,6 +46,7 @@ router.get("/pendientes/asesor", auth, pendientesAsesor);
 router.get("/pendientes/formato", auth, pendientesFormato);
 router.get("/pendientes/jurados", auth, pendientesJurados);
 router.get("/pendientes/dictamen", auth, pendientesDictamen);
+router.get("/pendientes/borradores-formato", auth, pendientesBorradoresFormato);
 
 router.post("/proyecto/validar-asesor/:id_proyecto", auth, validarAsesor);
 router.post("/proyecto/revisar-formato/:id_proyecto", auth, revisarFormato);
@@ -43,6 +54,7 @@ router.post("/proyecto/asignar-jurados/:id_proyecto", auth, asignarJurados);
 router.post("/proyecto/dictamen/:id_proyecto", auth, dictamenFinal);
 
 router.post("/borrador/validar/:id_borrador", auth, validarFormatoBorrador);
+router.post("/borrador/dictamen/:id_borrador", auth, dictamenFinalBorrador);
 
 // ETAPA 3: PROGRAMAR SUSTENTACIÓN
 router.post(

@@ -86,6 +86,70 @@ const pendientesDictamen = async (req, res) => {
   }
 };
 
+// Borradores pendientes de validación de formato
+const pendientesBorradoresFormato = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        b.id_borrador,
+        b.numero_iteracion,
+        b.ruta_pdf,
+        b.fecha_subida,
+        b.estado,
+        p.id_proyecto,
+        p.titulo,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
+        e.codigo_estudiante
+      FROM tesis_borrador b
+      JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      WHERE b.estado = 'PENDIENTE'
+      ORDER BY b.fecha_subida ASC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR pendientesBorradoresFormato:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+// Proyectos aprobados por jurados (listos para dictamen)
+const getProyectosAprobadosJurados = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        p.id_proyecto,
+        p.titulo,
+        p.resumen,
+        p.fecha_subida,
+        p.estado_proyecto,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
+        e.codigo_estudiante,
+        CONCAT(perAsesor.nombres, ' ', perAsesor.apellido_paterno, ' ', perAsesor.apellido_materno) AS nombre_asesor
+      FROM proyecto_tesis p
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      LEFT JOIN docente d ON d.id_docente = p.id_asesor
+      LEFT JOIN persona perAsesor ON perAsesor.id_persona = d.id_persona
+      WHERE p.estado_proyecto = 'APROBADO_JURADOS'
+      ORDER BY p.fecha_subida DESC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR getProyectosAprobadosJurados:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
 // =============================
 // VALIDAR ASESOR (ETAPA 1)
 // =============================
@@ -356,19 +420,20 @@ const dictamenFinal = async (req, res) => {
 
     const { id_proyecto } = req.params;
 
-    const [rev] = await pool.query(
-      `SELECT estado_revision FROM revision_proyecto_jurado WHERE id_proyecto=?`,
+    // Verificar que el proyecto esté en estado APROBADO_JURADOS
+    // (Este estado ya significa que la mayoría de jurados aprobó - 2 de 3)
+    const [proyecto] = await pool.query(
+      `SELECT estado_proyecto FROM proyecto_tesis WHERE id_proyecto=?`,
       [id_proyecto]
     );
 
-    const aprobados = rev.filter(
-      (r) => r.estado_revision === "APROBADO"
-    ).length;
+    if (proyecto.length === 0)
+      return res.status(404).json({ message: "Proyecto no encontrado" });
 
-    if (aprobados < 3)
-      return res
-        .status(400)
-        .json({ message: "Aún falta aprobación de jurados" });
+    if (proyecto[0].estado_proyecto !== "APROBADO_JURADOS")
+      return res.status(400).json({
+        message: "El proyecto debe estar aprobado por los jurados primero",
+      });
 
     // Actualizar proyecto
     await pool.query(
@@ -397,9 +462,34 @@ const dictamenFinal = async (req, res) => {
 
     await notificar(
       usr[0].id_usuario,
-      "Proyecto aprobado",
-      `Tu proyecto "${titulo}" ha sido aprobado por unanimidad.`
+      "Proyecto aprobado - Puede subir borrador de tesis",
+      `¡Felicitaciones! Tu proyecto "${titulo}" ha sido aprobado por los jurados. Ahora puedes proceder a subir el borrador de tu tesis para revisión.`
     );
+
+    // Notificar al asesor
+    const [asesorInfo] = await pool.query(
+      `SELECT p.id_asesor
+       FROM proyecto_tesis p
+       WHERE p.id_proyecto=?`,
+      [id_proyecto]
+    );
+
+    if (asesorInfo.length > 0 && asesorInfo[0].id_asesor) {
+      const [usrAsesor] = await pool.query(
+        `SELECT u.id_usuario
+         FROM usuario u JOIN docente d ON d.id_persona=u.id_persona
+         WHERE d.id_docente=?`,
+        [asesorInfo[0].id_asesor]
+      );
+
+      if (usrAsesor.length > 0) {
+        await notificar(
+          usrAsesor[0].id_usuario,
+          "Proyecto aprobado - Borrador próximo",
+          `El proyecto "${titulo}" ha sido aprobado por los jurados. El estudiante procederá a enviar el borrador de tesis para tu revisión.`
+        );
+      }
+    }
 
     res.json({ message: "Proyecto aprobado" });
   } catch (err) {
@@ -460,6 +550,125 @@ const validarFormatoBorrador = async (req, res) => {
     res.json({ message: "Formato de borrador revisado" });
   } catch (err) {
     console.error("ERROR validarFormatoBorrador:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+// =============================
+// DICTAMEN FINAL BORRADOR (ETAPA 2)
+// =============================
+const dictamenFinalBorrador = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo coordinación" });
+
+    const { id_borrador } = req.params;
+
+    // Verificar que el borrador esté en estado APROBADO_JURADOS
+    const [borrador] = await pool.query(
+      `SELECT estado, id_proyecto FROM tesis_borrador WHERE id_borrador=?`,
+      [id_borrador]
+    );
+
+    if (borrador.length === 0)
+      return res.status(404).json({ message: "Borrador no encontrado" });
+
+    if (borrador[0].estado !== "APROBADO_JURADOS")
+      return res.status(400).json({
+        message: "El borrador debe estar aprobado por los jurados primero",
+      });
+
+    // Actualizar borrador a estado final
+    await pool.query(
+      `UPDATE tesis_borrador
+       SET estado='APROBADO_FINAL'
+       WHERE id_borrador=?`,
+      [id_borrador]
+    );
+
+    // Obtener información del proyecto y estudiante
+    const [info] = await pool.query(
+      `SELECT p.titulo, p.id_asesor, e.id_estudiante
+       FROM tesis_borrador b
+       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+       WHERE b.id_borrador=?`,
+      [id_borrador]
+    );
+
+    const { titulo, id_asesor, id_estudiante } = info[0];
+
+    // Notificar estudiante
+    const [usr] = await pool.query(
+      `SELECT u.id_usuario
+       FROM usuario u JOIN estudiante e ON e.id_persona=u.id_persona
+       WHERE e.id_estudiante=?`,
+      [id_estudiante]
+    );
+
+    await notificar(
+      usr[0].id_usuario,
+      "Borrador aprobado - Listo para sustentación",
+      `¡Felicitaciones! El borrador de tu tesis "${titulo}" ha sido aprobado por la coordinación. Se procedera con la programación de la sustentación.`
+    );
+
+    // Notificar al asesor
+    if (id_asesor) {
+      const [usrAsesor] = await pool.query(
+        `SELECT u.id_usuario
+         FROM usuario u JOIN docente d ON d.id_persona=u.id_persona
+         WHERE d.id_docente=?`,
+        [id_asesor]
+      );
+
+      if (usrAsesor.length > 0) {
+        await notificar(
+          usrAsesor[0].id_usuario,
+          "Borrador aprobado - Sustentación próxima",
+          `El borrador de la tesis "${titulo}\" ha sido aprobado. El coordinador procedera con la programación de la sustentación.`
+        );
+      }
+    }
+
+    res.json({ message: "Borrador aprobado para sustentación" });
+  } catch (err) {
+    console.error("ERROR dictamenFinalBorrador:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+// =============================
+// LISTAR BORRADORES APROBADOS POR JURADOS
+// =============================
+const getBorradoresAprobadosJurados = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION")
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+
+    const [rows] = await pool.query(`
+      SELECT 
+        b.id_borrador,
+        b.numero_iteracion,
+        b.fecha_subida,
+        b.estado,
+        p.id_proyecto,
+        p.titulo,
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
+        e.codigo_estudiante,
+        CONCAT(perAsesor.nombres, ' ', perAsesor.apellido_paterno, ' ', perAsesor.apellido_materno) AS nombre_asesor
+      FROM tesis_borrador b
+      JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+      JOIN persona pers ON pers.id_persona = e.id_persona
+      LEFT JOIN docente d ON d.id_docente = p.id_asesor
+      LEFT JOIN persona perAsesor ON perAsesor.id_persona = d.id_persona
+      WHERE b.estado = 'APROBADO_JURADOS'
+      ORDER BY b.fecha_subida DESC
+    `);
+
+    res.json(rows);
+  } catch (err) {
+    console.error("ERROR getBorradoresAprobadosJurados:", err);
     res.status(500).json({ message: "Error interno" });
   }
 };
@@ -618,6 +827,7 @@ module.exports = {
   pendientesFormato,
   pendientesJurados,
   pendientesDictamen,
+  pendientesBorradoresFormato,
   validarAsesor,
   revisarFormato,
   asignarJurados,
@@ -627,4 +837,7 @@ module.exports = {
   getBorradoresPendientes,
   getSustentacionesProgramadas,
   getProyectoDetalles,
+  getProyectosAprobadosJurados,
+  dictamenFinalBorrador,
+  getBorradoresAprobadosJurados,
 };

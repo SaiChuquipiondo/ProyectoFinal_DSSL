@@ -1,9 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CoordinacionService } from '../../../services/coordinacion.service';
+import { SustentacionService } from '../../../services/sustentacion.service';
 import { AuthService } from '../../../services/auth.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
@@ -14,7 +15,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -23,6 +24,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   proyectosPendientesFiltrados: any[] = [];
   borradoresPendientes: any[] = [];
   sustentacionesProgramadas: any[] = [];
+  proyectosAprobadosJurados: any[] = [];
+  borradoresAprobadosJurados: any[] = [];
+  tesisPendientesResolucion: any[] = [];
   currentUser: any;
 
   // Notificaciones
@@ -50,6 +54,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   juradoSecretario: number | null = null;
   juradoVocal: number | null = null;
 
+  // Tesis Finales Management
+  generandoResolucion: { [key: number]: boolean } = {};
+  programandoSustentacion = false;
+  showModalProgramacion = false; // Renamed to avoid confusion if other modals exist
+  showModalResultado = false;
+  registrandoResultado = false;
+  generandoActa: { [key: number]: boolean } = {};
+  
+  tesisSeleccionadaSustentacion: any = null; // Renamed to distinguish from projects
+
+  formSustentacion = {
+    fecha_hora: '',
+    modalidad: 'PRESENCIAL',
+    lugar: ''
+  };
+
+  formResultado = {
+    nota: null as number | null,
+    dictamen: 'APROBADO',
+    observaciones: ''
+  };
+
   // Filtros
   filtroEstadoProyecto: string = '';
   filtroEstadoAsesor: string = '';
@@ -57,6 +83,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private coordinacionService: CoordinacionService,
+    private sustentacionService: SustentacionService,
     private authService: AuthService,
     private router: Router,
     private websocketService: WebsocketService,
@@ -70,7 +97,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadData();
     this.cargarNotificaciones();
     
-    // Suscribirse al contador de no leÃ­das
+    // Suscribirse al contador de no leídas
     this.noLeidasSubscription = this.notificacionService.noLeidas$.subscribe(
       count => this.noLeidasCount = count
     );
@@ -97,14 +124,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
       error: (err) => console.error('Error loading proyectos', err)
     });
     
-    this.coordinacionService.getBorradoresPendientes().subscribe({
+    this.coordinacionService.getPendientesBorradoresFormato().subscribe({
       next: (borradores) => this.borradoresPendientes = borradores,
-      error: (err) => console.error('Error loading borradores', err)
+      error: (err) => console.error('Error loading borradores pendientes', err)
     });
     
     this.coordinacionService.getSustentacionesProgramadas().subscribe({
       next: (sustentaciones) => this.sustentacionesProgramadas = sustentaciones,
       error: (err) => console.error('Error loading sustentaciones', err)
+    });
+
+    this.sustentacionService.listarTesisFinales().subscribe({
+      next: (tesis) => {
+        console.log('Tesis cargadas:', tesis);
+        this.tesisPendientesResolucion = tesis; // Mostrar todas, incluidas las que ya tienen acta
+      },
+      error: (err) => console.error('Error loading tesis finales', err)
+    });
+
+    this.coordinacionService.getProyectosAprobadosJurados().subscribe({
+      next: (proyectos) => this.proyectosAprobadosJurados = proyectos,
+      error: (err) => console.error('Error loading proyectos aprobados por jurados', err)
+    });
+
+    this.coordinacionService.getBorradoresAprobadosJurados().subscribe({
+      next: (borradores) => this.borradoresAprobadosJurados = borradores,
+      error: (err) => console.error('Error loading borradores aprobados por jurados', err)
     });
   }
 
@@ -131,20 +176,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   toggleExpand(idNotificacion: number): void {
-    // Toggle expand/collapse
     if (this.expandedNotifications.has(idNotificacion)) {
       this.expandedNotifications.delete(idNotificacion);
     } else {
       this.expandedNotifications.add(idNotificacion);
     }
 
-    // Marcar como leida si no lo esta
     const notif = this.notificaciones.find(n => n.id_notificacion === idNotificacion);
     if (notif && !notif.leida) {
       this.notificacionService.marcarComoLeida(idNotificacion).subscribe({
         next: () => {
           notif.leida = true;
-          // Actualizar contador
           this.notificacionService.contarNoLeidas().subscribe(
             res => this.notificacionService.updateNoLeidasCount(res.no_leidas)
           );
@@ -236,7 +278,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.coordinacionService.rechazarFormato(this.proyectoSeleccionado.id_proyecto, this.motivoRechazo).subscribe({
       next: () => {
-        this.toastService.success('Proyecto rechazado. Se notificÃ³ al estudiante.', 3000);
+        this.toastService.success('Proyecto rechazado. Se notificó al estudiante.', 3000);
         this.cerrarModalRechazo();
         this.loadData();
       },
@@ -307,7 +349,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.cargandoDocentes = true;
     this.http.get<any[]>(`${environment.apiUrl}/especialidades/${idEspecialidad}/asesores`).subscribe({
       next: (docentes) => {
-        // Filtrar el asesor del proyecto para que no pueda ser jurado
         this.docentesDisponibles = docentes.filter(d => d.id_docente !== idAsesor);
         this.cargandoDocentes = false;
         if (this.docentesDisponibles.length < 3) {
@@ -363,7 +404,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.juradoVocal = null;
   }
 
-  // Getters para filtrar docentes disponibles en cada selector
   get docentesParaPresidente(): any[] {
     return this.docentesDisponibles.filter(d => 
       d.id_docente !== this.juradoSecretario && 
@@ -385,7 +425,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  // Métodos para manejar cambios y evitar duplicados
   onPresidenteChange(): void {
     if (this.juradoPresidente === this.juradoSecretario) {
       this.juradoSecretario = null;
@@ -413,21 +452,80 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  // ==================== DICTAMEN FINAL ====================
+  emitirDictamen(proyecto: any): void {
+    if (!confirm(`¿Confirmar dictamen para aprobar el proyecto "${proyecto.titulo}" y permitir la presentación del borrador de tesis?`)) {
+      return;
+    }
+
+    this.coordinacionService.dictamenFinal(proyecto.id_proyecto).subscribe({
+      next: () => {
+        this.toastService.success('Dictamen emitido correctamente. El estudiante puede proceder a subir el borrador de tesis.', 4000);
+        this.loadData();
+      },
+      error: (err) => {
+        console.error('Error al emitir dictamen', err);
+        this.toastService.error(err.error?.message || 'Error al emitir el dictamen', 3000);
+      }
+    });
+  }
+
+  // ==================== VALIDACIÓN FORMATO BORRADOR ====================
+  validarFormatoBorrador(borrador: any, aprobado: boolean): void {
+    const mensaje = aprobado
+      ? `¿Aprobar formato del borrador "${borrador.titulo}" versión #${borrador.numero_iteracion}?`
+      : `¿Rechazar formato del borrador "${borrador.titulo}" versión #${borrador.numero_iteracion}?`;
+
+    if (!confirm(mensaje)) {
+      return;
+   }
+
+    const data = { aprobado: aprobado };
+
+    this.coordinacionService.revisarFormatoBorrador(borrador.id_borrador, data).subscribe({
+      next: () => {
+        const accion = aprobado ? 'aprobado' : 'rechazado';
+        this.toastService.success(`Formato del borrador ${accion} correctamente.`, 4000);
+        this.loadData();
+      },
+      error: (err: any) => {
+        console.error('Error al validar formato de borrador', err);
+        this.toastService.error(err.error?.message || 'Error al validar el formato', 3000);
+      }
+    });
+  }
+
+  // ==================== DICTAMEN BORRADOR ====================
+  emitirDictamenBorrador(borrador: any): void {
+    if (!confirm(`¿Confirmar dictamen para aprobar el borrador de la tesis "${borrador.titulo}" y permitir la programación de sustentación?`)) {
+      return;
+    }
+
+    const formData = new FormData();
+    this.coordinacionService.dictamenBorrador(borrador.id_borrador, formData).subscribe({
+      next: () => {
+        this.toastService.success('Dictamen de borrador emitido correctamente. El estudiante puede programar su sustentación.', 4000);
+        this.loadData();
+      },
+      error: (err: any) => {
+        console.error('Error al emitir dictamen de borrador', err);
+        this.toastService.error(err.error?.message || 'Error al emitir el dictamen', 3000);
+      }
+    });
+  }
+
   // ==================== FILTROS ====================
   aplicarFiltros(): void {
     let proyectos = [...this.proyectosPendientes];
 
-    // Filtro por estado de proyecto
     if (this.filtroEstadoProyecto) {
       proyectos = proyectos.filter(p => p.estado_proyecto === this.filtroEstadoProyecto);
     }
 
-    // Filtro por estado de asesor
     if (this.filtroEstadoAsesor) {
       proyectos = proyectos.filter(p => p.estado_asesor === this.filtroEstadoAsesor);
     }
 
-    // Búsqueda por nombre de estudiante
     if (this.filtroBusqueda) {
       const busqueda = this.filtroBusqueda.toLowerCase();
       proyectos = proyectos.filter(p => 
@@ -461,7 +559,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const hours = Math.floor(seconds / 3600);
     if (hours < 24) return `Hace ${hours} hora${hours > 1 ? 's' : ''}`;
     const days = Math.floor(seconds / 86400);
-    if (days < 7) return `Hace ${days} dÃ­a${days > 1 ? 's' : ''}`;
+    if (days < 7) return `Hace ${days} día${days > 1 ? 's' : ''}`;
     const weeks = Math.floor(days / 7);
     if (weeks < 4) return `Hace ${weeks} semana${weeks > 1 ? 's' : ''}`;
     const months = Math.floor(days / 30);
@@ -503,7 +601,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getTotalPendientes(): number {
-    return this.proyectosPendientes.length + this.borradoresPendientes.length;
+    return this.proyectosPendientes.length + this.borradoresPendientes.length + this.tesisPendientesResolucion.length;
   }
 
   logout(): void {
@@ -511,5 +609,165 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.authService.logout();
     this.websocketService.disconnect();
     this.router.navigate(['/login']);
+  }
+
+  // ==================== TESIS FINALES ====================
+
+  verPDF(rutaPdf: string): void {
+    window.open(`http://localhost:3000/uploads/tesis_final/${rutaPdf}`, '_blank');
+  }
+
+  verResolucion(rutaPdf: string): void {
+    window.open(`http://localhost:3000/uploads/resoluciones/${rutaPdf}`, '_blank');
+  }
+
+  generarResolucion(idProyecto: number): void {
+    if (confirm('¿Está seguro de generar la resolución de sustentación?')) {
+      this.generandoResolucion[idProyecto] = true;
+      
+      this.sustentacionService.generarResolucion(idProyecto).subscribe({
+        next: (res) => {
+          this.toastService.success(`Resolución ${res.numero_resolucion} generada exitosamente`, 4000);
+          this.generandoResolucion[idProyecto] = false;
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error generando resolución', err);
+          this.toastService.error(err.error?.message || 'Error al generar resolución', 3000);
+          this.generandoResolucion[idProyecto] = false;
+        }
+      });
+    }
+  }
+
+  descargarResolucion(idResolucion: number): void {
+    window.open(`http://localhost:3000/api/sustentacion/descargar/${idResolucion}`, '_blank');
+  }
+
+  // --- Programación Sustentación ---
+  
+  abrirModalProgramacion(tesis: any): void {
+    this.tesisSeleccionadaSustentacion = tesis;
+    this.showModalProgramacion = true;
+    this.formSustentacion = {
+      fecha_hora: '',
+      modalidad: 'PRESENCIAL',
+      lugar: ''
+    };
+  }
+
+  cerrarModalProgramacion(): void {
+    this.showModalProgramacion = false;
+    this.tesisSeleccionadaSustentacion = null;
+  }
+
+  programarSustentacion(): void {
+    if (!this.formSustentacion.fecha_hora) {
+      this.toastService.error('Debe seleccionar fecha y hora', 3000);
+      return;
+    }
+
+    this.programandoSustentacion = true;
+
+    this.sustentacionService.programarSustentacion(
+      this.tesisSeleccionadaSustentacion.id_proyecto,
+      this.formSustentacion
+    ).subscribe({
+      next: () => {
+        this.toastService.success('Sustentación programada exitosamente', 4000);
+        this.programandoSustentacion = false;
+        this.cerrarModalProgramacion();
+        this.loadData();
+      },
+      error: (err) => {
+        console.error('Error programando sustentación', err);
+        this.toastService.error(err.error?.message || 'Error al programar sustentación', 3000);
+        this.programandoSustentacion = false;
+      }
+    });
+  }
+
+  // --- Registro de Resultados ---
+
+  abrirModalResultado(tesis: any): void {
+    this.tesisSeleccionadaSustentacion = tesis;
+    this.showModalResultado = true;
+    this.formResultado = {
+      nota: null,
+      dictamen: 'APROBADO',
+      observaciones: ''
+    };
+  }
+
+  cerrarModalResultado(): void {
+    this.showModalResultado = false;
+    this.tesisSeleccionadaSustentacion = null;
+  }
+
+  registrarResultado(): void {
+    if (!this.formResultado.dictamen) {
+      this.toastService.error('Debe seleccionar un dictamen', 3000);
+      return;
+    }
+
+    this.registrandoResultado = true;
+
+    const payload = {
+      ...this.formResultado,
+      nota: this.formResultado.nota ? Number(this.formResultado.nota) : null
+    };
+
+    this.sustentacionService.registrarResultado(
+      this.tesisSeleccionadaSustentacion.id_sustentacion,
+      payload
+    ).subscribe({
+      next: () => {
+        this.toastService.success('Resultado registrado exitosamente', 4000);
+        this.registrandoResultado = false;
+        this.cerrarModalResultado();
+        this.loadData();
+      },
+      error: (err) => {
+        console.error('Error registrando resultado', err);
+        this.toastService.error(err.error?.message || 'Error al registrar resultado', 3000);
+        this.registrandoResultado = false;
+      }
+    });
+  }
+
+  // --- Actas ---
+
+  generarActa(idSustentacion: number): void {
+    if (confirm('¿Generar el Acta de Sustentación ahora?')) {
+      this.generandoActa[idSustentacion] = true;
+      
+      this.sustentacionService.generarActa(idSustentacion).subscribe({
+        next: (res: any) => {
+          this.toastService.success(`Acta N° ${res.numero_acta} generada correctamente`, 4000);
+          this.generandoActa[idSustentacion] = false;
+          this.loadData();
+
+          if (res.archivo) {
+            const url = `http://localhost:3000/uploads/actas/${res.archivo}`;
+            window.open(url, '_blank');
+          }
+        },
+        error: (err) => {
+          console.error('Error generando acta', err);
+          this.toastService.error(err.error?.message || 'Error al generar acta', 3000);
+          this.generandoActa[idSustentacion] = false;
+        }
+      });
+    }
+  }
+
+  descargarActa(idActa: number): void {
+    window.open(`http://localhost:3000/api/sustentacion/descargar-acta/${idActa}`, '_blank');
+  }
+
+
+  verActa(rutaActa: string): void {
+    // Ajusta la URL base según tu entorno
+    window.open(`http://localhost:3000/uploads/actas/${rutaActa}`, '_blank');
   }
 }

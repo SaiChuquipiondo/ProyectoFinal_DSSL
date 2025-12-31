@@ -28,13 +28,55 @@ const generarNumeroResolucion = async () => {
     const correlativo = String(rows[0].total + 1).padStart(3, "0");
     const numeroResolucion = `${correlativo}-${anio}-FISeIC-UNU`;
 
-    logger.debug(`Número de resolución generado: ${numeroResolucion}`, {
-      anio,
-      correlativo,
-    });
-
+    logger.info(`Generando Resolución: ${numeroResolucion}`);
     return numeroResolucion;
   });
+};
+
+/* ===============================
+   LISTAR TESIS FINALES
+================================ */
+const listarTesisFinales = async (req, res) => {
+  try {
+    if (req.user.rol !== "COORDINACION") {
+      return res.status(403).json({ message: "Acceso restringido" });
+    }
+
+    const [tesis] = await pool.query(
+      `SELECT 
+        t.id_tesis,
+        t.id_proyecto,
+        t.ruta_pdf,
+        t.fecha_registro,
+        t.estado AS estado_tesis,
+        p.titulo,
+        CONCAT(per.nombres, ' ', per.apellido_paterno, ' ', per.apellido_materno) AS estudiante,
+        e.codigo_estudiante AS codigo,
+        r.id_resolucion,
+        r.numero_resolucion,
+        r.ruta_pdf AS ruta_resolucion,
+        s.id_sustentacion,
+        s.fecha_hora AS fecha_sustentacion,
+        s.estado AS estado_sustentacion,
+        s.nota,
+        s.dictamen,
+        a.id_acta,
+        a.ruta_pdf AS ruta_acta
+       FROM tesis t
+       JOIN proyecto_tesis p ON p.id_proyecto = t.id_proyecto
+       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
+       JOIN persona per ON per.id_persona = e.id_persona
+       LEFT JOIN resolucion r ON r.id_proyecto = t.id_proyecto
+       LEFT JOIN sustentacion s ON s.id_proyecto = t.id_proyecto
+       LEFT JOIN acta_sustentacion a ON a.id_sustentacion = s.id_sustentacion
+       ORDER BY t.fecha_registro DESC`
+    );
+
+    res.json(tesis);
+  } catch (err) {
+    console.error("ERROR listarTesisFinales:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
 };
 
 /* ===============================
@@ -77,11 +119,11 @@ const generarResolucion = async (req, res) => {
       `
       SELECT 
         p.titulo,
-        e.codigo,
+        e.codigo_estudiante AS codigo,
         perE.nombres,
         perE.apellido_paterno,
         perE.apellido_materno,
-        perE.dni,
+        perE.numero_documento AS dni,
         d.id_docente,
         CONCAT(perD.nombres,' ',perD.apellido_paterno,' ',perD.apellido_materno) AS asesor
       FROM proyecto_tesis p
@@ -516,8 +558,8 @@ const generarActaPDF = async (req, res) => {
       `
       SELECT 
         p.titulo,
-        e.codigo,
-        perE.dni,
+        e.codigo_estudiante AS codigo,
+        perE.numero_documento AS dni,
         perE.nombres,
         perE.apellido_paterno,
         perE.apellido_materno,
@@ -665,6 +707,7 @@ const descargarActa = async (req, res) => {
 };
 
 module.exports = {
+  listarTesisFinales,
   generarResolucion,
   descargarResolucion,
   programarSustentacion,

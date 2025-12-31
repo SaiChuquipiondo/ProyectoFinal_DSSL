@@ -4,9 +4,11 @@ import { RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificacionService } from '../../../services/notificacion.service';
 import { Subscription } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 interface ProyectoUnificado {
   id_proyecto: number;
+  id_borrador?: number;
   titulo: string;
   resumen: string;
   ruta_pdf: string;
@@ -15,7 +17,8 @@ interface ProyectoUnificado {
   nombre_estudiante: string;
   codigo_estudiante?: string;
   rol_jurado?: string;
-  tipo: 'ASESOR' | 'JURADO';
+  tipo: 'ASESOR' | 'JURADO' | 'BORRADOR';
+  esJurado?: boolean;
 }
 
 @Component({
@@ -74,39 +77,70 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    // Cargar proyectos como asesor y jurado en paralelo
+    // Cargar proyectos como asesor, jurado y borradores en paralelo
     const asesor$ = this.http.get<any[]>(`${this.apiUrl}/asesor/pendientes`, { headers });
     const jurado$ = this.http.get<any[]>(`${this.apiUrl}/jurados/pendientes`, { headers });
+    const borradoresAsesor$ = this.http.get<any[]>(`${this.apiUrl}/asesor/borrador/pendientes`, { headers });
+    const borradoresJurado$ = this.http.get<any[]>(`${this.apiUrl}/jurados/borrador/pendientes`, { headers });
 
-    // Combinar ambos observables
-    import('rxjs').then(rxjs => {
-      rxjs.forkJoin({
-        asesor: asesor$,
-        jurado: jurado$
-      }).subscribe({
-        next: (data) => {
-          // Mapear proyectos de asesor
-          const proyectosAsesor: ProyectoUnificado[] = data.asesor.map(p => ({
-            ...p,
-            tipo: 'ASESOR' as const
+    // Combinar observables
+    forkJoin({
+      asesor: asesor$,
+      jurado: jurado$,
+      borradoresAsesor: borradoresAsesor$,
+      borradoresJurado: borradoresJurado$
+    }).subscribe({
+      next: (data) => {
+        // Mapear proyectos de asesor
+        const proyectosAsesor: ProyectoUnificado[] = data.asesor.map(p => ({
+          ...p,
+          tipo: 'ASESOR' as const
+        }));
+
+        // Mapear proyectos de jurado
+        const proyectosJurado: ProyectoUnificado[] = data.jurado.map(p => ({
+          ...p,
+          tipo: 'JURADO' as const
+        }));
+
+        // Mapear borradores de asesor
+        const borradoresAsesor: ProyectoUnificado[] = data.borradoresAsesor.map(b => ({
+          id_proyecto: b.id_proyecto,
+          id_borrador: b.id_borrador,
+          titulo: b.titulo,
+          resumen: 'Borrador de Tesis (Revisión Asesor)',
+          ruta_pdf: b.ruta_pdf,
+          iteracion: b.numero_iteracion,
+          estado_proyecto: b.estado,
+          nombre_estudiante: b.estudiante,
+          tipo: 'BORRADOR' as 'BORRADOR',
+          esJurado: false
+        }));
+
+         // Mapear borradores de jurado
+          const borradoresJurado: ProyectoUnificado[] = data.borradoresJurado.map(b => ({
+            id_proyecto: b.id_proyecto,
+            id_borrador: b.id_borrador,
+            titulo: b.titulo,
+            resumen: 'Borrador de Tesis (Revisión Jurado)',
+            ruta_pdf: b.ruta_pdf,
+            iteracion: b.numero_iteracion,
+            estado_proyecto: b.estado,
+            nombre_estudiante: b.estudiante,
+            tipo: 'BORRADOR' as 'BORRADOR',
+            esJurado: true,
+            rol_jurado: b.rol_jurado
           }));
 
-          // Mapear proyectos de jurado
-          const proyectosJurado: ProyectoUnificado[] = data.jurado.map(p => ({
-            ...p,
-            tipo: 'JURADO' as const
-          }));
-
-          // Combinar ambas listas
-          this.todosProyectos = [...proyectosAsesor, ...proyectosJurado];
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Error al cargar proyectos:', err);
-          this.error = 'Error al cargar los proyectos';
-          this.loading = false;
-        }
-      });
+        // Combinar listas
+        this.todosProyectos = [...proyectosAsesor, ...proyectosJurado, ...borradoresAsesor, ...borradoresJurado];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar proyectos:', err);
+        this.error = 'Error al cargar los proyectos';
+        this.loading = false;
+      }
     });
   }
 
@@ -122,18 +156,29 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
   }
 
   getProyectosAsesor(): number {
-    return this.todosProyectos.filter(p => p.tipo === 'ASESOR').length;
+    // Incluir también los borradores si se desea contar como carga del asesor
+    const proyectos = this.todosProyectos.filter(p => p.tipo === 'ASESOR').length;
+    const borradores = this.todosProyectos.filter(p => p.tipo === 'BORRADOR' && !p.esJurado).length;
+    return proyectos + borradores;
   }
 
   getProyectosJurado(): number {
-    return this.todosProyectos.filter(p => p.tipo === 'JURADO').length;
+    const proyectos = this.todosProyectos.filter(p => p.tipo === 'JURADO').length;
+    const borradores = this.todosProyectos.filter(p => p.tipo === 'BORRADOR' && p.esJurado).length;
+    return proyectos + borradores;
+  }
+
+  getBorradores(): number {
+    return this.todosProyectos.filter(p => p.tipo === 'BORRADOR').length;
   }
 
   getTipoBadge(tipo: string): string {
+    if (tipo === 'BORRADOR') return 'Revisión de Borrador';
     return tipo === 'ASESOR' ? 'Asesor' : 'Jurado';
   }
 
   getTipoIcon(tipo: string): string {
+    if (tipo === 'BORRADOR') return 'file-text';
     return tipo === 'ASESOR' ? 'edit' : 'users';
   }
 
@@ -144,6 +189,19 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
       'VOCAL': 'Vocal'
     };
     return badges[rol] || rol;
+  }
+
+  verPDF(ruta?: string, tipo?: string): void {
+    if (ruta) {
+      // Determinar la carpeta según el tipo de proyecto
+      let carpeta = 'proyectos';
+      if (tipo === 'BORRADOR') {
+        carpeta = 'borradores';
+      }
+      
+      const pdfUrl = `${this.apiUrl.replace('/api', '')}/uploads/${carpeta}/${ruta}`;
+      window.open(pdfUrl, '_blank');
+    }
   }
 
   // ==================== NOTIFICACIONES ====================
@@ -221,9 +279,7 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
     return `Hace ${months} mes${months > 1 ? 'es' : ''}`;
   }
 
-  verPDF(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/proyectos/${rutaPdf}`, '_blank');
-  }
+
 
   getUserFullName(): string {
     const user = JSON.parse(localStorage.getItem('user') || '{}');

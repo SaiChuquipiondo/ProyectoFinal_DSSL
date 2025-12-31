@@ -163,7 +163,7 @@ const borradoresPendientesAsesor = async (req, res) => {
     const [rows] = await pool.query(
       `
       SELECT b.id_borrador, b.numero_iteracion, b.estado,
-             b.ruta_pdf, p.titulo,
+             b.ruta_pdf, p.titulo, p.id_proyecto,
              CONCAT(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) AS estudiante
       FROM tesis_borrador b
       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
@@ -265,7 +265,7 @@ const revisarBorradorAsesor = async (req, res) => {
 
       // Actualizar estado del borrador
       await pool.query(
-        `UPDATE tesis_borrador SET estado='OBSERVADO' WHERE id_borrador=?`,
+        `UPDATE tesis_borrador SET estado='OBSERVADO_ASESOR' WHERE id_borrador=?`,
         [id_borrador]
       );
 

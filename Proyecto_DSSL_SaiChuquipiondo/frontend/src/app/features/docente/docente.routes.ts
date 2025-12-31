@@ -14,6 +14,10 @@ export const DOCENTE_ROUTES: Routes = [
     loadComponent: () => import('./revisar-proyecto/revisar-proyecto.component').then(m => m.RevisarProyectoComponent)
   },
   {
+    path: 'borrador/revisar/:id',
+    loadComponent: () => import('./revisar-borrador/revisar-borrador.component').then(m => m.RevisarBorradorComponent)
+  },
+  {
     path: 'evaluar/:id',
     loadComponent: () => import('./revisar-proyecto/revisar-proyecto.component').then(m => m.RevisarProyectoComponent)
   }

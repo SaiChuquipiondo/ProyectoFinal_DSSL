@@ -5,13 +5,14 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { AuthService } from '../../../services/auth.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
+import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
 
 @Component({
   selector: 'app-proyectos-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, EstudianteSidebarComponent],
   templateUrl: './proyectos-list.component.html',
-  styleUrl: './proyectos-list.component.css'
+  styleUrls: ['./proyectos-list.component.css']
 })
 export class ProyectosListComponent implements OnInit {
   proyectos: any[] = [];
@@ -82,26 +83,5 @@ export class ProyectosListComponent implements OnInit {
     });
   }
 
-  getUserFullName(): string {
-    if (!this.currentUser) return 'Usuario';
-    const nombres = this.currentUser.nombres || '';
-    const apellido = this.currentUser.apellido_paterno || '';
-    return `${nombres} ${apellido}`.trim() || 'Usuario';
-  }
 
-  getUserRole(): string {
-    if (!this.currentUser) return '';
-    const rol = this.currentUser.rol;
-    if (rol === 'ESTUDIANTE') return 'Estudiante';
-    if (rol === 'ASESOR' || rol === 'JURADO') return 'Docente';
-    if (rol === 'COORDINACION') return 'Coordinador';
-    return rol;
-  }
-
-  logout(): void {
-    this.toastService.info('Sesión cerrada correctamente', 3000);
-    this.authService.logout();
-    this.websocketService.disconnect();
-    this.router.navigate(['/login']);
-  }
 }

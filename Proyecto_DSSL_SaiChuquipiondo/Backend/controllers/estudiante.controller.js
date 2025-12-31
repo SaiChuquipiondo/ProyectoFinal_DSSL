@@ -512,60 +512,125 @@ const subirBorrador = async (req, res) => {
   }
 };
 
-// Etapa 3
-const subirTesisFinal = async (req, res) => {
+// ========================
+// ACTUALIZAR BORRADOR (CORRECCIÓN)
+// ========================
+const actualizarBorrador = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
 
     if (rol !== "ESTUDIANTE")
-      return res.status(403).json({ message: "Solo estudiantes" });
+      return res.status(403).json({ message: "Acceso restringido" });
 
-    if (!req.file)
-      return res.status(400).json({ message: "Debe adjuntar un archivo PDF" });
+    const { id_borrador } = req.params;
 
-    const { id_proyecto } = req.body;
-
-    // Validar proyecto
-    const [proy] = await pool.query(
-      `SELECT * FROM proyecto_tesis 
-       WHERE id_proyecto=? AND id_estudiante=?`,
-      [id_proyecto, id_estudiante]
+    // Verificar que el borrador pertenece al estudiante
+    const [borrador] = await pool.query(
+      `SELECT b.*, p.id_estudiante 
+       FROM tesis_borrador b
+       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+       WHERE b.id_borrador = ?`,
+      [id_borrador]
     );
 
-    if (!proy.length)
+    if (borrador.length === 0 || borrador[0].id_estudiante !== id_estudiante)
+      return res.status(403).json({
+        message: "Borrador no encontrado o no pertenece al estudiante",
+      });
+
+    // Verificar que está en estado OBSERVADO (por coord, asesor o jurados)
+    const estadosObservados = [
+      "OBSERVADO",
+      "OBSERVADO_ASESOR",
+      "OBSERVADO_JURADOS",
+    ];
+    if (!estadosObservados.includes(borrador[0].estado))
       return res
-        .status(403)
-        .json({ message: "Proyecto no pertenece al estudiante" });
+        .status(400)
+        .json({ message: "Solo se pueden corregir borradores observados" });
 
-    // Validar estado
-    if (proy[0].estado_proyecto !== "APROBADO_FINAL")
-      return res.status(400).json({
-        message: "El proyecto aún no está aprobado por jurados",
-      });
+    // Si hay nuevo archivo PDF, actualizar ruta, iteración, fecha y estado
+    if (req.file) {
+      // Eliminar PDF anterior del servidor
+      const fs = require("fs");
+      const path = require("path");
+      const oldPdfPath = path.join(
+        __dirname,
+        "../uploads/borradores",
+        borrador[0].ruta_pdf
+      );
 
-    // Validar borrador aprobado
-    const [bor] = await pool.query(
-      `SELECT 1 FROM tesis_borrador
-       WHERE id_proyecto=? AND estado='APROBADO_JURADOS'
-       LIMIT 1`,
-      [id_proyecto]
+      if (fs.existsSync(oldPdfPath)) {
+        fs.unlinkSync(oldPdfPath);
+      }
+
+      // Incrementamos la iteración
+      const nuevaIteracion = borrador[0].numero_iteracion + 1;
+
+      // Determinar nuevo estado según quién lo observó
+      let nuevoEstado = "PENDIENTE";
+
+      if (borrador[0].estado === "OBSERVADO_ASESOR") {
+        nuevoEstado = "APROBADO_CORD";
+      } else if (borrador[0].estado === "OBSERVADO_JURADOS") {
+        nuevoEstado = "APROBADO_ASESOR";
+        // Limpiar revisiones anteriores de jurados
+        await pool.query(
+          `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
+          [id_borrador]
+        );
+      }
+
+      // Actualizar borrador
+      await pool.query(
+        `UPDATE tesis_borrador 
+         SET ruta_pdf = ?, 
+             estado = ?,
+             numero_iteracion = ?,
+             fecha_subida = CURRENT_TIMESTAMP
+         WHERE id_borrador = ?`,
+        [req.file.filename, nuevoEstado, nuevaIteracion, id_borrador]
+      );
+    } else {
+      // Si no hay archivo (raro), mantener la lógica de estados
+      let nuevoEstado = "PENDIENTE";
+      if (borrador[0].estado === "OBSERVADO_ASESOR") {
+        nuevoEstado = "APROBADO_CORD";
+      } else if (borrador[0].estado === "OBSERVADO_JURADOS") {
+        nuevoEstado = "APROBADO_ASESOR";
+        await pool.query(
+          `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
+          [id_borrador]
+        );
+      }
+
+      await pool.query(
+        `UPDATE tesis_borrador 
+         SET estado = ?,
+             fecha_subida = CURRENT_TIMESTAMP
+         WHERE id_borrador = ?`,
+        [nuevoEstado, id_borrador]
+      );
+    }
+
+    // Notificar a coordinación
+    const [coord] = await pool.query(
+      `SELECT id_usuario FROM usuario WHERE id_rol = 3`
     );
+    for (const c of coord) {
+      await notificar(
+        c.id_usuario,
+        "Borrador corregido",
+        `El estudiante ha corregido y reenviado un borrador para revisión.`
+      );
+    }
 
-    if (!bor.length)
-      return res.status(400).json({
-        message: "Debe existir un borrador aprobado por jurados",
-      });
-
-    // Insertar tesis final
-    await pool.query(
-      `INSERT INTO tesis (id_proyecto, ruta_pdf)
-       VALUES (?, ?)`,
-      [id_proyecto, req.file.filename]
-    );
-
-    res.json({ message: "Tesis final registrada correctamente" });
+    res.json({
+      message: "Borrador actualizado correctamente",
+      id_borrador: id_borrador,
+    });
   } catch (err) {
-    console.error("ERROR subirTesisFinal:", err);
+    console.error("ERROR actualizarBorrador:", err);
     res.status(500).json({ message: "Error interno" });
   }
 };
@@ -639,7 +704,8 @@ const misBorradores = async (req, res) => {
         b.ruta_pdf,
         b.estado,
         b.fecha_subida,
-        p.titulo AS titulo_proyecto
+        p.titulo AS titulo_proyecto,
+        IFNULL((SELECT 1 FROM tesis t WHERE t.id_proyecto = b.id_proyecto LIMIT 1), 0) AS tiene_tesis_final
        FROM tesis_borrador b
        JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
        WHERE p.id_estudiante = ?
@@ -731,13 +797,118 @@ const getRevisionAsesor = async (req, res) => {
   }
 };
 
+// =========================
+// ETAPA 3 — TESIS FINAL
+// =========================
+
+const subirTesisFinal = async (req, res) => {
+  try {
+    const { rol, id_estudiante } = req.user;
+
+    if (rol !== "ESTUDIANTE")
+      return res
+        .status(403)
+        .json({ message: "Acceso permitido solo a estudiantes" });
+
+    // Verificar que tiene un borrador con dictamen final aprobado
+    const [borradorAprobado] = await pool.query(
+      `SELECT b.id_borrador, b.id_proyecto, p.titulo
+       FROM tesis_borrador b
+       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
+       WHERE p.id_estudiante = ? AND b.estado = 'APROBADO_FINAL'
+       LIMIT 1`,
+      [id_estudiante]
+    );
+
+    if (borradorAprobado.length === 0) {
+      return res.status(400).json({
+        message:
+          "No tienes un borrador con dictamen final aprobado. Debes esperar a que coordinación emita el dictamen final.",
+      });
+    }
+
+    const { id_proyecto, titulo } = borradorAprobado[0];
+
+    // Verificar que no haya ya subido tesis
+    const [tesisExistente] = await pool.query(
+      `SELECT id_tesis FROM tesis WHERE id_proyecto = ?`,
+      [id_proyecto]
+    );
+
+    if (tesisExistente.length > 0) {
+      return res.status(400).json({
+        message: "Ya has subido la tesis final para este proyecto",
+      });
+    }
+
+    // Guardar archivo
+    const archivo = req.file;
+    if (!archivo) {
+      return res.status(400).json({ message: "Archivo PDF requerido" });
+    }
+
+    // Insertar en tabla tesis
+    await pool.query(
+      `INSERT INTO tesis (id_proyecto, ruta_pdf) VALUES (?, ?)`,
+      [id_proyecto, archivo.filename]
+    );
+
+    // Notificar coordinación
+    const [coord] = await pool.query(
+      `SELECT id_usuario FROM usuario WHERE id_rol = 3`
+    );
+
+    for (const c of coord) {
+      await notificar(
+        c.id_usuario,
+        "Nueva tesis final registrada",
+        `El estudiante subió la tesis final del proyecto "${titulo}".`
+      );
+    }
+
+    res.json({
+      message: "Tesis final subida exitosamente",
+      ruta_pdf: archivo.filename,
+    });
+  } catch (err) {
+    console.error("ERROR subirTesisFinal:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
+const obtenerMiTesisFinal = async (req, res) => {
+  try {
+    const { id_estudiante } = req.user;
+
+    const [tesis] = await pool.query(
+      `SELECT t.id_tesis, t.ruta_pdf, t.fecha_registro, t.estado,
+              p.id_proyecto, p.titulo
+       FROM tesis t
+       JOIN proyecto_tesis p ON p.id_proyecto = t.id_proyecto
+       WHERE p.id_estudiante = ?`,
+      [id_estudiante]
+    );
+
+    if (tesis.length === 0) {
+      return res.status(404).json({ message: "No se encontró tesis final" });
+    }
+
+    res.json(tesis[0]);
+  } catch (err) {
+    console.error("ERROR obtenerMiTesisFinal:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
+
 module.exports = {
   subirProyecto,
   actualizarProyecto,
   getProyectoById,
   elegirAsesor,
   subirBorrador,
+  actualizarBorrador,
   subirTesisFinal,
+  obtenerMiTesisFinal,
   misResoluciones,
   misProyectos,
   misBorradores,

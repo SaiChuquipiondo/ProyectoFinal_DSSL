@@ -32,13 +32,21 @@ export class EstudianteService {
     return this.http.post(`${this.apiUrl}/borrador/subir`, formData);
   }
 
+  corregirBorrador(idBorrador: number, formData: FormData): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/borrador/${idBorrador}/corregir`, formData);
+  }
+
   getMisBorradores(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/mis-borradores`);
   }
 
   // Tesis Final
   subirTesisFinal(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/tesis-final/subir`, formData);
+    return this.http.post(`${this.apiUrl}/tesis-final`, formData);
+  }
+
+  obtenerMiTesisFinal(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/tesis-final`);
   }
 
   // Resoluciones

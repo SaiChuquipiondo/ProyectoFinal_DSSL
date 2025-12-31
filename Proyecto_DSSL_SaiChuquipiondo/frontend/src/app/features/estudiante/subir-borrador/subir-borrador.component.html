@@ -1,0 +1,199 @@
+<div class="page-container">
+  <!-- Sidebar -->
+  <app-estudiante-sidebar></app-estudiante-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="content-header">
+      <div>
+        <h1>{{ isCorrectionMode ? 'Resubir Borrador Corregido' : 'Subir Borrador de Tesis' }}</h1>
+        <p class="breadcrumb">
+          Inicio / {{ isCorrectionMode ? 'Actualizar Borrador' : 'Subir Borrador' }}
+        </p>
+      </div>
+    </header>
+
+    <div class="content-body">
+      <div class="form-container">
+        <div class="form-header">
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#8b5cf6"
+            stroke-width="2"
+          >
+            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+            <polyline points="13 2 13 9 20 9" />
+          </svg>
+          <h2>{{ isCorrectionMode ? 'Resubir Borrador Corregido' : 'Subir Borrador de Tesis' }}</h2>
+          <p>
+            {{
+              isCorrectionMode
+                ? 'Sube el archivo corregido para levantar las observaciones'
+                : 'Sube el borrador de tu tesis para revisión por coordinación, asesor y jurados'
+            }}
+          </p>
+        </div>
+
+        @if (proyectos.length === 0) {
+        <div
+          style="
+            text-align: center;
+            padding: 3rem;
+            background: #fef3c7;
+            border-radius: 12px;
+            border: 2px solid #fbbf24;
+          "
+        >
+          <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#f59e0b"
+            stroke-width="2"
+            style="margin: 0 auto 1rem"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <h3 style="color: #92400e; margin-bottom: 0.5rem">No tienes proyectos aprobados</h3>
+          <p style="color: #78350f">
+            Primero debes tener un proyecto aprobado por los jurados para subir el borrador de
+            tesis.
+          </p>
+        </div>
+        } @else {
+        <form (ngSubmit)="onSubmit()" class="upload-form">
+          <!-- Proyecto -->
+          <div class="form-group">
+            <label for="proyecto">
+              Proyecto de Tesis
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="proyecto"
+              [(ngModel)]="selectedProyecto"
+              name="proyecto"
+              class="form-control"
+              required
+              [disabled]="isCorrectionMode"
+            >
+              <option [ngValue]="null">Seleccione un proyecto</option>
+              <option *ngFor="let p of proyectos" [ngValue]="p.id_proyecto">
+                {{ p.titulo }}
+              </option>
+            </select>
+
+            <p class="field-info" *ngIf="isCorrectionMode" style="color: #0284c7; font-weight: 600">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#0284c7"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              Versión actual: #{{ borradorObservado?.numero_iteracion || 0 }}
+            </p>
+
+            <p class="field-info" *ngIf="!isCorrectionMode">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#6b7280"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="16" x2="12" y2="12" />
+                <line x1="12" y1="8" x2="12.01" y2="8" />
+              </svg>
+              Solo se muestran proyectos aprobados por jurados
+            </p>
+          </div>
+
+          <!-- Archivo PDF -->
+          <div class="form-group">
+            <label for="pdf">
+              Archivo PDF del Borrador
+              <span class="required">*</span>
+            </label>
+            <div class="file-upload-container">
+              <input
+                type="file"
+                id="pdf"
+                (change)="onFileSelected($event)"
+                accept=".pdf"
+                class="file-input"
+                required
+              />
+              <label for="pdf" class="file-label">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <span *ngIf="!selectedFile">Seleccionar archivo PDF</span>
+                <span *ngIf="selectedFile" class="file-name">{{ selectedFile.name }}</span>
+              </label>
+            </div>
+            <p class="file-help">Formato: PDF | Tamaño máximo: 10MB</p>
+          </div>
+
+          <!-- Botones -->
+          <div class="form-actions">
+            <button
+              type="button"
+              routerLink="/estudiante/dashboard"
+              class="btn-secondary"
+              [disabled]="isSubmitting"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="!selectedProyecto || !selectedFile || isSubmitting"
+            >
+              <span *ngIf="!isSubmitting">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                {{ isCorrectionMode ? 'Resubir Borrador' : 'Subir Borrador' }}
+              </span>
+              <span *ngIf="isSubmitting" class="uploading">
+                <div class="spinner-small"></div>
+                Subiendo...
+              </span>
+            </button>
+          </div>
+        </form>
+        }
+      </div>
+    </div>
+  </main>
+</div>

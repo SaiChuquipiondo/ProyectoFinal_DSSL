@@ -11,7 +11,9 @@ const {
   getProyectoById,
   elegirAsesor,
   subirBorrador,
+  actualizarBorrador,
   subirTesisFinal,
+  obtenerMiTesisFinal,
   misResoluciones,
   misProyectos,
   misBorradores,
@@ -30,9 +32,16 @@ router.get("/proyectos/:id_proyecto/revision-asesor", auth, getRevisionAsesor);
 // Borradores
 router.get("/mis-borradores", auth, misBorradores);
 router.post("/borrador/subir", auth, uploadBorrador, subirBorrador);
+router.patch(
+  "/borrador/:id_borrador/corregir",
+  auth,
+  uploadBorrador,
+  actualizarBorrador
+);
 
 // Tesis Final
-router.post("/tesis/subir-final", auth, uploadTesisFinal, subirTesisFinal);
+router.post("/tesis-final", auth, uploadTesisFinal, subirTesisFinal);
+router.get("/tesis-final", auth, obtenerMiTesisFinal);
 
 // Resoluciones y Actas
 router.get("/mis-resoluciones", auth, misResoluciones);

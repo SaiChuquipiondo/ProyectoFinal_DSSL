@@ -530,6 +530,11 @@
       color: white;
     }
 
+    .danger-card .stat-icon {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+
     .stat-info {
       flex: 1;
     }
@@ -606,6 +611,18 @@
 
     .warning-card:hover {
       border-color: #f59e0b;
+    }
+
+    .danger-card {
+      border-color: #fee2e2;
+    }
+
+    .danger-card .stat-decoration {
+      background: #ef4444;
+    }
+
+    .danger-card:hover {
+      border-color: #ef4444;
     }
 
     /* ==================== PROJECTS SECTION ==================== */
@@ -828,7 +845,7 @@
 
     .btn-secondary:hover {
       background: var(--color-primary);
-      color: white;
+      color: rgb(0, 194, 103);
       transform: translateY(-2px);
     }
 
@@ -1179,6 +1196,24 @@
       color: #ef4444;
     }
 
+    .form-control {
+      width: 100%;
+      padding: 0.875rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.9375rem;
+      transition: all 0.3s;
+      background: white;
+      color: var(--color-text-primary);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+    }
+
     .form-textarea {
       width: 100%;
       padding: 0.875rem;
@@ -1369,3 +1404,34 @@
       }
     }
   
+
+/* Button Success Custom */
+.btn-success {
+  width: 100%;
+  justify-content: center;
+  padding: 0.75rem;
+  background: var(--color-accent); /* #059669 */
+  color: white !important;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background: #d1fae5; /* Light green */
+  color: #065f46 !important; /* Dark green text */
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-success:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
