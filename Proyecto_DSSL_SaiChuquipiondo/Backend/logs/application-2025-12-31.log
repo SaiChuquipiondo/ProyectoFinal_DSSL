@@ -1312,3 +1312,13 @@
 {"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-31 16:11:00"}
 {"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-31 16:11:06"}
 {"level":"info","message":"WebSocket conectado: usuario=13, socket=KVa-87TNlsNuHopiAAAj","timestamp":"2025-12-31 16:11:06"}
+{"level":"info","message":"🔌 Servidor WebSocket inicializado","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"🚀 Servidor escuchando en el puerto 3000","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"✅ Seguridad: Helmet activado","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"✅ Rate Limiting: Activo (100 req/15min general, 6 req/15min login)","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"✅ Logging: Winston configurado","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"📂 Logs almacenados en: ./logs/","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"🌍 Entorno: development","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-31 16:13:01"}
+{"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-31 16:13:03"}
+{"level":"info","message":"WebSocket conectado: usuario=13, socket=omdRG8szqnD8XjoZAAAB","timestamp":"2025-12-31 16:13:03"}
