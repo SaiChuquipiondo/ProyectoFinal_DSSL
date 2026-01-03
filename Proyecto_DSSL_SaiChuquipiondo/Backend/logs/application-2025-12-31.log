@@ -1322,3 +1322,4 @@
 {"level":"info","message":"🔌 WebSocket servidor activo","timestamp":"2025-12-31 16:13:01"}
 {"level":"info","message":"WebSocket: Usuario 13 autenticado","timestamp":"2025-12-31 16:13:03"}
 {"level":"info","message":"WebSocket conectado: usuario=13, socket=omdRG8szqnD8XjoZAAAB","timestamp":"2025-12-31 16:13:03"}
+{"level":"info","message":"WebSocket desconectado: usuario=13","timestamp":"2025-12-31 16:14:33"}

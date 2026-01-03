@@ -115,9 +115,7 @@ export class DashboardComponent implements OnInit {
 
   toggleNotificaciones(): void {
     this.showNotificaciones = !this.showNotificaciones;
-    console.log('Toggle notificaciones:', this.showNotificaciones);
-    console.log('Notificaciones:', this.notificaciones);
-    console.log('No leídas:', this.notificacionesNoLeidas);
+
   }
 
   marcarLeida(id: number): void {

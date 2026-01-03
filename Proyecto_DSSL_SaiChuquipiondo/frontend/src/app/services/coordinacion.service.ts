@@ -17,7 +17,7 @@ export class CoordinacionService {
   }
 
   validarFormato(idProyecto: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/proyecto/${idProyecto}/validar-formato`, data);
+    return this.http.post(`${this.apiUrl}/proyecto/revisar-formato/${idProyecto}`, data);
   }
 
   // Obtener detalles completos de un proyecto
@@ -68,9 +68,7 @@ export class CoordinacionService {
     return this.http.get(`${this.apiUrl}/borradores-aprobados-jurados`);
   }
 
-  getPendientesBorradoresFormato(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/pendientes/borradores-formato`);
-  }
+
 
   dictamenBorrador(id_borrador: number, formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/borrador/dictamen/${id_borrador}`, formData);
@@ -90,6 +88,10 @@ export class CoordinacionService {
     return this.http.get<any[]>(`${this.apiUrl}/sustentaciones-programadas`);
   }
 
+  crearUsuario(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/usuarios/crear`, data);
+  }
+
   programarSustentacion(idProyecto: number, data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/sustentacion/programar/${idProyecto}`, data);
   }
@@ -103,6 +105,6 @@ export class CoordinacionService {
   }
 
   generarActa(idSustentacion: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/sustentacion/generar-acta/${idSustentacion}`, {});
+    return this.http.post(`${this.apiUrl}/sustentacion/acta/generar/${idSustentacion}`, {});
   }
 }

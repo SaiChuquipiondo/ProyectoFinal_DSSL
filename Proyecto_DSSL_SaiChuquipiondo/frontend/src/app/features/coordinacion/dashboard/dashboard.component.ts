@@ -5,6 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CoordinacionService } from '../../../services/coordinacion.service';
 import { SustentacionService } from '../../../services/sustentacion.service';
+import { HeaderComponent } from '../components/header/header.component';
 import { AuthService } from '../../../services/auth.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
@@ -15,7 +16,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, HeaderComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -124,7 +125,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       error: (err) => console.error('Error loading proyectos', err)
     });
     
-    this.coordinacionService.getPendientesBorradoresFormato().subscribe({
+    this.coordinacionService.getBorradoresPendientes().subscribe({
       next: (borradores) => this.borradoresPendientes = borradores,
       error: (err) => console.error('Error loading borradores pendientes', err)
     });

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
+
 import { ToastComponent } from './components/toast/toast';
 import { AuthService } from './services/auth.service';
 import { WebsocketService } from './services/websocket.service';

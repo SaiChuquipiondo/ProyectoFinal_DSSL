@@ -25,11 +25,11 @@ export class WebsocketService {
     });
 
     this.socket.on('connected', (data) => {
-      console.log('✅ WebSocket conectado:', data);
+
     });
 
     this.socket.on('nueva_notificacion', (notificacion) => {
-      console.log('🔔 Nueva notificación:', notificacion);
+
       // Emitir notificación
       this.showNotification(notificacion);
       // Actualizar contador

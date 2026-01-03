@@ -5,118 +5,9 @@ const { notificar } = require("../utils/notificar");
 // LISTADOS PENDIENTES
 // =============================
 
-// Asesores por aprobar
-const pendientesAsesor = async (req, res) => {
-  try {
-    if (req.user.rol !== "COORDINACION")
-      return res.status(403).json({ message: "Acceso solo para coordinación" });
-
-    const [rows] = await pool.query(`
-      SELECT p.id_proyecto, p.titulo, d.id_docente,
-        CONCAT(per.nombres,' ',per.apellido_paterno,' ',per.apellido_materno) AS asesor
-      FROM proyecto_tesis p
-      JOIN docente d ON d.id_docente = p.id_asesor
-      JOIN persona per ON per.id_persona = d.id_persona
-      WHERE p.estado_asesor = 'PROPUESTO'
-    `);
-
-    res.json(rows);
-  } catch (err) {
-    console.error("ERROR pendientesAsesor:", err);
-    res.status(500).json({ message: "Error interno" });
-  }
-};
-
-// Proyectos para revisar formato
-const pendientesFormato = async (req, res) => {
-  try {
-    if (req.user.rol !== "COORDINACION")
-      return res.status(403).json({ message: "Acceso solo para coordinación" });
-
-    const [rows] = await pool.query(`
-      SELECT id_proyecto, titulo, ruta_pdf
-      FROM proyecto_tesis
-      WHERE estado_proyecto IN ('PENDIENTE','OBSERVADO_FORMATO')
-    `);
-
-    res.json(rows);
-  } catch (err) {
-    console.error("ERROR pendientesFormato:", err);
-    res.status(500).json({ message: "Error interno" });
-  }
-};
-
-// Proyectos listos para asignar jurados
-const pendientesJurados = async (req, res) => {
-  try {
-    if (req.user.rol !== "COORDINACION")
-      return res.status(403).json({ message: "Acceso solo para coordinación" });
-
-    const [rows] = await pool.query(`
-      SELECT id_proyecto, titulo
-      FROM proyecto_tesis
-      WHERE estado_proyecto = 'APROBADO_ASESOR'
-    `);
-
-    res.json(rows);
-  } catch (err) {
-    console.error("ERROR pendientesJurados:", err);
-    res.status(500).json({ message: "Error interno" });
-  }
-};
-
-// Proyectos listos para dictamen final
-const pendientesDictamen = async (req, res) => {
-  try {
-    if (req.user.rol !== "COORDINACION")
-      return res.status(403).json({ message: "Acceso solo para coordinación" });
-
-    const [rows] = await pool.query(`
-      SELECT p.id_proyecto, p.titulo
-      FROM proyecto_tesis p
-      JOIN revision_proyecto_jurado r ON r.id_proyecto = p.id_proyecto
-      GROUP BY p.id_proyecto
-      HAVING SUM(r.estado_revision = 'APROBADO') = 3
-    `);
-
-    res.json(rows);
-  } catch (err) {
-    console.error("ERROR pendientesDictamen:", err);
-    res.status(500).json({ message: "Error interno" });
-  }
-};
-
-// Borradores pendientes de validación de formato
-const pendientesBorradoresFormato = async (req, res) => {
-  try {
-    if (req.user.rol !== "COORDINACION")
-      return res.status(403).json({ message: "Acceso solo para coordinación" });
-
-    const [rows] = await pool.query(`
-      SELECT 
-        b.id_borrador,
-        b.numero_iteracion,
-        b.ruta_pdf,
-        b.fecha_subida,
-        b.estado,
-        p.id_proyecto,
-        p.titulo,
-        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
-        e.codigo_estudiante
-      FROM tesis_borrador b
-      JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
-      JOIN estudiante e ON e.id_estudiante = p.id_estudiante
-      JOIN persona pers ON pers.id_persona = e.id_persona
-      WHERE b.estado = 'PENDIENTE'
-      ORDER BY b.fecha_subida ASC
-    `);
-
-    res.json(rows);
-  } catch (err) {
-    console.error("ERROR pendientesBorradoresFormato:", err);
-    res.status(500).json({ message: "Error interno" });
-  }
-};
+// Funciones de listado detallado (asesor, formato, jurados, dictamen) eliminadas por desuso.
+// Se usan unificadamente en 'getProyectosPendientes' para el dashboard.
+// (pendientesAsesor, pendientesFormato, pendientesJurados, pendientesDictamen, pendientesBorradoresFormato eliminadas)
 
 // Proyectos aprobados por jurados (listos para dictamen)
 const getProyectosAprobadosJurados = async (req, res) => {
@@ -725,9 +616,10 @@ const getBorradoresPendientes = async (req, res) => {
         b.numero_iteracion,
         b.estado,
         b.fecha_subida,
-        p.titulo AS titulo_proyecto,
+        p.titulo,
         p.id_proyecto,
-        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante
+        CONCAT(pers.nombres, ' ', pers.apellido_paterno, ' ', pers.apellido_materno) AS nombre_estudiante,
+        e.codigo_estudiante
       FROM tesis_borrador b
       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
@@ -822,12 +714,141 @@ const getProyectoDetalles = async (req, res) => {
   }
 };
 
+// =============================
+// CREAR USUARIO (Gestión de Usuarios)
+// =============================
+const crearUsuario = async (req, res) => {
+  const connection = await pool.getConnection();
+  try {
+    if (req.user.rol !== "COORDINACION") {
+      return res.status(403).json({ message: "Acceso solo para coordinación" });
+    }
+
+    const {
+      nombres,
+      apellido_paterno,
+      apellido_materno,
+      dni,
+      correo,
+      telefono,
+      direccion,
+      username,
+      password,
+      rol, // "ESTUDIANTE" o "DOCENTE"
+      codigo_estudiante, // Solo si es estudiante
+      fecha_egreso, // Solo si es estudiante
+      fecha_nacimiento, // Nuevo
+      sexo, // Nuevo
+    } = req.body;
+
+    // 1. Validaciones básicas
+    if (
+      !nombres ||
+      !apellido_paterno ||
+      !dni ||
+      !username ||
+      !password ||
+      !rol
+    ) {
+      return res.status(400).json({ message: "Faltan datos obligatorios" });
+    }
+
+    if (!["ESTUDIANTE", "DOCENTE"].includes(rol)) {
+      return res.status(400).json({ message: "Rol inválido" });
+    }
+
+    if (rol === "ESTUDIANTE" && !codigo_estudiante) {
+      return res
+        .status(400)
+        .json({ message: "Código de estudiante requerido" });
+    }
+
+    await connection.beginTransaction();
+
+    // 2. Verificar duplicados
+    const [existingUser] = await connection.query(
+      "SELECT id_usuario FROM usuario WHERE username = ?",
+      [username]
+    );
+    if (existingUser.length > 0) throw new Error("Usuario ya existe");
+
+    const [existingPersona] = await connection.query(
+      "SELECT id_persona FROM persona WHERE numero_documento = ?",
+      [dni]
+    );
+    if (existingPersona.length > 0) throw new Error("DNI ya registrado");
+
+    if (rol === "ESTUDIANTE") {
+      const [existingCodigo] = await connection.query(
+        "SELECT id_estudiante FROM estudiante WHERE codigo_estudiante = ?",
+        [codigo_estudiante]
+      );
+      if (existingCodigo.length > 0)
+        throw new Error("Código de estudiante ya registrado");
+    }
+
+    // 3. Crear Persona
+    const [personaResult] = await connection.query(
+      `INSERT INTO persona 
+         (nombres, apellido_paterno, apellido_materno, tipo_documento, numero_documento, correo, telefono, direccion, fecha_nacimiento, sexo) 
+       VALUES (?, ?, ?, 'DNI', ?, ?, ?, ?, ?, ?)`,
+      [
+        nombres,
+        apellido_paterno,
+        apellido_materno || "",
+        dni,
+        correo || null,
+        telefono || null,
+        direccion || null,
+        fecha_nacimiento || null,
+        sexo || null,
+      ]
+    );
+    const id_persona = personaResult.insertId;
+
+    // 4. Obtener ID Rol
+    const [rolResult] = await connection.query(
+      "SELECT id_rol FROM rol WHERE nombre = ?",
+      [rol]
+    );
+    const id_rol = rolResult[0].id_rol;
+
+    // 5. Crear Usuario (Hash Password)
+    const bcrypt = require("bcryptjs");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const [usuarioResult] = await connection.query(
+      `INSERT INTO usuario (id_persona, id_rol, username, password_hash, activo) 
+       VALUES (?, ?, ?, ?, 1)`,
+      [id_persona, id_rol, username, hashedPassword]
+    );
+
+    // 6. Crear Registro Específico
+    if (rol === "ESTUDIANTE") {
+      await connection.query(
+        `INSERT INTO estudiante (id_persona, codigo_estudiante, escuela_profesional, fecha_egreso) 
+         VALUES (?, ?, 'Ingeniería de Sistemas', ?)`,
+        [id_persona, codigo_estudiante, req.body.fecha_egreso || null]
+      );
+    } else if (rol === "DOCENTE") {
+      await connection.query(
+        `INSERT INTO docente (id_persona, categoria, grado_academico) 
+         VALUES (?, 'CONTRATADO', 'MAGISTER')`,
+        [id_persona]
+      );
+    }
+
+    await connection.commit();
+    res.status(201).json({ message: "Usuario creado exitosamente" });
+  } catch (err) {
+    await connection.rollback();
+    console.error("ERROR crearUsuario:", err); // Usar console.error si logger no está disponible en este scope o importarlo
+    res.status(400).json({ message: err.message || "Error al crear usuario" });
+  } finally {
+    connection.release();
+  }
+};
+
 module.exports = {
-  pendientesAsesor,
-  pendientesFormato,
-  pendientesJurados,
-  pendientesDictamen,
-  pendientesBorradoresFormato,
   validarAsesor,
   revisarFormato,
   asignarJurados,
@@ -840,4 +861,5 @@ module.exports = {
   getProyectosAprobadosJurados,
   dictamenFinalBorrador,
   getBorradoresAprobadosJurados,
+  crearUsuario,
 };

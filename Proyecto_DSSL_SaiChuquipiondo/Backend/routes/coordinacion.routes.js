@@ -3,11 +3,6 @@ const router = express.Router();
 
 const auth = require("../middleware/authMiddleware");
 const {
-  pendientesAsesor,
-  pendientesFormato,
-  pendientesJurados,
-  pendientesDictamen,
-  pendientesBorradoresFormato,
   validarAsesor,
   revisarFormato,
   asignarJurados,
@@ -20,6 +15,7 @@ const {
   getProyectosAprobadosJurados,
   dictamenFinalBorrador,
   getBorradoresAprobadosJurados,
+  crearUsuario,
 } = require("../controllers/coordinacion.controller");
 
 const {
@@ -27,9 +23,11 @@ const {
   registrarResultado,
   generarActaPDF,
   descargarActa,
+  generarResolucion,
 } = require("../controllers/sustentacion.controller");
 
 // ENDPOINTS PARA DASHBOARD
+router.post("/usuarios/crear", auth, crearUsuario);
 router.get("/proyectos-pendientes", auth, getProyectosPendientes);
 router.get("/proyectos-aprobados-jurados", auth, getProyectosAprobadosJurados);
 router.get(
@@ -42,11 +40,6 @@ router.get("/sustentaciones-programadas", auth, getSustentacionesProgramadas);
 router.get("/proyecto/detalles/:id_proyecto", auth, getProyectoDetalles);
 
 // ENDPOINTS DETALLADOS
-router.get("/pendientes/asesor", auth, pendientesAsesor);
-router.get("/pendientes/formato", auth, pendientesFormato);
-router.get("/pendientes/jurados", auth, pendientesJurados);
-router.get("/pendientes/dictamen", auth, pendientesDictamen);
-router.get("/pendientes/borradores-formato", auth, pendientesBorradoresFormato);
 
 router.post("/proyecto/validar-asesor/:id_proyecto", auth, validarAsesor);
 router.post("/proyecto/revisar-formato/:id_proyecto", auth, revisarFormato);
@@ -75,6 +68,13 @@ router.post(
   "/sustentacion/acta/generar/:id_sustentacion",
   auth,
   generarActaPDF
+);
+
+// ETAPA 3: GENERAR RESOLUCIÓN
+router.post(
+  "/sustentacion/generar-resolucion/:id_proyecto",
+  auth,
+  generarResolucion
 );
 
 // DESCARGAR ACTA

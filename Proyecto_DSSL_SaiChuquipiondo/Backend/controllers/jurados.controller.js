@@ -113,9 +113,7 @@ const revisionJurado = async (req, res) => {
     );
 
     // Si ya hay 3 revisiones (los 3 jurados revisaron)
-    console.log(
-      `[JURADOS] Proyecto ${id_proyecto}: ${reviews.length} revisiones encontradas`
-    );
+    // console.log(`[JURADOS] Proyecto ${id_proyecto}: ${reviews.length} revisiones encontradas`);
 
     if (reviews.length === 3) {
       const aprobados = reviews.filter(
@@ -125,9 +123,7 @@ const revisionJurado = async (req, res) => {
         (r) => r.estado_revision === "OBSERVADO"
       ).length;
 
-      console.log(
-        `[JURADOS] Aprobados: ${aprobados}, Observados: ${observados}`
-      );
+      // console.log(`[JURADOS] Aprobados: ${aprobados}, Observados: ${observados}`);
 
       let nuevoEstado = "";
       let mensajeEstudiante = "";
@@ -136,12 +132,12 @@ const revisionJurado = async (req, res) => {
         // 2 O MÁS JURADOS RECHAZARON
         nuevoEstado = "OBSERVADO_JURADOS";
         mensajeEstudiante = `Tu proyecto "${info[0]?.titulo}" fue observado por la mayoría de jurados. Revisa los comentarios, corrige y vuelve a subir la nueva versión.`;
-        console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
+        // console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
       } else if (aprobados >= 2) {
         // 2 O MÁS JURADOS APROBARON
         nuevoEstado = "APROBADO_JURADOS";
         mensajeEstudiante = `¡Felicidades! Tu proyecto "${info[0]?.titulo}" fue aprobado por la mayoría de jurados.`;
-        console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
+        // console.log(`[JURADOS] Cambiando estado a: ${nuevoEstado}`);
       }
 
       // Actualizar estado del proyecto

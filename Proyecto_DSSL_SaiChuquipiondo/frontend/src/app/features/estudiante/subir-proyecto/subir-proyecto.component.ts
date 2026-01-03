@@ -79,9 +79,7 @@ export class SubirProyectoComponent implements OnInit {
     this.http.get<any>(`${environment.apiUrl}/estudiante/proyectos/${proyectoId}`).subscribe({
       next: (proyecto) => {
         this.proyectoActual = proyecto;
-        console.log('Proyecto cargado:', proyecto);
-        console.log('Estado proyecto:', proyecto.estado_proyecto);
-        console.log('Estado asesor:', proyecto.estado_asesor);
+
         
         this.proyectoForm.patchValue({
           titulo: proyecto.titulo,
