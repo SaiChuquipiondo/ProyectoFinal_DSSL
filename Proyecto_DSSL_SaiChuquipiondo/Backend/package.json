@@ -8,7 +8,7 @@
     "dev": "nodemon index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sai Chuquipiondo",
   "license": "ISC",
   "description": "",
   "dependencies": {
