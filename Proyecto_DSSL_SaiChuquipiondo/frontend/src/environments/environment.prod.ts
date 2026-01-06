@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'URL_DEL_BACKEND/api',
-  wsUrl: 'URL_DEL_BACKEND'
+  apiUrl: 'https://tesisapi.up.railway.app/api',
+  wsUrl: 'https://tesisapi.up.railway.app'
 };
+

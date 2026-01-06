@@ -69,7 +69,13 @@ app.use("/api/", generalLimiter);
 // MIDDLEWARE
 // =========================================
 
-app.use(cors());
+// CORS - Permitir solicitudes desde el frontend desplegado
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || "https://gestesis.up.railway.app",
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" })); // Limitar tamaño de payload
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
