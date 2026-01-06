@@ -615,11 +615,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // ==================== TESIS FINALES ====================
 
   verPDF(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/tesis_final/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/tesis_final/${rutaPdf}`, '_blank');
   }
 
   verResolucion(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/resoluciones/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/resoluciones/${rutaPdf}`, '_blank');
   }
 
   generarResolucion(idProyecto: number): void {
@@ -642,7 +642,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   descargarResolucion(idResolucion: number): void {
-    window.open(`http://localhost:3000/api/sustentacion/descargar/${idResolucion}`, '_blank');
+    window.open(`${environment.apiUrl}/sustentacion/descargar/${idResolucion}`, '_blank');
   }
 
   // --- Programación Sustentación ---
@@ -749,7 +749,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.loadData();
 
           if (res.archivo) {
-            const url = `http://localhost:3000/uploads/actas/${res.archivo}`;
+            const url = `${environment.wsUrl}/uploads/actas/${res.archivo}`;
             window.open(url, '_blank');
           }
         },
@@ -763,12 +763,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   descargarActa(idActa: number): void {
-    window.open(`http://localhost:3000/api/sustentacion/descargar-acta/${idActa}`, '_blank');
+    window.open(`${environment.apiUrl}/sustentacion/descargar-acta/${idActa}`, '_blank');
   }
 
 
   verActa(rutaActa: string): void {
-    // Ajusta la URL base según tu entorno
-    window.open(`http://localhost:3000/uploads/actas/${rutaActa}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/actas/${rutaActa}`, '_blank');
   }
 }

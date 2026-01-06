@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SustentacionService } from '../../../services/sustentacion.service';
 import { ToastService } from '../../../services/toast.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-tesis-finales',
@@ -122,11 +123,11 @@ export class TesisFinalesComponent implements OnInit {
   }
 
   verPDF(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/tesis/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/tesis/${rutaPdf}`, '_blank');
   }
 
   descargarResolucion(idResolucion: number): void {
-    window.open(`http://localhost:3000/api/sustentacion/descargar/${idResolucion}`, '_blank');
+    window.open(`${environment.apiUrl}/sustentacion/descargar/${idResolucion}`, '_blank');
   }
 
   // ======================
@@ -215,6 +216,6 @@ export class TesisFinalesComponent implements OnInit {
   }
 
   descargarActa(idActa: number): void {
-    window.open(`http://localhost:3000/api/sustentacion/descargar-acta/${idActa}`, '_blank');
+    window.open(`${environment.apiUrl}/sustentacion/descargar-acta/${idActa}`, '_blank');
   }
 }

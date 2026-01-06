@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NotificacionService } from '../../../services/notificacion.service';
 import { Subscription } from 'rxjs';
 import { forkJoin } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 interface ProyectoUnificado {
   id_proyecto: number;
@@ -43,7 +44,7 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
   private noLeidasSubscription?: Subscription;
   expandedNotifications: Set<number> = new Set();
 
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
@@ -199,7 +200,7 @@ export class DocenteDashboardComponent implements OnInit, OnDestroy {
         carpeta = 'borradores';
       }
       
-      const pdfUrl = `${this.apiUrl.replace('/api', '')}/uploads/${carpeta}/${ruta}`;
+      const pdfUrl = `${environment.wsUrl}/uploads/${carpeta}/${ruta}`;
       window.open(pdfUrl, '_blank');
     }
   }
