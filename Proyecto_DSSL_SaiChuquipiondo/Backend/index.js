@@ -108,6 +108,10 @@ app.use("/api/coordinacion", coordinacionRoutes);
 const notificacionRoutes = require("./routes/notificacion.routes");
 app.use("/api/notificaciones", notificacionRoutes);
 
+// Rutas de uploads (sirve archivos desde Cloudinary o local)
+const uploadsRoutes = require("./routes/uploads.routes");
+app.use("/uploads", uploadsRoutes);
+
 // Rutas de sustentación
 const sustentacionRoutes = require("./routes/sustentacion.routes");
 app.use("/api/sustentacion", sustentacionRoutes);
