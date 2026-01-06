@@ -143,7 +143,7 @@ const actualizarProyecto = async (req, res) => {
       nuevoEstado = "PENDIENTE";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_ASESOR") {
       // Si fue observado por el asesor, vuelve a PENDIENTE
-      nuevoEstado = "PENDIENTE";
+      nuevoEstado = "REVISADO_FORMATO";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
       // Si fue observado por jurados, vuelve directamente a revisión de jurados
       nuevoEstado = "APROBADO_COORD";
