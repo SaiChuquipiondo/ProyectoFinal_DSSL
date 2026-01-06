@@ -10,7 +10,8 @@ router.get("/:folder/:filename", (req, res) => {
 
   if (isProduction) {
     // En producción, redirigir a Cloudinary
-    const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/raw/upload/${folder}/${filename}`;
+    // En producción, redirigir a Cloudinary (PDFs se guardan como "image" por defecto al usar format: pdf)
+    const cloudinaryUrl = `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload/${folder}/${filename}`;
     return res.redirect(cloudinaryUrl);
   } else {
     // En desarrollo, servir desde filesystem local
