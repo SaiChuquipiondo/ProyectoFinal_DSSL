@@ -12,6 +12,9 @@ const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 const app = express();
 
+// Confiar en el proxy de Railway (necesario para Rate Limit y X-Forwarded-For)
+app.set("trust proxy", 1);
+
 // =========================================
 // LOGGING
 // =========================================
