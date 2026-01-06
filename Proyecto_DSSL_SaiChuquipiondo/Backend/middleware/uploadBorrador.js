@@ -16,7 +16,7 @@ if (isProduction) {
     cloudinary: cloudinary,
     params: {
       folder: "borradores",
-      public_id: (req, file) => `borrador_${Date.now()}.pdf`,
+      public_id: (req, file) => `borrador_${Date.now()}`,
       format: async () => "pdf", // Forzar formato PDF
       access_mode: "public", // Hacer el archivo público
     },
