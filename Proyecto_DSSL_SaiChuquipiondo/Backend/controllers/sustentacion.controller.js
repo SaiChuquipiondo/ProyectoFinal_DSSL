@@ -6,6 +6,9 @@ const { notificar } = require("../utils/notificar");
 const logger = require("../config/logger");
 const { withTransaction } = require("../utils/transaction");
 
+// Detectar produccion
+const isProduction = process.env.NODE_ENV === "production";
+
 // =============================
 // Helpers
 // =============================
@@ -181,7 +184,13 @@ const generarResolucion = async (req, res) => {
       .replace(/{{VOCAL}}/g, vocal);
 
     /* 7️⃣ PDF */
-    const browser = await puppeteer.launch({ headless: "new" });
+    const puppetArgs = isProduction
+      ? ["--no-sandbox", "--disable-setuid-sandbox"]
+      : [];
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: puppetArgs,
+    });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
 
@@ -190,6 +199,28 @@ const generarResolucion = async (req, res) => {
 
     await page.pdf({ path: rutaPDF, format: "A4" });
     await browser.close();
+
+    // En Producción: Subir a Cloudinary y eliminar local
+    if (isProduction) {
+      const cloudinary = require("../config/cloudinary");
+      const publicId = `resoluciones/${nombrePDF.replace(".pdf", "")}`;
+      try {
+        await cloudinary.uploader.upload(rutaPDF, {
+          resource_type: "auto", // PDF se detecta como image/document
+          folder: "resoluciones",
+          public_id: nombrePDF.replace(".pdf", ""), // ID sin extensión para consistencia
+          use_filename: true,
+          unique_filename: false,
+          access_mode: "public",
+        });
+        // Eliminar archivo temporal
+        fs.unlinkSync(rutaPDF);
+      } catch (error) {
+        console.error("Error subiendo resolución a Cloudinary:", error);
+        // No fallamos la request, pero flaqueamos el error.
+        // El archivo local se perderá en next deploy si es Railway.
+      }
+    }
 
     /* 8️⃣ Guardar en BD */
     await pool.query(
@@ -247,6 +278,19 @@ const descargarResolucion = async (req, res) => {
     "../uploads/resoluciones",
     r[0].ruta_pdf
   );
+
+  if (isProduction) {
+    const cloudinary = require("../config/cloudinary");
+    // Construir URL de Cloudinary
+    // Asumimos resource_type image/auto para PDFs
+    const publicId = `resoluciones/${r[0].ruta_pdf.replace(".pdf", "")}`;
+    const url = cloudinary.url(publicId, {
+      resource_type: "image", // PDFs son tratados como imagenes a menudo
+      format: "pdf",
+      secure: true,
+    });
+    return res.redirect(url);
+  }
 
   res.download(filePath);
 };
@@ -635,11 +679,35 @@ const generarActaPDF = async (req, res) => {
     const nombrePDF = `acta_${numeroActa}.pdf`;
     const rutaPDF = path.join(outDir, nombrePDF);
 
-    const browser = await puppeteer.launch({ headless: "new" });
+    const puppetArgs = isProduction
+      ? ["--no-sandbox", "--disable-setuid-sandbox"]
+      : [];
+    const browser = await puppeteer.launch({
+      headless: "new",
+      args: puppetArgs,
+    });
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
     await page.pdf({ path: rutaPDF, format: "A4" });
     await browser.close();
+
+    // En Producción: Subir a Cloudinary
+    if (isProduction) {
+      const cloudinary = require("../config/cloudinary");
+      try {
+        await cloudinary.uploader.upload(rutaPDF, {
+          resource_type: "auto",
+          folder: "actas",
+          public_id: nombrePDF.replace(".pdf", ""),
+          use_filename: true,
+          unique_filename: false,
+          access_mode: "public",
+        });
+        fs.unlinkSync(rutaPDF);
+      } catch (error) {
+        console.error("Error subiendo acta a Cloudinary:", error);
+      }
+    }
 
     // 7) Guardar en BD
     await pool.query(
@@ -699,6 +767,18 @@ const descargarActa = async (req, res) => {
     if (!a.length) return res.sendStatus(404);
 
     const filePath = path.join(__dirname, "../uploads/actas", a[0].ruta_pdf);
+
+    if (isProduction) {
+      const cloudinary = require("../config/cloudinary");
+      const publicId = `actas/${a[0].ruta_pdf.replace(".pdf", "")}`;
+      const url = cloudinary.url(publicId, {
+        resource_type: "image",
+        format: "pdf",
+        secure: true,
+      });
+      return res.redirect(url);
+    }
+
     return res.download(filePath);
   } catch (err) {
     console.error("ERROR descargarActa:", err);

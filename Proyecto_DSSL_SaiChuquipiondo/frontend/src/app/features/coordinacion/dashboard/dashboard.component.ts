@@ -255,12 +255,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   mostrarModalRechazo(proyecto: any): void {
-    this.proyectoSeleccionado = proyecto;
-    this.motivoRechazo = '';
-    this.showModalRechazo = true;
     if (this.showModalDetalles) {
       this.cerrarModalDetalles();
     }
+    this.proyectoSeleccionado = proyecto;
+    this.motivoRechazo = '';
+    this.showModalRechazo = true;
   }
 
   cerrarModalRechazo(): void {
@@ -291,11 +291,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   mostrarModalAsesor(proyecto: any): void {
-    this.proyectoSeleccionado = proyecto;
-    this.showModalAsesor = true;
     if (this.showModalDetalles) {
       this.cerrarModalDetalles();
     }
+    this.proyectoSeleccionado = proyecto;
+    this.showModalAsesor = true;
   }
 
   cerrarModalAsesor(): void {

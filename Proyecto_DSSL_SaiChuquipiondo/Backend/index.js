@@ -71,7 +71,10 @@ app.use("/api/", generalLimiter);
 
 // CORS - Permitir solicitudes desde el frontend desplegado
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "https://gestesis.up.railway.app",
+  origin: process.env.FRONTEND_URL || [
+    "http://localhost:4200",
+    "https://gestesis.up.railway.app",
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
 };

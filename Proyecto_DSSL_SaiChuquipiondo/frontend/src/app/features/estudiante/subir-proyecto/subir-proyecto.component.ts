@@ -84,9 +84,10 @@ export class SubirProyectoComponent implements OnInit {
         this.proyectoForm.patchValue({
           titulo: proyecto.titulo,
           resumen: proyecto.resumen,
-          id_especialidad: proyecto.id_especialidad,
-          id_asesor: proyecto.id_asesor
-        });
+          id_especialidad: proyecto.id_especialidad
+        }, { emitEvent: false });
+        
+        this.loadAsesores(proyecto.id_especialidad, proyecto.id_asesor);
         
         // Si el asesor ya fue aprobado, deshabilitar el campo
         if (proyecto.estado_asesor === 'APROBADO') {
@@ -136,15 +137,31 @@ export class SubirProyectoComponent implements OnInit {
     });
   }
 
-  loadAsesores(idEspecialidad: number): void {
+  loadAsesores(idEspecialidad: number, preselectedId: number | null = null): void {
     this.loadingAsesores = true;
     this.asesores = [];
-    this.proyectoForm.patchValue({ id_asesor: '' });
+    // Solo limpiar si no hay un preseleccionado (para evitar borrar lo que acabamos de cargar en edición)
+    if (!preselectedId) {
+      this.proyectoForm.patchValue({ id_asesor: '' });
+    }
     
     this.http.get<any[]>(`${environment.apiUrl}/especialidades/${idEspecialidad}/asesores`).subscribe({
       next: (data) => {
         this.asesores = data;
         this.loadingAsesores = false;
+        
+        if (preselectedId) {
+          // Verificar si el asesor preseleccionado está en la lista (podría haber cambiado de especialidad o no estar activo)
+          const exists = this.asesores.some(a => a.id_docente === preselectedId);
+          if (exists) {
+            this.proyectoForm.patchValue({ id_asesor: preselectedId });
+          } else {
+            // Si el asesor original ya no está disponible en la lista, lo agregamos temporalmente o mantenemos el valor
+            // Para mantener la integridad, mantenemos el valor aunque no esté en el dropdown visualmente
+             this.proyectoForm.patchValue({ id_asesor: preselectedId });
+          }
+        }
+
         if (data.length === 0) {
           this.toastService.warning('No hay asesores disponibles para esta especialidad', 3000);
         }

@@ -151,7 +151,7 @@ const actualizarProyecto = async (req, res) => {
       nuevoEstado = "REVISADO_FORMATO";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
       // Si fue observado por jurados, vuelve directamente a revisión de jurados
-      nuevoEstado = "APROBADO_COORD";
+      nuevoEstado = "ASIGNADO_JURADOS";
       resetearRevisiones = true;
     }
 
@@ -212,9 +212,10 @@ const actualizarProyecto = async (req, res) => {
 
     // Si fue observado por jurados, limpiar las revisiones anteriores
     if (resetearRevisiones) {
-      await pool.query(`DELETE FROM revision_jurado WHERE id_proyecto = ?`, [
-        id_proyecto,
-      ]);
+      await pool.query(
+        `DELETE FROM revision_proyecto_jurado WHERE id_proyecto = ?`,
+        [id_proyecto]
+      );
     }
 
     // Notificar a coordinación
@@ -235,7 +236,7 @@ const actualizarProyecto = async (req, res) => {
         `SELECT DISTINCT u.id_usuario
          FROM usuario u
          JOIN docente d ON d.id_persona = u.id_persona
-         JOIN asignacion_jurado aj ON aj.id_jurado = d.id_docente
+         JOIN proyecto_jurado aj ON aj.id_jurado = d.id_docente
          WHERE aj.id_proyecto = ?`,
         [id_proyecto]
       );
@@ -413,24 +414,56 @@ const subirBorrador = async (req, res) => {
     // Extraer solo el nombre del archivo  (sin la carpeta)
     const rutaPdf = req.file.filename.split("/").pop();
 
+    // Determinar el estado inicial del nuevo borrador
+    let nuevoEstado = "PENDIENTE";
+
+    // Verificar si el borrador anterior fue observado por el ASESOR
+    if (numero_iteracion > 1) {
+      const [lastBorrador] = await pool.query(
+        `SELECT id_borrador, estado FROM tesis_borrador 
+         WHERE id_proyecto = ? AND numero_iteracion = ?`,
+        [id_proyecto, numero_iteracion - 1]
+      );
+
+      if (lastBorrador.length > 0) {
+        // 1. Verificar si fue observado por el ASESOR
+        if (lastBorrador[0].estado === "OBSERVADO_ASESOR") {
+          // Si fue observado por el asesor, el nuevo borrador pasa directo al asesor
+          nuevoEstado = "APROBADO_CORD";
+        }
+        // 2. Verificar si fue observado por JURADOS
+        else if (lastBorrador[0].estado === "OBSERVADO_JURADOS") {
+          nuevoEstado = "APROBADO_ASESOR";
+          // IMPORTANTE: Limpiar revisiones de jurados para que puedan volver a revisar
+          await pool.query(
+            `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
+            [lastBorrador[0].id_borrador]
+          );
+        }
+      }
+    }
+
     const [result] = await pool.query(
-      `INSERT INTO tesis_borrador (id_proyecto, numero_iteracion, ruta_pdf)
-       VALUES (?, ?, ?)`,
-      [id_proyecto, numero_iteracion, rutaPdf]
+      `INSERT INTO tesis_borrador (id_proyecto, numero_iteracion, ruta_pdf, estado)
+       VALUES (?, ?, ?, ?)`,
+      [id_proyecto, numero_iteracion, rutaPdf, nuevoEstado]
     );
 
     // ========================
     // NOTIFICAR COORDINACIÓN
     // ========================
-    const [coord] = await pool.query(
-      `SELECT id_usuario FROM usuario WHERE id_rol = 3`
-    );
-    for (const c of coord) {
-      await notificar(
-        c.id_usuario,
-        "Nuevo borrador enviado",
-        `El estudiante ha subido un nuevo borrador del proyecto.`
+    // Solo notificar si el estado es PENDIENTE (requiere revisión de coord)
+    if (nuevoEstado === "PENDIENTE") {
+      const [coord] = await pool.query(
+        `SELECT id_usuario FROM usuario WHERE id_rol = 3`
       );
+      for (const c of coord) {
+        await notificar(
+          c.id_usuario,
+          "Nuevo borrador enviado",
+          `El estudiante ha subido un nuevo borrador del proyecto.`
+        );
+      }
     }
 
     // ========================
@@ -513,9 +546,14 @@ const actualizarBorrador = async (req, res) => {
       // Determinar nuevo estado según quién lo observó
       let nuevoEstado = "PENDIENTE";
 
-      if (borrador[0].estado === "OBSERVADO_ASESOR") {
+      if (borrador[0].estado === "OBSERVADO") {
+        // Observado por Coordinador -> Vuelve a PENDIENTE (revisión coord)
+        nuevoEstado = "PENDIENTE";
+      } else if (borrador[0].estado === "OBSERVADO_ASESOR") {
+        // Observado por Asesor -> Vuelve a APROBADO_CORD (revisión asesor)
         nuevoEstado = "APROBADO_CORD";
       } else if (borrador[0].estado === "OBSERVADO_JURADOS") {
+        // Observado por Jurados -> Vuelve a APROBADO_ASESOR (revisión jurados)
         nuevoEstado = "APROBADO_ASESOR";
         // Limpiar revisiones anteriores de jurados
         await pool.query(
@@ -540,7 +578,9 @@ const actualizarBorrador = async (req, res) => {
     } else {
       // Si no hay archivo (raro), mantener la lógica de estados
       let nuevoEstado = "PENDIENTE";
-      if (borrador[0].estado === "OBSERVADO_ASESOR") {
+      if (borrador[0].estado === "OBSERVADO") {
+        nuevoEstado = "PENDIENTE";
+      } else if (borrador[0].estado === "OBSERVADO_ASESOR") {
         nuevoEstado = "APROBADO_CORD";
       } else if (borrador[0].estado === "OBSERVADO_JURADOS") {
         nuevoEstado = "APROBADO_ASESOR";

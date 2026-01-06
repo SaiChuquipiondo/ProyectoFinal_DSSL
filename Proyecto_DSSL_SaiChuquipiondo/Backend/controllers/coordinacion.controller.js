@@ -541,6 +541,7 @@ const getBorradoresAprobadosJurados = async (req, res) => {
         b.id_borrador,
         b.numero_iteracion,
         b.fecha_subida,
+        b.ruta_pdf,
         b.estado,
         p.id_proyecto,
         p.titulo,
@@ -615,6 +616,7 @@ const getBorradoresPendientes = async (req, res) => {
         b.id_borrador,
         b.numero_iteracion,
         b.estado,
+        b.ruta_pdf,
         b.fecha_subida,
         p.titulo,
         p.id_proyecto,
@@ -624,7 +626,7 @@ const getBorradoresPendientes = async (req, res) => {
       JOIN proyecto_tesis p ON p.id_proyecto = b.id_proyecto
       JOIN estudiante e ON e.id_estudiante = p.id_estudiante
       JOIN persona pers ON pers.id_persona = e.id_persona
-      WHERE b.estado IN ('PENDIENTE', 'OBSERVADO')
+      WHERE b.estado IN ('PENDIENTE')
       ORDER BY b.fecha_subida DESC
     `);
 
