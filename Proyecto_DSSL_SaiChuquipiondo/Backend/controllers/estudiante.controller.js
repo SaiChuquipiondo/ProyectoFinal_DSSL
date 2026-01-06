@@ -121,7 +121,11 @@ const actualizarProyecto = async (req, res) => {
     const proyectoActual = proyecto[0];
 
     // Verificar que está en estado OBSERVADO
-    const estadosObservados = ["OBSERVADO_ASESOR", "OBSERVADO_JURADOS"];
+    const estadosObservados = [
+      "OBSERVADO_FORMATO",
+      "OBSERVADO_ASESOR",
+      "OBSERVADO_JURADOS",
+    ];
     if (!estadosObservados.includes(proyectoActual.estado_proyecto)) {
       return res.status(400).json({
         message: "Solo se pueden actualizar proyectos observados",
@@ -134,7 +138,10 @@ const actualizarProyecto = async (req, res) => {
     let nuevoEstado = "PENDIENTE";
     let resetearRevisiones = false;
 
-    if (proyectoActual.estado_proyecto === "OBSERVADO_ASESOR") {
+    if (proyectoActual.estado_proyecto === "OBSERVADO_FORMATO") {
+      // Si fue observado por formato (coordinación), vuelve a PENDIENTE
+      nuevoEstado = "PENDIENTE";
+    } else if (proyectoActual.estado_proyecto === "OBSERVADO_ASESOR") {
       // Si fue observado por el asesor, vuelve a PENDIENTE
       nuevoEstado = "PENDIENTE";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
