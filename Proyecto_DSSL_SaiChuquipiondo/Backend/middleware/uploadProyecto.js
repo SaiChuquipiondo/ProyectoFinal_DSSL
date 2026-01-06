@@ -16,8 +16,8 @@ if (isProduction) {
     cloudinary: cloudinary,
     params: {
       folder: "proyectos",
-      public_id: (req, file) => `proyecto_${Date.now()}.pdf`,
-      resource_type: "raw", // Importante para PDFs
+      public_id: (req, file) => `proyecto_${Date.now()}`,
+      format: async () => "pdf", // Forzar formato PDF
       access_mode: "public", // Hacer el archivo público
     },
   });

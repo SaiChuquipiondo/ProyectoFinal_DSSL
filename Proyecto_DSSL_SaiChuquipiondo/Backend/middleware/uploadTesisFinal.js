@@ -16,8 +16,8 @@ if (isProduction) {
     cloudinary: cloudinary,
     params: {
       folder: "tesis_final",
-      public_id: (req, file) => `tesis_${Date.now()}.pdf`,
-      resource_type: "raw", // Importante para PDFs
+      public_id: (req, file) => `tesis_${Date.now()}`,
+      format: async () => "pdf", // Forzar formato PDF
       access_mode: "public", // Hacer el archivo público
     },
   });
