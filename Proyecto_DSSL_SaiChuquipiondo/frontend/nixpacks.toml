@@ -1,0 +1,13 @@
+[phases.setup]
+
+[phases.install]
+cmds = ["npm ci --legacy-peer-deps"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npx serve dist/frontend/browser -l 8080"
+
+[staticAssets]
+directory = "dist/frontend/browser"
