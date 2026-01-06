@@ -8,7 +8,7 @@ cmds = ["npm ci --legacy-peer-deps"]
 cmds = ["chmod +x build.sh && ./build.sh"]
 
 [start]
-cmd = "npx serve dist/frontend -s -l 8080"
+cmd = "npx serve dist/frontend/browser -s -l 8080"
 
 [staticAssets]
-directory = "dist/frontend"
+directory = "dist/frontend/browser"

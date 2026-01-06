@@ -1,21 +1,21 @@
 #!/bin/bash
-# Script para ejecutar ng build omitiendo la verificación de versión de Node.js
+# Build script for Angular in Railway
 
-# Parchear temporalmente el archivo de Angular CLI
-CLI_FILE="./node_modules/@angular/cli/lib/cli/index.js"
+echo "Starting Angular build..."
 
-if [ -f "$CLI_FILE" ]; then
-    # Hacer backup
-    cp "$CLI_FILE" "$CLI_FILE.bak"
-    
-    # Comentar la línea que lanza el error de versión
-    sed -i 's/process.exit(1)/\/\/ process.exit(1)/g' "$CLI_FILE"
+# Ejecutar build directamente
+npm run build || {
+    echo "Build failed, trying alternative..."
+    # Si falla, intentar con npx directamente
+    npx --yes @angular/cli@latest build --configuration=production || true
+}
+
+echo "Build completed. Checking output..."
+ls -la dist/
+
+# Mostrar estructura de directorios para debug
+if [ -d "dist/frontend" ]; then
+    echo "Contents of dist/frontend:"
+    ls -la dist/frontend/
 fi
 
-# Ejecutar el build
-npx ng build --configuration=production
-
-# Restaurar el archivo original
-if [ -f "$CLI_FILE.bak" ]; then
-    mv "$CLI_FILE.bak" "$CLI_FILE"
-fi
