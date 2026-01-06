@@ -21,6 +21,11 @@ const subirProyecto = async (req, res) => {
     // Determinar estado del asesor
     const estado_asesor = id_asesor ? "PROPUESTO" : "SIN_ASESOR";
 
+    // Extraer solo el nombre del archivo (sin la carpeta)
+    // En Cloudinary: "proyectos/proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
+    // En local: "proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
+    const rutaPdf = req.file.filename.split("/").pop();
+
     // Insertar proyecto con asesor propuesto (si existe)
     const [result] = await pool.query(
       `INSERT INTO proyecto_tesis
@@ -33,7 +38,7 @@ const subirProyecto = async (req, res) => {
         estado_asesor,
         titulo,
         resumen,
-        req.file.filename,
+        rutaPdf,
       ]
     );
 
@@ -158,9 +163,9 @@ const actualizarProyecto = async (req, res) => {
       await deleteFile(proyectoActual.ruta_pdf, "proyectos");
 
       // Obtener el nombre del archivo según el storage
-      // En Cloudinary: req.file.filename
-      // En local: req.file.filename
-      const nuevaRutaPdf = req.file.filename;
+      // En Cloudinary: "proyectos/proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
+      // En local: "proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
+      const nuevaRutaPdf = req.file.filename.split("/").pop();
 
       // Actualizar proyecto con nuevo PDF
       await pool.query(
@@ -405,10 +410,13 @@ const subirBorrador = async (req, res) => {
 
     const numero_iteracion = iter[0].total + 1;
 
+    // Extraer solo el nombre del archivo  (sin la carpeta)
+    const rutaPdf = req.file.filename.split("/").pop();
+
     const [result] = await pool.query(
       `INSERT INTO tesis_borrador (id_proyecto, numero_iteracion, ruta_pdf)
        VALUES (?, ?, ?)`,
-      [id_proyecto, numero_iteracion, req.file.filename]
+      [id_proyecto, numero_iteracion, rutaPdf]
     );
 
     // ========================
@@ -517,6 +525,9 @@ const actualizarBorrador = async (req, res) => {
       }
 
       // Actualizar borrador
+      // Extraer solo el nombre del archivo (sin la carpeta)
+      const rutaPdf = req.file.filename.split("/").pop();
+
       await pool.query(
         `UPDATE tesis_borrador 
          SET ruta_pdf = ?, 
@@ -524,7 +535,7 @@ const actualizarBorrador = async (req, res) => {
              numero_iteracion = ?,
              fecha_subida = CURRENT_TIMESTAMP
          WHERE id_borrador = ?`,
-        [req.file.filename, nuevoEstado, nuevaIteracion, id_borrador]
+        [rutaPdf, nuevoEstado, nuevaIteracion, id_borrador]
       );
     } else {
       // Si no hay archivo (raro), mantener la lógica de estados
