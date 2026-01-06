@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NotificacionService } from '../../../services/notificacion.service';
 import { ToastService } from '../../../services/toast.service';
+import { environment } from '../../../../environments/environment';
 
 interface Borrador {
   id_borrador: number;
@@ -42,7 +43,7 @@ export class RevisarBorradorComponent implements OnInit, OnDestroy {
   private noLeidasSubscription?: Subscription;
   expandedNotifications: Set<number> = new Set();
   
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   
   esJurado = false; // Propiedad para modo jurado
 
@@ -120,7 +121,7 @@ export class RevisarBorradorComponent implements OnInit, OnDestroy {
   
   verPDF(): void {
     if (this.borrador?.ruta_pdf) {
-      const pdfUrl = `http://localhost:3000/uploads/borradores/${this.borrador.ruta_pdf}`;
+      const pdfUrl = `${environment.wsUrl}/uploads/borradores/${this.borrador.ruta_pdf}`;
       window.open(pdfUrl, '_blank');
     }
   }

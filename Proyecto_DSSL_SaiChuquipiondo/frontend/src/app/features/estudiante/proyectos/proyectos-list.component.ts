@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
 import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-proyectos-list',
@@ -73,7 +74,7 @@ export class ProyectosListComponent implements OnInit {
   }
 
   verPDF(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/proyectos/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/proyectos/${rutaPdf}`, '_blank');
   }
 
   resubirProyecto(proyecto: any): void {

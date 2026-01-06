@@ -5,6 +5,7 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { ToastService } from '../../../services/toast.service';
 import { Router } from '@angular/router';
 import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-borradores',
@@ -84,11 +85,11 @@ export class BorradoresComponent implements OnInit {
   }
 
   verPDF(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/borradores/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/borradores/${rutaPdf}`, '_blank');
   }
 
   verPDFTesis(rutaPdf: string): void {
-    window.open(`http://localhost:3000/uploads/tesis_final/${rutaPdf}`, '_blank');
+    window.open(`${environment.wsUrl}/uploads/tesis_final/${rutaPdf}`, '_blank');
   }
 
 

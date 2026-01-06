@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 interface Proyecto {
   id_proyecto: number;
@@ -32,7 +33,7 @@ export class RevisarProyectoComponent implements OnInit {
   estadoRevision: 'APROBADO' | 'OBSERVADO' | '' = '';
   comentarios = '';
   
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = environment.apiUrl;
   
   constructor(
     private route: ActivatedRoute,
@@ -77,7 +78,7 @@ export class RevisarProyectoComponent implements OnInit {
   
   verPDF(): void {
     if (this.proyecto?.ruta_pdf) {
-      const pdfUrl = `http://localhost:3000/uploads/proyectos/${this.proyecto.ruta_pdf}`;
+      const pdfUrl = `${environment.wsUrl}/uploads/proyectos/${this.proyecto.ruta_pdf}`;
       window.open(pdfUrl, '_blank');
     }
   }
