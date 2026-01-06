@@ -19,6 +19,7 @@ if (isProduction) {
       format: async () => "pdf",
       public_id: (req, file) => `borrador_${Date.now()}`,
       resource_type: "raw", // Importante para PDFs
+      access_mode: "public", // Hacer el archivo público
     },
   });
 } else {
