@@ -7,7 +7,7 @@ const uploadBorrador = require("../middleware/uploadBorrador");
 const uploadTesisFinal = require("../middleware/uploadTesisFinal");
 const {
   subirProyecto,
-  // actualizarProyecto,
+  actualizarProyecto,
   getProyectoById,
   elegirAsesor,
   subirBorrador,
@@ -25,7 +25,7 @@ const {
 router.get("/mis-proyectos", auth, misProyectos);
 router.get("/proyectos/:id_proyecto", auth, getProyectoById);
 router.post("/proyecto/subir", auth, uploadProyecto, subirProyecto);
-// router.put("/proyectos/:id_proyecto", auth, uploadProyecto, actualizarProyecto); // Unusd
+router.put("/proyectos/:id_proyecto", auth, uploadProyecto, actualizarProyecto);
 router.post("/proyecto/elegir-asesor/:id_proyecto", auth, elegirAsesor);
 // router.get("/proyectos/:id_proyecto/revision-asesor", auth, getRevisionAsesor); // Unused
 

@@ -94,11 +94,160 @@ const subirProyecto = async (req, res) => {
 };
 
 // ============================
-// ACTUALIZAR PROYECTO (ELIMINADO POR DESUSO)
+// ACTUALIZAR PROYECTO (RESUBMISIÓN)
 // ============================
-// Se usaba el método POST para subir correcciones como nuevo registro (nueva iteración)
-// en lugar de actualizar el existente via PUT.
-// (actualizarProyecto eliminado)
+const actualizarProyecto = async (req, res) => {
+  try {
+    const { rol, id_estudiante } = req.user;
+    const { id_proyecto } = req.params;
+
+    if (rol !== "ESTUDIANTE")
+      return res
+        .status(403)
+        .json({ message: "Acceso permitido solo a estudiantes" });
+
+    // Obtener proyecto actual
+    const [proyecto] = await pool.query(
+      `SELECT p.*, p.estado_proyecto
+       FROM proyecto_tesis p
+       WHERE p.id_proyecto = ? AND p.id_estudiante = ?`,
+      [id_proyecto, id_estudiante]
+    );
+
+    if (proyecto.length === 0) {
+      return res.status(404).json({ message: "Proyecto no encontrado" });
+    }
+
+    const proyectoActual = proyecto[0];
+
+    // Verificar que está en estado OBSERVADO
+    const estadosObservados = ["OBSERVADO_ASESOR", "OBSERVADO_JURADOS"];
+    if (!estadosObservados.includes(proyectoActual.estado_proyecto)) {
+      return res.status(400).json({
+        message: "Solo se pueden actualizar proyectos observados",
+      });
+    }
+
+    const { titulo, resumen, id_especialidad, id_asesor } = req.body;
+
+    // Determinar nuevo estado según quién lo observó
+    let nuevoEstado = "PENDIENTE";
+    let resetearRevisiones = false;
+
+    if (proyectoActual.estado_proyecto === "OBSERVADO_ASESOR") {
+      // Si fue observado por el asesor, vuelve a PENDIENTE
+      nuevoEstado = "PENDIENTE";
+    } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
+      // Si fue observado por jurados, vuelve directamente a revisión de jurados
+      nuevoEstado = "APROBADO_COORD";
+      resetearRevisiones = true;
+    }
+
+    // Si hay nuevo archivo PDF, actualizar y eliminar el anterior
+    if (req.file) {
+      const fs = require("fs");
+      const path = require("path");
+      const oldPdfPath = path.join(
+        __dirname,
+        "../uploads/proyectos",
+        proyectoActual.ruta_pdf
+      );
+
+      if (fs.existsSync(oldPdfPath)) {
+        fs.unlinkSync(oldPdfPath);
+      }
+
+      // Actualizar proyecto con nuevo PDF
+      await pool.query(
+        `UPDATE proyecto_tesis 
+         SET titulo = ?, 
+             resumen = ?, 
+             id_especialidad = ?, 
+             id_asesor = ?, 
+             ruta_pdf = ?, 
+             estado_proyecto = ?,
+             fecha_subida = CURRENT_TIMESTAMP
+         WHERE id_proyecto = ?`,
+        [
+          titulo,
+          resumen,
+          id_especialidad,
+          id_asesor || null,
+          req.file.filename,
+          nuevoEstado,
+          id_proyecto,
+        ]
+      );
+    } else {
+      // Actualizar sin cambiar PDF
+      await pool.query(
+        `UPDATE proyecto_tesis 
+         SET titulo = ?, 
+             resumen = ?, 
+             id_especialidad = ?, 
+             id_asesor = ?, 
+             estado_proyecto = ?,
+             fecha_subida = CURRENT_TIMESTAMP
+         WHERE id_proyecto = ?`,
+        [
+          titulo,
+          resumen,
+          id_especialidad,
+          id_asesor || null,
+          nuevoEstado,
+          id_proyecto,
+        ]
+      );
+    }
+
+    // Si fue observado por jurados, limpiar las revisiones anteriores
+    if (resetearRevisiones) {
+      await pool.query(`DELETE FROM revision_jurado WHERE id_proyecto = ?`, [
+        id_proyecto,
+      ]);
+    }
+
+    // Notificar a coordinación
+    const [coord] = await pool.query(
+      `SELECT id_usuario FROM usuario WHERE id_rol = 3`
+    );
+    for (const c of coord) {
+      await notificar(
+        c.id_usuario,
+        "Proyecto corregido",
+        `El estudiante ha corregido y reenviado el proyecto "${titulo}".`
+      );
+    }
+
+    // Si fue observado por jurados, notificar a los jurados que deben revisar nuevamente
+    if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
+      const [jurados] = await pool.query(
+        `SELECT DISTINCT u.id_usuario
+         FROM usuario u
+         JOIN docente d ON d.id_persona = u.id_persona
+         JOIN asignacion_jurado aj ON aj.id_jurado = d.id_docente
+         WHERE aj.id_proyecto = ?`,
+        [id_proyecto]
+      );
+
+      for (const jurado of jurados) {
+        await notificar(
+          jurado.id_usuario,
+          "Proyecto corregido - Nueva revisión",
+          `El estudiante ha corregido el proyecto "${titulo}". Por favor, revisa nuevamente.`
+        );
+      }
+    }
+
+    res.json({
+      message: "Proyecto actualizado correctamente",
+      id_proyecto: id_proyecto,
+    });
+  } catch (err) {
+    console.error("ERROR actualizarProyecto:", err);
+    res.status(500).json({ message: "Error interno" });
+  }
+};
 
 // ============================
 // OBTENER PROYECTO POR ID
@@ -649,7 +798,7 @@ const obtenerMiTesisFinal = async (req, res) => {
 
 module.exports = {
   subirProyecto,
-
+  actualizarProyecto,
   getProyectoById,
   elegirAsesor,
   subirBorrador,
