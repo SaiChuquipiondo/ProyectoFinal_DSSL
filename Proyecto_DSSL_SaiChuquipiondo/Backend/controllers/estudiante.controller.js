@@ -152,17 +152,15 @@ const actualizarProyecto = async (req, res) => {
 
     // Si hay nuevo archivo PDF, actualizar y eliminar el anterior
     if (req.file) {
-      const fs = require("fs");
-      const path = require("path");
-      const oldPdfPath = path.join(
-        __dirname,
-        "../uploads/proyectos",
-        proyectoActual.ruta_pdf
-      );
+      const { deleteFile } = require("../utils/fileStorage");
 
-      if (fs.existsSync(oldPdfPath)) {
-        fs.unlinkSync(oldPdfPath);
-      }
+      // Eliminar el archivo anterior (funciona tanto en local como en Cloudinary)
+      await deleteFile(proyectoActual.ruta_pdf, "proyectos");
+
+      // Obtener el nombre del archivo según el storage
+      // En Cloudinary: req.file.filename
+      // En local: req.file.filename
+      const nuevaRutaPdf = req.file.filename;
 
       // Actualizar proyecto con nuevo PDF
       await pool.query(
@@ -180,7 +178,7 @@ const actualizarProyecto = async (req, res) => {
           resumen,
           id_especialidad,
           id_asesor || null,
-          req.file.filename,
+          nuevaRutaPdf,
           nuevoEstado,
           id_proyecto,
         ]
@@ -497,18 +495,9 @@ const actualizarBorrador = async (req, res) => {
 
     // Si hay nuevo archivo PDF, actualizar ruta, iteración, fecha y estado
     if (req.file) {
-      // Eliminar PDF anterior del servidor
-      const fs = require("fs");
-      const path = require("path");
-      const oldPdfPath = path.join(
-        __dirname,
-        "../uploads/borradores",
-        borrador[0].ruta_pdf
-      );
-
-      if (fs.existsSync(oldPdfPath)) {
-        fs.unlinkSync(oldPdfPath);
-      }
+      // Eliminar PDF anterior del servidor (funciona tanto en local como en Cloudinary)
+      const { deleteFile } = require("../utils/fileStorage");
+      await deleteFile(borrador[0].ruta_pdf, "borradores");
 
       // Incrementamos la iteración
       const nuevaIteracion = borrador[0].numero_iteracion + 1;
