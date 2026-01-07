@@ -72,9 +72,36 @@ app.use("/api/", generalLimiter);
 // MIDDLEWARE
 // =========================================
 
-// CORS - Permitir solicitudes temporalmente desde cualquier origen para debugging
+// CORS - Permitir solicitudes desde el frontend desplegado
+// Lista de orígenes permitidos
+const allowedOrigins = [
+  "http://localhost:4200",
+  "https://gestesis.up.railway.app",
+  "https://tesisapi.up.railway.app",
+];
+
 const corsOptions = {
-  origin: true, // Refleja el origen de la petición (permite todo)
+  origin: function (origin, callback) {
+    // Permitir requests sin origin (como Postman o server-to-server)
+    if (!origin) return callback(null, true);
+
+    // Permitir si está en la lista O si NO estamos en producción (para facilitar desarrollo local)
+    if (
+      allowedOrigins.indexOf(origin) !== -1 ||
+      process.env.NODE_ENV !== "production"
+    ) {
+      return callback(null, true);
+    } else {
+      // Robustez: Revisar si el origen coincide quitando la barra final
+      const originClean = origin.replace(/\/$/, "");
+      if (allowedOrigins.some((o) => o.replace(/\/$/, "") === originClean)) {
+        return callback(null, true);
+      }
+
+      console.log(`[CORS BLOQUEADO] Origen no permitido: ${origin}`);
+      return callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200,
 };
