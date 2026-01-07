@@ -92,6 +92,12 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // RUTAS
 // =========================================
 
+// DEBUG: Log de todas las peticiones
+app.use((req, res, next) => {
+  console.log(`[DEBUG REQUEST] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // Rutas de autenticación
 const authRoutes = require("./routes/auth.routes");
 app.use("/api/auth", loginLimiter, authRoutes);
