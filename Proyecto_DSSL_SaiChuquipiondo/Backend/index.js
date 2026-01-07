@@ -72,12 +72,9 @@ app.use("/api/", generalLimiter);
 // MIDDLEWARE
 // =========================================
 
-// CORS - Permitir solicitudes desde el frontend desplegado
+// CORS - Permitir solicitudes temporalmente desde cualquier origen para debugging
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || [
-    "http://localhost:4200",
-    "https://gestesis.up.railway.app",
-  ],
+  origin: true, // Refleja el origen de la petición (permite todo)
   credentials: true,
   optionsSuccessStatus: 200,
 };
