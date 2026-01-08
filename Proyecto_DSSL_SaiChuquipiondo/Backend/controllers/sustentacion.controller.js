@@ -6,23 +6,14 @@ const { notificar } = require("../utils/notificar");
 const logger = require("../config/logger");
 const { withTransaction } = require("../utils/transaction");
 
-// Detectar produccion
 const isProduction = process.env.NODE_ENV === "production";
 
-// =============================
-// Helpers
-// =============================
 const ensureDir = (dir) => fs.mkdirSync(dir, { recursive: true });
 
-/**
- * Genera número de resolución único con protección contra race conditions
- * Usa SELECT FOR UPDATE para bloquear la fila y evitar duplicados
- */
 const generarNumeroResolucion = async () => {
   const anio = new Date().getFullYear();
 
   return await withTransaction(pool, async (connection) => {
-    // Obtener el último número con lock exclusivo (SELECT FOR UPDATE)
     const [rows] = await connection.query(
       `SELECT COUNT(*) total FROM resolucion WHERE YEAR(fecha_resolucion)=? FOR UPDATE`,
       [anio]
@@ -36,9 +27,6 @@ const generarNumeroResolucion = async () => {
   });
 };
 
-/* ===============================
-   LISTAR TESIS FINALES
-================================ */
 const listarTesisFinales = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION") {
@@ -82,9 +70,6 @@ const listarTesisFinales = async (req, res) => {
   }
 };
 
-/* ===============================
-   GENERAR RESOLUCIÓN
-================================ */
 const generarResolucion = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION") {
@@ -93,7 +78,6 @@ const generarResolucion = async (req, res) => {
 
     const { id_proyecto } = req.params;
 
-    /* 1️⃣ Verificar tesis final */
     const [tesis] = await pool.query(
       `SELECT * FROM tesis WHERE id_proyecto=?`,
       [id_proyecto]
@@ -105,7 +89,6 @@ const generarResolucion = async (req, res) => {
         .json({ message: "No existe tesis final registrada" });
     }
 
-    /* 2️⃣ Evitar doble resolución */
     const [existente] = await pool.query(
       `SELECT id_resolucion FROM resolucion WHERE id_proyecto=?`,
       [id_proyecto]
@@ -117,7 +100,6 @@ const generarResolucion = async (req, res) => {
         .json({ message: "Este proyecto ya tiene resolución" });
     }
 
-    /* 3️⃣ Datos del proyecto */
     const [data] = await pool.query(
       `
       SELECT 
@@ -141,7 +123,6 @@ const generarResolucion = async (req, res) => {
 
     const estudiante = `${data[0].nombres} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
 
-    /* 4️⃣ Jurados */
     const [jurados] = await pool.query(
       `
       SELECT pj.rol_jurado,
@@ -162,10 +143,8 @@ const generarResolucion = async (req, res) => {
     )?.nombre;
     const vocal = jurados.find((j) => j.rol_jurado === "VOCAL")?.nombre;
 
-    /* 5️⃣ Número resolución */
     const numeroResolucion = await generarNumeroResolucion();
 
-    /* 6️⃣ HTML */
     const template = fs.readFileSync(
       path.join(__dirname, "../templates/resolucion.html"),
       "utf8"
@@ -183,7 +162,6 @@ const generarResolucion = async (req, res) => {
       .replace(/{{SECRETARIO}}/g, secretario)
       .replace(/{{VOCAL}}/g, vocal);
 
-    /* 7️⃣ PDF */
     const puppetArgs = isProduction
       ? ["--no-sandbox", "--disable-setuid-sandbox"]
       : [];
@@ -200,29 +178,24 @@ const generarResolucion = async (req, res) => {
     await page.pdf({ path: rutaPDF, format: "A4" });
     await browser.close();
 
-    // En Producción: Subir a Cloudinary y eliminar local
     if (isProduction) {
       const cloudinary = require("../config/cloudinary");
       const publicId = `resoluciones/${nombrePDF.replace(".pdf", "")}`;
       try {
         await cloudinary.uploader.upload(rutaPDF, {
-          resource_type: "auto", // PDF se detecta como image/document
+          resource_type: "auto",
           folder: "resoluciones",
-          public_id: nombrePDF.replace(".pdf", ""), // ID sin extensión para consistencia
+          public_id: nombrePDF.replace(".pdf", ""),
           use_filename: true,
           unique_filename: false,
           access_mode: "public",
         });
-        // Eliminar archivo temporal
         fs.unlinkSync(rutaPDF);
       } catch (error) {
         console.error("Error subiendo resolución a Cloudinary:", error);
-        // No fallamos la request, pero flaqueamos el error.
-        // El archivo local se perderá en next deploy si es Railway.
       }
     }
 
-    /* 8️⃣ Guardar en BD */
     await pool.query(
       `
       INSERT INTO resolucion
@@ -232,7 +205,6 @@ const generarResolucion = async (req, res) => {
       [id_proyecto, numeroResolucion, nombrePDF]
     );
 
-    /* 9️⃣ Notificar estudiante */
     const [userEst] = await pool.query(
       `
       SELECT u.id_usuario
@@ -262,9 +234,6 @@ const generarResolucion = async (req, res) => {
   }
 };
 
-/* ===============================
-   DESCARGAR RESOLUCIÓN
-================================ */
 const descargarResolucion = async (req, res) => {
   const [r] = await pool.query(
     `SELECT ruta_pdf FROM resolucion WHERE id_resolucion=?`,
@@ -281,11 +250,9 @@ const descargarResolucion = async (req, res) => {
 
   if (isProduction) {
     const cloudinary = require("../config/cloudinary");
-    // Construir URL de Cloudinary
-    // Asumimos resource_type image/auto para PDFs
     const publicId = `resoluciones/${r[0].ruta_pdf.replace(".pdf", "")}`;
     const url = cloudinary.url(publicId, {
-      resource_type: "image", // PDFs son tratados como imagenes a menudo
+      resource_type: "image",
       format: "pdf",
       secure: true,
     });
@@ -296,7 +263,6 @@ const descargarResolucion = async (req, res) => {
 };
 
 const formatearFechaHoraPE = (dt) => {
-  // dt viene como Date
   return dt.toLocaleString("es-PE", {
     year: "numeric",
     month: "2-digit",
@@ -306,15 +272,10 @@ const formatearFechaHoraPE = (dt) => {
   });
 };
 
-/**
- * Genera número de acta único con protección contra race conditions
- * Usa SELECT FOR UPDATE para bloquear la fila y evitar duplicados
- */
 const generarNumeroActa = async () => {
   const anio = new Date().getFullYear();
 
   return await withTransaction(pool, async (connection) => {
-    // Obtener el último número con lock exclusivo (SELECT FOR UPDATE)
     const [rows] = await connection.query(
       `SELECT COUNT(*) AS total FROM acta_sustentacion a
        JOIN sustentacion s ON s.id_sustentacion=a.id_sustentacion
@@ -335,7 +296,6 @@ const generarNumeroActa = async () => {
   });
 };
 
-// Obtiene id_usuario del estudiante del proyecto
 const getUsuarioEstudianteByProyecto = async (id_proyecto) => {
   const [rows] = await pool.query(
     `
@@ -350,7 +310,6 @@ const getUsuarioEstudianteByProyecto = async (id_proyecto) => {
   return rows.length ? rows[0].id_usuario : null;
 };
 
-// Obtiene id_usuario del asesor del proyecto
 const getUsuarioAsesorByProyecto = async (id_proyecto) => {
   const [rows] = await pool.query(
     `
@@ -365,7 +324,6 @@ const getUsuarioAsesorByProyecto = async (id_proyecto) => {
   return rows.length ? rows[0].id_usuario : null;
 };
 
-// Obtiene id_usuario de jurados del proyecto (array)
 const getUsuariosJuradosByProyecto = async (id_proyecto) => {
   const [rows] = await pool.query(
     `
@@ -377,12 +335,9 @@ const getUsuariosJuradosByProyecto = async (id_proyecto) => {
     `,
     [id_proyecto]
   );
-  return rows; // [{id_usuario, rol_jurado}]
+  return rows;
 };
 
-// =============================
-// 1) Programar sustentación
-// =============================
 const programarSustentacion = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION") {
@@ -396,7 +351,6 @@ const programarSustentacion = async (req, res) => {
       return res.status(400).json({ message: "Debe enviar fecha_hora" });
     }
 
-    // 1) Validar que exista tesis final (tu regla)
     const [t] = await pool.query(
       `SELECT id_tesis FROM tesis WHERE id_proyecto=?`,
       [id_proyecto]
@@ -407,7 +361,6 @@ const programarSustentacion = async (req, res) => {
       });
     }
 
-    // 2) Validar que el proyecto tenga jurados y asesor asignados
     const [p] = await pool.query(
       `SELECT titulo, id_asesor FROM proyecto_tesis WHERE id_proyecto=?`,
       [id_proyecto]
@@ -430,7 +383,6 @@ const programarSustentacion = async (req, res) => {
         .json({ message: "Faltan jurados para este proyecto" });
     }
 
-    // 3) Evitar doble programación (1 sustentación activa por proyecto)
     const [ex] = await pool.query(
       `SELECT id_sustentacion, estado FROM sustentacion WHERE id_proyecto=?`,
       [id_proyecto]
@@ -441,7 +393,6 @@ const programarSustentacion = async (req, res) => {
       });
     }
 
-    // 4) Guardar sustentación
     const [ins] = await pool.query(
       `
       INSERT INTO sustentacion (id_proyecto, fecha_hora, modalidad, lugar, estado)
@@ -453,7 +404,6 @@ const programarSustentacion = async (req, res) => {
     const id_sustentacion = ins.insertId;
     const titulo = p[0].titulo;
 
-    // 5) Notificaciones oficiales
     const usuarioEst = await getUsuarioEstudianteByProyecto(id_proyecto);
     const usuarioAsesor = await getUsuarioAsesorByProyecto(id_proyecto);
     const usuariosJur = await getUsuariosJuradosByProyecto(id_proyecto);
@@ -497,9 +447,6 @@ const programarSustentacion = async (req, res) => {
   }
 };
 
-// =============================
-// 2) Registrar resultado (nota/dictamen)
-// =============================
 const registrarResultado = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION") {
@@ -536,7 +483,6 @@ const registrarResultado = async (req, res) => {
       [nota ?? null, dictamen, observaciones ?? null, id_sustentacion]
     );
 
-    // Si aprueba, marca tesis como SUSTENTADA (opcional pero recomendado)
     if (dictamen === "APROBADO") {
       await pool.query(
         `
@@ -556,10 +502,6 @@ const registrarResultado = async (req, res) => {
   }
 };
 
-// =============================
-// 3) Generar Acta PDF
-//   Requiere: sustentación en estado SUSTENTADA
-// =============================
 const generarActaPDF = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION") {
@@ -568,7 +510,6 @@ const generarActaPDF = async (req, res) => {
 
     const { id_sustentacion } = req.params;
 
-    // 1) Validar sustentación
     const [s] = await pool.query(
       `SELECT id_proyecto, fecha_hora, modalidad, lugar, estado, nota, dictamen, observaciones
        FROM sustentacion WHERE id_sustentacion=?`,
@@ -586,7 +527,6 @@ const generarActaPDF = async (req, res) => {
 
     const id_proyecto = s[0].id_proyecto;
 
-    // 2) Evitar doble acta
     const [ex] = await pool.query(
       `SELECT id_acta FROM acta_sustentacion WHERE id_sustentacion=?`,
       [id_sustentacion]
@@ -597,7 +537,6 @@ const generarActaPDF = async (req, res) => {
         .json({ message: "Esta sustentación ya tiene acta generada" });
     }
 
-    // 3) Traer datos completos (estudiante, asesor, jurado, título)
     const [data] = await pool.query(
       `
       SELECT 
@@ -645,10 +584,8 @@ const generarActaPDF = async (req, res) => {
     const vocal =
       jurados.find((j) => j.rol_jurado === "VOCAL")?.nombre || "(Sin vocal)";
 
-    // 4) N° acta
     const numeroActa = await generarNumeroActa();
 
-    // 5) HTML con placeholders
     const template = fs.readFileSync(
       path.join(__dirname, "../templates/acta_sustentacion.html"),
       "utf8"
@@ -672,7 +609,6 @@ const generarActaPDF = async (req, res) => {
       .replace(/{{NOTA}}/g, s[0].nota != null ? String(s[0].nota) : "-")
       .replace(/{{OBSERVACIONES}}/g, s[0].observaciones || "-");
 
-    // 6) PDF
     const outDir = path.join(__dirname, "../uploads/actas");
     ensureDir(outDir);
 
@@ -691,7 +627,6 @@ const generarActaPDF = async (req, res) => {
     await page.pdf({ path: rutaPDF, format: "A4" });
     await browser.close();
 
-    // En Producción: Subir a Cloudinary
     if (isProduction) {
       const cloudinary = require("../config/cloudinary");
       try {
@@ -709,13 +644,11 @@ const generarActaPDF = async (req, res) => {
       }
     }
 
-    // 7) Guardar en BD
     await pool.query(
       `INSERT INTO acta_sustentacion (id_sustentacion, ruta_pdf) VALUES (?, ?)`,
       [id_sustentacion, nombrePDF]
     );
 
-    // 8) Notificar a TODOS
     const usuarioEst = await getUsuarioEstudianteByProyecto(id_proyecto);
     const usuarioAsesor = await getUsuarioAsesorByProyecto(id_proyecto);
     const usuariosJur = await getUsuariosJuradosByProyecto(id_proyecto);
@@ -753,9 +686,6 @@ const generarActaPDF = async (req, res) => {
   }
 };
 
-// =============================
-// 4) Descargar Acta
-// =============================
 const descargarActa = async (req, res) => {
   try {
     const { id_acta } = req.params;

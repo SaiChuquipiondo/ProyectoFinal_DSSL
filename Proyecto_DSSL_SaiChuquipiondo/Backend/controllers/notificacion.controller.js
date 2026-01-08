@@ -6,9 +6,6 @@ const {
   contarNoLeidas,
 } = require("../utils/notificar");
 
-/**
- * Lista todas las notificaciones del usuario autenticado
- */
 const listarNotificaciones = async (req, res) => {
   try {
     const { id_usuario } = req.user;
@@ -32,9 +29,6 @@ const listarNotificaciones = async (req, res) => {
   }
 };
 
-/**
- * Obtiene el contador de notificaciones no leídas
- */
 const contarNoLeidasController = async (req, res) => {
   try {
     const { id_usuario } = req.user;
@@ -50,9 +44,6 @@ const contarNoLeidasController = async (req, res) => {
   }
 };
 
-/**
- * Marca una notificación específica como leída
- */
 const marcarLeido = async (req, res) => {
   try {
     const { id_notificacion } = req.params;
@@ -77,9 +68,6 @@ const marcarLeido = async (req, res) => {
   }
 };
 
-/**
- * Marca todas las notificaciones del usuario como leídas
- */
 const marcarTodasLeidas = async (req, res) => {
   try {
     const { id_usuario } = req.user;

@@ -1,9 +1,6 @@
 const pool = require("../config/database");
 const { notificar } = require("../utils/notificar");
 
-// =========================
-// ETAPA 1 — SUBIR PROYECTO
-// =========================
 const subirProyecto = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -18,15 +15,10 @@ const subirProyecto = async (req, res) => {
 
     const { titulo, resumen, id_especialidad, id_asesor } = req.body;
 
-    // Determinar estado del asesor
     const estado_asesor = id_asesor ? "PROPUESTO" : "SIN_ASESOR";
 
-    // Extraer solo el nombre del archivo (sin la carpeta)
-    // En Cloudinary: "proyectos/proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
-    // En local: "proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
     const rutaPdf = req.file.filename.split("/").pop();
 
-    // Insertar proyecto con asesor propuesto (si existe)
     const [result] = await pool.query(
       `INSERT INTO proyecto_tesis
         (id_estudiante, id_especialidad, id_asesor, estado_asesor, titulo, resumen, ruta_pdf)
@@ -44,7 +36,6 @@ const subirProyecto = async (req, res) => {
 
     const id_proyecto = result.insertId;
 
-    // Si se propuso un asesor, notificarlo
     if (id_asesor) {
       const [userAsesor] = await pool.query(
         `SELECT u.id_usuario
@@ -63,12 +54,9 @@ const subirProyecto = async (req, res) => {
       }
     }
 
-    // Notificar a coordinación
     const [coord] = await pool.query(
       `SELECT id_usuario FROM usuario WHERE id_rol = 3`
     );
-
-    // Crear mensaje personalizado según si hay asesor propuesto
     let mensajeCoord = `Se ha registrado un nuevo proyecto: "${titulo}".`;
     if (id_asesor) {
       const [asesorInfo] = await pool.query(
@@ -98,9 +86,6 @@ const subirProyecto = async (req, res) => {
   }
 };
 
-// ============================
-// ACTUALIZAR PROYECTO (RESUBMISIÓN)
-// ============================
 const actualizarProyecto = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -125,7 +110,6 @@ const actualizarProyecto = async (req, res) => {
 
     const proyectoActual = proyecto[0];
 
-    // Verificar que está en estado OBSERVADO
     const estadosObservados = [
       "OBSERVADO_FORMATO",
       "OBSERVADO_ASESOR",
@@ -139,35 +123,24 @@ const actualizarProyecto = async (req, res) => {
 
     const { titulo, resumen, id_especialidad, id_asesor } = req.body;
 
-    // Determinar nuevo estado según quién lo observó
     let nuevoEstado = "PENDIENTE";
     let resetearRevisiones = false;
 
     if (proyectoActual.estado_proyecto === "OBSERVADO_FORMATO") {
-      // Si fue observado por formato (coordinación), vuelve a PENDIENTE
       nuevoEstado = "PENDIENTE";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_ASESOR") {
-      // Si fue observado por el asesor, vuelve a PENDIENTE
       nuevoEstado = "REVISADO_FORMATO";
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
-      // Si fue observado por jurados, vuelve directamente a revisión de jurados
       nuevoEstado = "ASIGNADO_JURADOS";
       resetearRevisiones = true;
     }
 
-    // Si hay nuevo archivo PDF, actualizar y eliminar el anterior
     if (req.file) {
       const { deleteFile } = require("../utils/fileStorage");
 
-      // Eliminar el archivo anterior (funciona tanto en local como en Cloudinary)
       await deleteFile(proyectoActual.ruta_pdf, "proyectos");
 
-      // Obtener el nombre del archivo según el storage
-      // En Cloudinary: "proyectos/proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
-      // En local: "proyecto_xxx.pdf" -> "proyecto_xxx.pdf"
       const nuevaRutaPdf = req.file.filename.split("/").pop();
-
-      // Actualizar proyecto con nuevo PDF
       await pool.query(
         `UPDATE proyecto_tesis 
          SET titulo = ?, 
@@ -189,7 +162,6 @@ const actualizarProyecto = async (req, res) => {
         ]
       );
     } else {
-      // Actualizar sin cambiar PDF
       await pool.query(
         `UPDATE proyecto_tesis 
          SET titulo = ?, 
@@ -210,7 +182,6 @@ const actualizarProyecto = async (req, res) => {
       );
     }
 
-    // Si fue observado por jurados, limpiar las revisiones anteriores
     if (resetearRevisiones) {
       await pool.query(
         `DELETE FROM revision_proyecto_jurado WHERE id_proyecto = ?`,
@@ -218,7 +189,6 @@ const actualizarProyecto = async (req, res) => {
       );
     }
 
-    // Notificar a coordinación
     const [coord] = await pool.query(
       `SELECT id_usuario FROM usuario WHERE id_rol = 3`
     );
@@ -230,7 +200,6 @@ const actualizarProyecto = async (req, res) => {
       );
     }
 
-    // Si fue observado por jurados, notificar a los jurados que deben revisar nuevamente
     if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
       const [jurados] = await pool.query(
         `SELECT DISTINCT u.id_usuario
@@ -260,9 +229,6 @@ const actualizarProyecto = async (req, res) => {
   }
 };
 
-// ============================
-// OBTENER PROYECTO POR ID
-// ============================
 const getProyectoById = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -295,9 +261,6 @@ const getProyectoById = async (req, res) => {
   }
 };
 
-// ========================
-// ETAPA 1 — ELEGIR ASESOR
-// ========================
 const elegirAsesor = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -321,7 +284,6 @@ const elegirAsesor = async (req, res) => {
 
     const { id_especialidad, titulo } = proy[0];
 
-    // Validar especialidad del asesor
     const [validAsesor] = await pool.query(
       `SELECT * FROM docente_especialidad
        WHERE id_docente = ? AND id_especialidad = ?`,
@@ -333,7 +295,6 @@ const elegirAsesor = async (req, res) => {
         message: "El asesor no pertenece a la especialidad del proyecto",
       });
 
-    // Actualizar proyecto
     await pool.query(
       `UPDATE proyecto_tesis
        SET id_asesor=?, estado_asesor='PROPUESTO'
@@ -341,7 +302,6 @@ const elegirAsesor = async (req, res) => {
       [id_asesor, id_proyecto]
     );
 
-    // Notificar al asesor
     const [userAsesor] = await pool.query(
       `SELECT u.id_usuario
        FROM usuario u
@@ -358,7 +318,6 @@ const elegirAsesor = async (req, res) => {
       );
     }
 
-    // Notificar a coordinación
     const [coord] = await pool.query(
       `SELECT id_usuario FROM usuario WHERE id_rol=3`
     );
@@ -377,9 +336,6 @@ const elegirAsesor = async (req, res) => {
   }
 };
 
-// ========================
-// ETAPA 2 — SUBIR BORRADOR
-// ========================
 const subirBorrador = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -392,7 +348,6 @@ const subirBorrador = async (req, res) => {
 
     const { id_proyecto } = req.body;
 
-    // Validar propiedad del proyecto
     const [proy] = await pool.query(
       `SELECT * FROM proyecto_tesis WHERE id_proyecto=? AND id_estudiante=?`,
       [id_proyecto, id_estudiante]
@@ -403,7 +358,6 @@ const subirBorrador = async (req, res) => {
         .status(403)
         .json({ message: "El proyecto no pertenece al estudiante" });
 
-    // Número de iteración
     const [iter] = await pool.query(
       `SELECT COUNT(*) AS total FROM tesis_borrador WHERE id_proyecto=?`,
       [id_proyecto]
@@ -411,13 +365,10 @@ const subirBorrador = async (req, res) => {
 
     const numero_iteracion = iter[0].total + 1;
 
-    // Extraer solo el nombre del archivo  (sin la carpeta)
     const rutaPdf = req.file.filename.split("/").pop();
 
-    // Determinar el estado inicial del nuevo borrador
     let nuevoEstado = "PENDIENTE";
 
-    // Verificar si el borrador anterior fue observado por el ASESOR
     if (numero_iteracion > 1) {
       const [lastBorrador] = await pool.query(
         `SELECT id_borrador, estado FROM tesis_borrador 
@@ -426,15 +377,10 @@ const subirBorrador = async (req, res) => {
       );
 
       if (lastBorrador.length > 0) {
-        // 1. Verificar si fue observado por el ASESOR
         if (lastBorrador[0].estado === "OBSERVADO_ASESOR") {
-          // Si fue observado por el asesor, el nuevo borrador pasa directo al asesor
           nuevoEstado = "APROBADO_CORD";
-        }
-        // 2. Verificar si fue observado por JURADOS
-        else if (lastBorrador[0].estado === "OBSERVADO_JURADOS") {
+        } else if (lastBorrador[0].estado === "OBSERVADO_JURADOS") {
           nuevoEstado = "APROBADO_ASESOR";
-          // IMPORTANTE: Limpiar revisiones de jurados para que puedan volver a revisar
           await pool.query(
             `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
             [lastBorrador[0].id_borrador]
@@ -449,10 +395,6 @@ const subirBorrador = async (req, res) => {
       [id_proyecto, numero_iteracion, rutaPdf, nuevoEstado]
     );
 
-    // ========================
-    // NOTIFICAR COORDINACIÓN
-    // ========================
-    // Solo notificar si el estado es PENDIENTE (requiere revisión de coord)
     if (nuevoEstado === "PENDIENTE") {
       const [coord] = await pool.query(
         `SELECT id_usuario FROM usuario WHERE id_rol = 3`
@@ -466,9 +408,6 @@ const subirBorrador = async (req, res) => {
       }
     }
 
-    // ========================
-    // NOTIFICAR ASESOR
-    // ========================
     const [asesorUser] = await pool.query(
       `SELECT u.id_usuario
        FROM usuario u
@@ -497,9 +436,6 @@ const subirBorrador = async (req, res) => {
   }
 };
 
-// ========================
-// ACTUALIZAR BORRADOR (CORRECCIÓN)
-// ========================
 const actualizarBorrador = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -509,7 +445,6 @@ const actualizarBorrador = async (req, res) => {
 
     const { id_borrador } = req.params;
 
-    // Verificar que el borrador pertenece al estudiante
     const [borrador] = await pool.query(
       `SELECT b.*, p.id_estudiante 
        FROM tesis_borrador b
@@ -523,7 +458,6 @@ const actualizarBorrador = async (req, res) => {
         message: "Borrador no encontrado o no pertenece al estudiante",
       });
 
-    // Verificar que está en estado OBSERVADO (por coord, asesor o jurados)
     const estadosObservados = [
       "OBSERVADO",
       "OBSERVADO_ASESOR",
@@ -534,36 +468,30 @@ const actualizarBorrador = async (req, res) => {
         .status(400)
         .json({ message: "Solo se pueden corregir borradores observados" });
 
-    // Si hay nuevo archivo PDF, actualizar ruta, iteración, fecha y estado
     if (req.file) {
-      // Eliminar PDF anterior del servidor (funciona tanto en local como en Cloudinary)
       const { deleteFile } = require("../utils/fileStorage");
       await deleteFile(borrador[0].ruta_pdf, "borradores");
 
-      // Incrementamos la iteración
       const nuevaIteracion = borrador[0].numero_iteracion + 1;
 
-      // Determinar nuevo estado según quién lo observó
       let nuevoEstado = "PENDIENTE";
 
       if (borrador[0].estado === "OBSERVADO") {
-        // Observado por Coordinador -> Vuelve a PENDIENTE (revisión coord)
         nuevoEstado = "PENDIENTE";
       } else if (borrador[0].estado === "OBSERVADO_ASESOR") {
-        // Observado por Asesor -> Vuelve a APROBADO_CORD (revisión asesor)
         nuevoEstado = "APROBADO_CORD";
       } else if (borrador[0].estado === "OBSERVADO_JURADOS") {
-        // Observado por Jurados -> Vuelve a APROBADO_ASESOR (revisión jurados)
         nuevoEstado = "APROBADO_ASESOR";
-        // Limpiar revisiones anteriores de jurados
+        await pool.query(
+          `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
+          [id_borrador]
+        );
         await pool.query(
           `DELETE FROM revision_borrador_jurado WHERE id_borrador = ?`,
           [id_borrador]
         );
       }
 
-      // Actualizar borrador
-      // Extraer solo el nombre del archivo (sin la carpeta)
       const rutaPdf = req.file.filename.split("/").pop();
 
       await pool.query(
@@ -576,7 +504,6 @@ const actualizarBorrador = async (req, res) => {
         [rutaPdf, nuevoEstado, nuevaIteracion, id_borrador]
       );
     } else {
-      // Si no hay archivo (raro), mantener la lógica de estados
       let nuevoEstado = "PENDIENTE";
       if (borrador[0].estado === "OBSERVADO") {
         nuevoEstado = "PENDIENTE";
@@ -599,7 +526,6 @@ const actualizarBorrador = async (req, res) => {
       );
     }
 
-    // Notificar a coordinación
     const [coord] = await pool.query(
       `SELECT id_usuario FROM usuario WHERE id_rol = 3`
     );
@@ -640,12 +566,10 @@ const misResoluciones = async (req, res) => {
   }
 };
 
-// GET mis proyectos
 const misProyectos = async (req, res) => {
   try {
     const { id_estudiante } = req.user;
 
-    // Validar que el usuario tenga id_estudiante
     if (!id_estudiante) {
       return res.status(403).json({
         message: "El usuario no es un estudiante",
@@ -677,7 +601,6 @@ const misProyectos = async (req, res) => {
   }
 };
 
-// GET mis borradores
 const misBorradores = async (req, res) => {
   try {
     const { id_estudiante } = req.user;
@@ -706,7 +629,6 @@ const misBorradores = async (req, res) => {
   }
 };
 
-// GET mi acta
 const miActa = async (req, res) => {
   try {
     const { id_estudiante } = req.user;
@@ -738,12 +660,6 @@ const miActa = async (req, res) => {
   }
 };
 
-// (getRevisionAsesor eliminado por desuso - se incluye en getProyectoById)
-
-// =========================
-// ETAPA 3 — TESIS FINAL
-// =========================
-
 const subirTesisFinal = async (req, res) => {
   try {
     const { rol, id_estudiante } = req.user;
@@ -753,7 +669,6 @@ const subirTesisFinal = async (req, res) => {
         .status(403)
         .json({ message: "Acceso permitido solo a estudiantes" });
 
-    // Verificar que tiene un borrador con dictamen final aprobado
     const [borradorAprobado] = await pool.query(
       `SELECT b.id_borrador, b.id_proyecto, p.titulo
        FROM tesis_borrador b
@@ -772,7 +687,6 @@ const subirTesisFinal = async (req, res) => {
 
     const { id_proyecto, titulo } = borradorAprobado[0];
 
-    // Verificar que no haya ya subido tesis
     const [tesisExistente] = await pool.query(
       `SELECT id_tesis FROM tesis WHERE id_proyecto = ?`,
       [id_proyecto]
@@ -784,19 +698,15 @@ const subirTesisFinal = async (req, res) => {
       });
     }
 
-    // Guardar archivo
     const archivo = req.file;
     if (!archivo) {
       return res.status(400).json({ message: "Archivo PDF requerido" });
     }
 
-    // Insertar en tabla tesis
     await pool.query(
       `INSERT INTO tesis (id_proyecto, ruta_pdf) VALUES (?, ?)`,
       [id_proyecto, archivo.filename]
     );
-
-    // Notificar coordinación
     const [coord] = await pool.query(
       `SELECT id_usuario FROM usuario WHERE id_rol = 3`
     );

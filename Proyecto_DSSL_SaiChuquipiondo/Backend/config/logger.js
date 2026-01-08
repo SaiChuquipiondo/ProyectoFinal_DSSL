@@ -2,7 +2,6 @@ const winston = require("winston");
 const DailyRotateFile = require("winston-daily-rotate-file");
 const path = require("path");
 
-// Definir niveles de logging personalizados
 const levels = {
   error: 0,
   warn: 1,
@@ -11,7 +10,6 @@ const levels = {
   debug: 4,
 };
 
-// Definir colores para cada nivel
 const colors = {
   error: "red",
   warn: "yellow",
@@ -22,7 +20,6 @@ const colors = {
 
 winston.addColors(colors);
 
-// Formato para consola (desarrollo)
 const consoleFormat = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.colorize({ all: true }),
@@ -31,7 +28,6 @@ const consoleFormat = winston.format.combine(
   )
 );
 
-// Formato para archivos (producción)
 const fileFormat = winston.format.combine(
   winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
   winston.format.errors({ stack: true }),
@@ -39,7 +35,6 @@ const fileFormat = winston.format.combine(
   winston.format.json()
 );
 
-// Transportes para archivos con rotación diaria
 const fileRotateTransport = new DailyRotateFile({
   filename: path.join(__dirname, "../logs/application-%DATE%.log"),
   datePattern: "YYYY-MM-DD",
@@ -58,27 +53,21 @@ const errorFileRotateTransport = new DailyRotateFile({
   format: fileFormat,
 });
 
-// Crear el logger
 const logger = winston.createLogger({
   level: process.env.NODE_ENV === "production" ? "info" : "debug",
   levels,
   transports: [
-    // Consola (siempre activo)
     new winston.transports.Console({
       format: consoleFormat,
     }),
-    // Archivo de todos los logs
     fileRotateTransport,
-    // Archivo solo de errores
     errorFileRotateTransport,
   ],
-  // Manejo de excepciones no capturadas
   exceptionHandlers: [
     new winston.transports.File({
       filename: path.join(__dirname, "../logs/exceptions.log"),
     }),
   ],
-  // Manejo de rechazos de promesas
   rejectionHandlers: [
     new winston.transports.File({
       filename: path.join(__dirname, "../logs/rejections.log"),
@@ -86,7 +75,6 @@ const logger = winston.createLogger({
   ],
 });
 
-// Stream para Morgan (logging HTTP)
 logger.stream = {
   write: (message) => logger.http(message.trim()),
 };

@@ -9,10 +9,10 @@
   --color-text-primary: #0f172a;
   --color-text-secondary: #64748b;
   --color-border: #e2e8f0;
-  
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  
+
   --radius-md: 12px;
   --radius-lg: 16px;
 }
@@ -101,7 +101,10 @@
   border-left-color: #22c55e;
 }
 
-.alert p { margin: 0; font-weight: 500; }
+.alert p {
+  margin: 0;
+  font-weight: 500;
+}
 
 /* ==================== FORM CONTENT ==================== */
 .form-content {
@@ -146,6 +149,14 @@
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.required-asterisk {
+  color: #ef4444;
+  font-weight: bold;
 }
 
 .form-group input,
@@ -230,13 +241,15 @@
   font-weight: 500;
 }
 
-.radio-label input[type="radio"] {
+.radio-label input[type='radio'] {
   width: 1.25rem;
   height: 1.25rem;
   accent-color: var(--color-primary);
 }
 
-.mt-4 { margin-top: 1rem; }
+.mt-4 {
+  margin-top: 1rem;
+}
 
 .spinner-sm {
   width: 16px;
@@ -247,4 +260,8 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

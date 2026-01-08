@@ -27,7 +27,6 @@ export class SubirProyectoComponent implements OnInit {
   loadingAsesores = false;
   uploading = false;
   
-  // Variables para modo edición
   isEditMode = false;
   proyectoId: number | null = null;
   proyectoActual: any = null;
@@ -54,7 +53,6 @@ export class SubirProyectoComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser();
     this.loadEspecialidades();
     
-    // Verificar si es modo edición
     this.route.queryParams.subscribe(params => {
       if (params['proyectoId']) {
         this.isEditMode = true;
@@ -63,7 +61,6 @@ export class SubirProyectoComponent implements OnInit {
       }
     });
     
-    // Escuchar cambios en especialidad para cargar asesores
     this.proyectoForm.get('id_especialidad')?.valueChanges.subscribe(idEspecialidad => {
       if (idEspecialidad) {
         this.loadAsesores(idEspecialidad);
@@ -89,12 +86,10 @@ export class SubirProyectoComponent implements OnInit {
         
         this.loadAsesores(proyecto.id_especialidad, proyecto.id_asesor);
         
-        // Si el asesor ya fue aprobado, deshabilitar el campo
         if (proyecto.estado_asesor === 'APROBADO') {
           this.proyectoForm.get('id_asesor')?.disable();
         }
         
-        // Si el proyecto fue observado por el asesor, deshabilitar todos los campos excepto el PDF
         if (proyecto.estado_proyecto === 'OBSERVADO_ASESOR') {
           this.proyectoForm.get('titulo')?.disable();
           this.proyectoForm.get('resumen')?.disable();
@@ -102,7 +97,6 @@ export class SubirProyectoComponent implements OnInit {
           this.proyectoForm.get('id_asesor')?.disable();
         }
 
-        // Si el proyecto fue observado por el jurado, deshabilitar todos los campos excepto el PDF
         if (proyecto.estado_proyecto === 'OBSERVADO_JURADOS') {
           this.proyectoForm.get('titulo')?.disable();
           this.proyectoForm.get('resumen')?.disable();
@@ -123,7 +117,6 @@ export class SubirProyectoComponent implements OnInit {
 
   loadEspecialidades(): void {
     this.loading = true;
-    // Obtener especialidades desde el backend
     this.http.get<any[]>(`${environment.apiUrl}/especialidades`).subscribe({
       next: (data) => {
         this.especialidades = data;
@@ -140,7 +133,6 @@ export class SubirProyectoComponent implements OnInit {
   loadAsesores(idEspecialidad: number, preselectedId: number | null = null): void {
     this.loadingAsesores = true;
     this.asesores = [];
-    // Solo limpiar si no hay un preseleccionado (para evitar borrar lo que acabamos de cargar en edición)
     if (!preselectedId) {
       this.proyectoForm.patchValue({ id_asesor: '' });
     }
@@ -151,13 +143,10 @@ export class SubirProyectoComponent implements OnInit {
         this.loadingAsesores = false;
         
         if (preselectedId) {
-          // Verificar si el asesor preseleccionado está en la lista (podría haber cambiado de especialidad o no estar activo)
           const exists = this.asesores.some(a => a.id_docente === preselectedId);
           if (exists) {
             this.proyectoForm.patchValue({ id_asesor: preselectedId });
           } else {
-            // Si el asesor original ya no está disponible en la lista, lo agregamos temporalmente o mantenemos el valor
-            // Para mantener la integridad, mantenemos el valor aunque no esté en el dropdown visualmente
              this.proyectoForm.patchValue({ id_asesor: preselectedId });
           }
         }
@@ -177,15 +166,13 @@ export class SubirProyectoComponent implements OnInit {
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
-      // Validar que sea PDF
       if (file.type !== 'application/pdf') {
         this.toastService.error('Solo se permiten archivos PDF', 3000);
         event.target.value = '';
         return;
       }
 
-      // Validar tamaño (máximo 10MB)
-      const maxSize = 10 * 1024 * 1024; // 10MB
+      const maxSize = 10 * 1024 * 1024; 
       if (file.size > maxSize) {
         this.toastService.error('El archivo no debe superar 10MB', 3000);
         event.target.value = '';
@@ -198,7 +185,7 @@ export class SubirProyectoComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Para proyectos en OBSERVADO_ASESOR, los campos están deshabilitados pero son válidos
+    
     const esResubmisionAsesor = this.proyectoActual?.estado_proyecto === 'OBSERVADO_ASESOR';
     
     if (this.proyectoForm.invalid && !esResubmisionAsesor) {
@@ -206,7 +193,6 @@ export class SubirProyectoComponent implements OnInit {
       return;
     }
 
-    // En modo edición con OBSERVADO_ASESOR, requiere PDF nuevo obligatoriamente
     if (esResubmisionAsesor && !this.selectedFile) {
       this.toastService.warning('Debes subir el proyecto corregido en PDF', 3000);
       return;
@@ -220,7 +206,6 @@ export class SubirProyectoComponent implements OnInit {
     this.uploading = true;
 
     const formData = new FormData();
-    // Usar getRawValue() para incluir campos deshabilitados
     const formValues = this.proyectoForm.getRawValue();
     
     formData.append('titulo', formValues.titulo);
@@ -232,7 +217,6 @@ export class SubirProyectoComponent implements OnInit {
       formData.append('archivo', this.selectedFile);
     }
 
-    // Si es modo edición, actualizar; si no, crear
     const request = this.isEditMode && this.proyectoId
       ? this.http.put(`${environment.apiUrl}/estudiante/proyectos/${this.proyectoId}`, formData)
       : this.estudianteService.subirProyecto(formData);
@@ -244,7 +228,6 @@ export class SubirProyectoComponent implements OnInit {
           : '¡Proyecto subido exitosamente!';
         this.toastService.success(mensaje, 3000);
         this.uploading = false;
-        // Redirigir a la lista de proyectos
         setTimeout(() => {
           this.router.navigate(['/estudiante/proyectos']);
         }, 1500);

@@ -3,11 +3,8 @@ const jwt = require("jsonwebtoken");
 const logger = require("./logger");
 
 let io;
-const userSockets = new Map(); // Map de id_usuario -> socket.id
+const userSockets = new Map();
 
-/**
- * Inicializa el servidor WebSocket
- */
 const initSocketIO = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
@@ -16,7 +13,6 @@ const initSocketIO = (httpServer) => {
     },
   });
 
-  // Middleware de autenticación
   io.use((socket, next) => {
     try {
       const token = socket.handshake.auth.token;
@@ -37,43 +33,33 @@ const initSocketIO = (httpServer) => {
     }
   });
 
-  // Manejo de conexiones
   io.on("connection", (socket) => {
     const userId = socket.userId;
 
-    // Registrar socket del usuario
     userSockets.set(userId, socket.id);
 
     logger.info(`WebSocket conectado: usuario=${userId}, socket=${socket.id}`);
 
-    // Unir a sala personal
     socket.join(`user_${userId}`);
 
-    // Enviar confirmación de conexión
     socket.emit("connected", {
       message: "Conectado al servidor de notificaciones",
       userId,
     });
 
-    // Manejo de desconexión
     socket.on("disconnect", () => {
       userSockets.delete(userId);
       logger.info(`WebSocket desconectado: usuario=${userId}`);
     });
-
-    // Evento de ping para mantener conexión
     socket.on("ping", () => {
       socket.emit("pong");
     });
   });
 
-  logger.info("🔌 Servidor WebSocket inicializado");
+  logger.info("Servidor WebSocket inicializado");
   return io;
 };
 
-/**
- * Emite una notificación a un usuario específico
- */
 const emitNotificacion = (id_usuario, notificacion) => {
   if (!io) {
     logger.warn("WebSocket no inicializado");
@@ -87,9 +73,6 @@ const emitNotificacion = (id_usuario, notificacion) => {
   });
 };
 
-/**
- * Emite una notificación a múltiples usuarios
- */
 const emitNotificacionMultiple = (ids_usuarios, notificacion) => {
   if (!io) {
     logger.warn("WebSocket no inicializado");
@@ -103,9 +86,6 @@ const emitNotificacionMultiple = (ids_usuarios, notificacion) => {
   logger.debug(`Notificación emitida a ${ids_usuarios.length} usuarios`);
 };
 
-/**
- * Emite actualización del contador de notificaciones
- */
 const emitContadorNotificaciones = (id_usuario, contador) => {
   if (!io) return;
 
@@ -114,16 +94,10 @@ const emitContadorNotificaciones = (id_usuario, contador) => {
   });
 };
 
-/**
- * Verifica si un usuario está conectado
- */
 const usuarioConectado = (id_usuario) => {
   return userSockets.has(id_usuario);
 };
 
-/**
- * Obtiene estadísticas de conexiones
- */
 const getStats = () => {
   if (!io) return { conectados: 0 };
 

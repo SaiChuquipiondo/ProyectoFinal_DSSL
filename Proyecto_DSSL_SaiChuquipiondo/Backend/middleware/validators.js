@@ -1,6 +1,5 @@
 const { body, param, validationResult } = require("express-validator");
 
-// Middleware para manejar errores de validación
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -14,10 +13,6 @@ const handleValidationErrors = (req, res, next) => {
   }
   next();
 };
-
-// ===============================
-// VALIDADORES PARA AUTH
-// ===============================
 
 const validateLogin = [
   body("username")
@@ -40,10 +35,6 @@ const validateLogin = [
   handleValidationErrors,
 ];
 
-// ===============================
-// VALIDADORES PARA PROYECTOS
-// ===============================
-
 const validateElegirAsesor = [
   param("id_proyecto").isInt({ min: 1 }).withMessage("ID de proyecto inválido"),
 
@@ -51,10 +42,6 @@ const validateElegirAsesor = [
 
   handleValidationErrors,
 ];
-
-// ===============================
-// VALIDADORES PARA COORDINACIÓN
-// ===============================
 
 const validateValidarAsesor = [
   param("id_proyecto").isInt({ min: 1 }).withMessage("ID de proyecto inválido"),
@@ -112,10 +99,6 @@ const validateDictamen = [
   handleValidationErrors,
 ];
 
-// ===============================
-// VALIDADORES PARA SUSTENTACIÓN
-// ===============================
-
 const validateProgramarSustentacion = [
   param("id_proyecto").isInt({ min: 1 }).withMessage("ID de proyecto inválido"),
 
@@ -156,10 +139,6 @@ const validateRegistrarResultado = [
 
   handleValidationErrors,
 ];
-
-// ===============================
-// VALIDADORES PARA ASESOR/JURADO
-// ===============================
 
 const validateRevisarProyecto = [
   param("id_proyecto").isInt({ min: 1 }).withMessage("ID de proyecto inválido"),

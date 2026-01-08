@@ -18,18 +18,14 @@ const {
   misProyectos,
   misBorradores,
   miActa,
-  // getRevisionAsesor,
 } = require("../controllers/estudiante.controller");
 
-// Proyectos
 router.get("/mis-proyectos", auth, misProyectos);
 router.get("/proyectos/:id_proyecto", auth, getProyectoById);
 router.post("/proyecto/subir", auth, uploadProyecto, subirProyecto);
 router.put("/proyectos/:id_proyecto", auth, uploadProyecto, actualizarProyecto);
 router.post("/proyecto/elegir-asesor/:id_proyecto", auth, elegirAsesor);
-// router.get("/proyectos/:id_proyecto/revision-asesor", auth, getRevisionAsesor); // Unused
 
-// Borradores
 router.get("/mis-borradores", auth, misBorradores);
 router.post("/borrador/subir", auth, uploadBorrador, subirBorrador);
 router.patch(
@@ -39,11 +35,9 @@ router.patch(
   actualizarBorrador
 );
 
-// Tesis Final
 router.post("/tesis-final", auth, uploadTesisFinal, subirTesisFinal);
 router.get("/tesis-final", auth, obtenerMiTesisFinal);
 
-// Resoluciones y Actas
 router.get("/mis-resoluciones", auth, misResoluciones);
 router.get("/mi-acta", auth, miActa);
 

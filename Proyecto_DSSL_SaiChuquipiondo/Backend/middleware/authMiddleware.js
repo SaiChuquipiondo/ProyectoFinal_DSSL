@@ -7,14 +7,14 @@ const authMiddleware = (req, res, next) => {
     return res.status(401).json({ message: "No se proporcionó token" });
   }
 
-  const token = authHeader.split(" ")[1]; // "Bearer token"
+  const token = authHeader.split(" ")[1];
   if (!token) {
     return res.status(401).json({ message: "Token inválido" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { id_usuario, id_persona, rol, id_estudiante, id_docente }
+    req.user = decoded;
     next();
   } catch (error) {
     return res.status(401).json({ message: "Token no válido o expirado" });

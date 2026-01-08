@@ -1,8 +1,6 @@
 <div class="page-container">
-  <!-- Sidebar (mismo diseño) -->
   <app-estudiante-sidebar></app-estudiante-sidebar>
 
-  <!-- Main Content -->
   <main class="main-content">
     <header class="content-header">
       <div>
@@ -39,7 +37,6 @@
         </div>
 
         <form [formGroup]="proyectoForm" (ngSubmit)="onSubmit()" class="upload-form">
-          <!-- Título -->
           <div class="form-group">
             <label for="titulo">
               Título del Proyecto
@@ -68,7 +65,6 @@
             </div>
           </div>
 
-          <!-- Especialidad -->
           <div class="form-group">
             <label for="especialidad">
               Especialidad
@@ -99,7 +95,6 @@
             </div>
           </div>
 
-          <!-- Asesor -->
           <div class="form-group">
             <label for="asesor">
               Asesor Propuesto
@@ -180,7 +175,6 @@
             </div>
           </div>
 
-          <!-- Resumen -->
           <div class="form-group">
             <label for="resumen">
               Resumen
@@ -212,7 +206,6 @@
             </div>
           </div>
 
-          <!-- Archivo PDF -->
           <div class="form-group">
             <label for="pdf">
               Archivo PDF
@@ -247,7 +240,6 @@
             <p class="file-help">Formato: PDF | Tamaño máximo: 10MB</p>
           </div>
 
-          <!-- Botones -->
           <div class="form-actions">
             <button
               type="button"

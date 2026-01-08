@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const logger = require("../config/logger");
 require("dotenv").config();
 
-// Helper para validar email
 const validateEmail = (email) => {
   return String(email)
     .toLowerCase()
@@ -17,18 +16,15 @@ const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Validación básica de inputs
     if (!username || !password) {
       return res
         .status(400)
         .json({ message: "Usuario y contraseña son obligatorios" });
     }
 
-    // Validar formato de username (evitar inyección)
     if (typeof username !== "string" || username.length > 100) {
       return res.status(400).json({ message: "Formato de usuario inválido" });
     }
-    // Buscar usuario con información de la persona
     const [rows] = await pool.query(
       `SELECT 
         u.id_usuario, 
@@ -68,19 +64,13 @@ const login = async (req, res) => {
       return res.status(403).json({ message: "Usuario inactivo" });
     }
 
-    // SEGURIDAD: Comparación segura con bcrypt
-    // Detectar si la contraseña está hasheada (bcrypt hashes empiezan con $2a$, $2b$, o $2y$)
     let passwordMatch = false;
 
     if (user.password_hash.startsWith("$2")) {
-      // Contraseña hasheada - usar bcrypt
       passwordMatch = await bcrypt.compare(password, user.password_hash);
     } else {
-      // Compatibilidad temporal con contraseñas en texto plano
-      // Esto permite la migración gradual sin romper el sistema
       passwordMatch = password === user.password_hash;
 
-      // Si el login es exitoso, actualizar a bcrypt
       if (passwordMatch) {
         const hashedPassword = await bcrypt.hash(password, 10);
         await pool.query(
@@ -100,7 +90,6 @@ const login = async (req, res) => {
         .json({ message: "Usuario o contraseña incorrectos" });
     }
 
-    // Generar token JWT
     const payload = {
       id_usuario: user.id_usuario,
       id_persona: user.id_persona,

@@ -2,13 +2,11 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Detectar si estamos en producción
 const isProduction = process.env.NODE_ENV === "production";
 
 let storage;
 
 if (isProduction) {
-  // Usar Cloudinary en producción (Railway)
   const cloudinary = require("../config/cloudinary");
   const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
@@ -17,12 +15,11 @@ if (isProduction) {
     params: {
       folder: "borradores",
       public_id: (req, file) => `borrador_${Date.now()}`,
-      format: async () => "pdf", // Forzar formato PDF
-      access_mode: "public", // Hacer el archivo público
+      format: async () => "pdf",
+      access_mode: "public",
     },
   });
 } else {
-  // Usar filesystem en desarrollo local
   storage = multer.diskStorage({
     destination: (req, file, cb) => {
       const dir = path.join(__dirname, "..", "uploads", "borradores");

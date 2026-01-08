@@ -1,15 +1,6 @@
 const pool = require("../config/database");
 const { notificar } = require("../utils/notificar");
 
-// =============================
-// LISTADOS PENDIENTES
-// =============================
-
-// Funciones de listado detallado (asesor, formato, jurados, dictamen) eliminadas por desuso.
-// Se usan unificadamente en 'getProyectosPendientes' para el dashboard.
-// (pendientesAsesor, pendientesFormato, pendientesJurados, pendientesDictamen, pendientesBorradoresFormato eliminadas)
-
-// Proyectos aprobados por jurados (listos para dictamen)
 const getProyectosAprobadosJurados = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -41,9 +32,6 @@ const getProyectosAprobadosJurados = async (req, res) => {
   }
 };
 
-// =============================
-// VALIDAR ASESOR (ETAPA 1)
-// =============================
 const validarAsesor = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -72,7 +60,6 @@ const validarAsesor = async (req, res) => {
     const estudianteNombre = `${data[0].enom} ${data[0].epat} ${data[0].emat}`;
     const asesorNombre = `${data[0].dnom} ${data[0].dpat} ${data[0].dmat}`;
 
-    // Usuario estudiante
     const [userEstu] = await pool.query(
       `SELECT u.id_usuario
        FROM usuario u JOIN estudiante e ON e.id_persona = u.id_persona
@@ -80,7 +67,6 @@ const validarAsesor = async (req, res) => {
       [data[0].id_estudiante]
     );
 
-    // Usuario asesor
     const [userAsesor] = await pool.query(
       `SELECT u.id_usuario
        FROM usuario u JOIN docente d ON d.id_persona = u.id_persona
@@ -110,7 +96,6 @@ const validarAsesor = async (req, res) => {
       return res.json({ message: "Asesor aprobado" });
     }
 
-    // RECHAZADO
     await pool.query(
       `UPDATE proyecto_tesis
        SET id_asesor=NULL, estado_asesor='RECHAZADO'
@@ -137,9 +122,6 @@ const validarAsesor = async (req, res) => {
   }
 };
 
-// =============================
-// REVISAR FORMATO (ETAPA 1)
-// =============================
 const revisarFormato = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -148,7 +130,6 @@ const revisarFormato = async (req, res) => {
     const { id_proyecto } = req.params;
     const { aprobado, motivo } = req.body;
 
-    // Determinar nuevo estado
     const nuevoEstado = aprobado ? "REVISADO_FORMATO" : "OBSERVADO_FORMATO";
 
     await pool.query(
@@ -156,7 +137,6 @@ const revisarFormato = async (req, res) => {
       [nuevoEstado, id_proyecto]
     );
 
-    // Obtener información del proyecto y estudiante
     const [info] = await pool.query(
       `SELECT p.titulo, p.iteracion, e.id_estudiante
        FROM proyecto_tesis p
@@ -175,7 +155,6 @@ const revisarFormato = async (req, res) => {
       [info[0].id_estudiante]
     );
 
-    // Enviar notificación personalizada
     if (aprobado) {
       await notificar(
         userEstu[0].id_usuario,
@@ -201,9 +180,6 @@ const revisarFormato = async (req, res) => {
   }
 };
 
-// =============================
-// ASIGNAR JURADOS (ETAPA 1)
-// =============================
 const asignarJurados = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -219,7 +195,6 @@ const asignarJurados = async (req, res) => {
         .status(400)
         .json({ message: "Los jurados deben ser distintos" });
 
-    // Obtener especialidad y asesor
     const [proy] = await pool.query(
       `SELECT id_especialidad, id_asesor
        FROM proyecto_tesis WHERE id_proyecto=?`,
@@ -229,14 +204,12 @@ const asignarJurados = async (req, res) => {
     if (proy.length === 0)
       return res.status(404).json({ message: "Proyecto no encontrado" });
 
-    // VALIDAR: asesor no puede ser jurado
     if (jurados.includes(proy[0].id_asesor)) {
       return res.status(400).json({
         message: "El asesor no puede ser jurado del mismo proyecto",
       });
     }
 
-    // Validar especialidad de cada jurado
     for (const j of jurados) {
       const [valid] = await pool.query(
         `SELECT * FROM docente_especialidad
@@ -250,7 +223,6 @@ const asignarJurados = async (req, res) => {
         });
     }
 
-    // Registrar jurados
     await pool.query(
       `INSERT INTO proyecto_jurado VALUES (?, ?, 'PRESIDENTE')`,
       [id_proyecto, presidente]
@@ -271,7 +243,6 @@ const asignarJurados = async (req, res) => {
       [id_proyecto]
     );
 
-    // Notificaciones
     const map = {
       [presidente]: "PRESIDENTE",
       [secretario]: "SECRETARIO",
@@ -301,9 +272,6 @@ const asignarJurados = async (req, res) => {
   }
 };
 
-// =============================
-// DICTAMEN FINAL (ETAPA 1)
-// =============================
 const dictamenFinal = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -311,8 +279,6 @@ const dictamenFinal = async (req, res) => {
 
     const { id_proyecto } = req.params;
 
-    // Verificar que el proyecto esté en estado APROBADO_JURADOS
-    // (Este estado ya significa que la mayoría de jurados aprobó - 2 de 3)
     const [proyecto] = await pool.query(
       `SELECT estado_proyecto FROM proyecto_tesis WHERE id_proyecto=?`,
       [id_proyecto]
@@ -326,7 +292,6 @@ const dictamenFinal = async (req, res) => {
         message: "El proyecto debe estar aprobado por los jurados primero",
       });
 
-    // Actualizar proyecto
     await pool.query(
       `UPDATE proyecto_tesis
        SET estado_proyecto='APROBADO_FINAL'
@@ -357,7 +322,6 @@ const dictamenFinal = async (req, res) => {
       `¡Felicitaciones! Tu proyecto "${titulo}" ha sido aprobado por los jurados. Ahora puedes proceder a subir el borrador de tu tesis para revisión.`
     );
 
-    // Notificar al asesor
     const [asesorInfo] = await pool.query(
       `SELECT p.id_asesor
        FROM proyecto_tesis p
@@ -389,9 +353,6 @@ const dictamenFinal = async (req, res) => {
   }
 };
 
-// =============================
-// ETAPA 2 — VALIDACIÓN DE FORMATO DEL BORRADOR
-// =============================
 const validarFormatoBorrador = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -407,7 +368,6 @@ const validarFormatoBorrador = async (req, res) => {
       id_borrador,
     ]);
 
-    // Obtener estudiante
     const [info] = await pool.query(
       `SELECT b.id_proyecto, e.id_estudiante
        FROM tesis_borrador b
@@ -445,9 +405,6 @@ const validarFormatoBorrador = async (req, res) => {
   }
 };
 
-// =============================
-// DICTAMEN FINAL BORRADOR (ETAPA 2)
-// =============================
 const dictamenFinalBorrador = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -455,7 +412,6 @@ const dictamenFinalBorrador = async (req, res) => {
 
     const { id_borrador } = req.params;
 
-    // Verificar que el borrador esté en estado APROBADO_JURADOS
     const [borrador] = await pool.query(
       `SELECT estado, id_proyecto FROM tesis_borrador WHERE id_borrador=?`,
       [id_borrador]
@@ -469,7 +425,6 @@ const dictamenFinalBorrador = async (req, res) => {
         message: "El borrador debe estar aprobado por los jurados primero",
       });
 
-    // Actualizar borrador a estado final
     await pool.query(
       `UPDATE tesis_borrador
        SET estado='APROBADO_FINAL'
@@ -477,7 +432,6 @@ const dictamenFinalBorrador = async (req, res) => {
       [id_borrador]
     );
 
-    // Obtener información del proyecto y estudiante
     const [info] = await pool.query(
       `SELECT p.titulo, p.id_asesor, e.id_estudiante
        FROM tesis_borrador b
@@ -489,7 +443,6 @@ const dictamenFinalBorrador = async (req, res) => {
 
     const { titulo, id_asesor, id_estudiante } = info[0];
 
-    // Notificar estudiante
     const [usr] = await pool.query(
       `SELECT u.id_usuario
        FROM usuario u JOIN estudiante e ON e.id_persona=u.id_persona
@@ -503,7 +456,6 @@ const dictamenFinalBorrador = async (req, res) => {
       `¡Felicitaciones! El borrador de tu tesis "${titulo}" ha sido aprobado por la coordinación. Se procedera con la programación de la sustentación.`
     );
 
-    // Notificar al asesor
     if (id_asesor) {
       const [usrAsesor] = await pool.query(
         `SELECT u.id_usuario
@@ -528,9 +480,6 @@ const dictamenFinalBorrador = async (req, res) => {
   }
 };
 
-// =============================
-// LISTAR BORRADORES APROBADOS POR JURADOS
-// =============================
 const getBorradoresAprobadosJurados = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -565,11 +514,6 @@ const getBorradoresAprobadosJurados = async (req, res) => {
   }
 };
 
-// =============================
-// ENDPOINTS PARA DASHBOARD
-// =============================
-
-// GET proyectos pendientes (agregador para el dashboard)
 const getProyectosPendientes = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -605,7 +549,6 @@ const getProyectosPendientes = async (req, res) => {
   }
 };
 
-// GET borradores pendientes
 const getBorradoresPendientes = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -637,7 +580,6 @@ const getBorradoresPendientes = async (req, res) => {
   }
 };
 
-// GET sustentaciones programadas
 const getSustentacionesProgramadas = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -668,7 +610,6 @@ const getSustentacionesProgramadas = async (req, res) => {
   }
 };
 
-// GET detalles completos de un proyecto
 const getProyectoDetalles = async (req, res) => {
   try {
     if (req.user.rol !== "COORDINACION")
@@ -716,9 +657,6 @@ const getProyectoDetalles = async (req, res) => {
   }
 };
 
-// =============================
-// CREAR USUARIO (Gestión de Usuarios)
-// =============================
 const crearUsuario = async (req, res) => {
   const connection = await pool.getConnection();
   try {
@@ -736,14 +674,13 @@ const crearUsuario = async (req, res) => {
       direccion,
       username,
       password,
-      rol, // "ESTUDIANTE" o "DOCENTE"
-      codigo_estudiante, // Solo si es estudiante
-      fecha_egreso, // Solo si es estudiante
-      fecha_nacimiento, // Nuevo
-      sexo, // Nuevo
+      rol,
+      codigo_estudiante,
+      fecha_egreso,
+      fecha_nacimiento,
+      sexo,
     } = req.body;
 
-    // 1. Validaciones básicas
     if (
       !nombres ||
       !apellido_paterno ||
@@ -767,7 +704,6 @@ const crearUsuario = async (req, res) => {
 
     await connection.beginTransaction();
 
-    // 2. Verificar duplicados
     const [existingUser] = await connection.query(
       "SELECT id_usuario FROM usuario WHERE username = ?",
       [username]
@@ -789,7 +725,6 @@ const crearUsuario = async (req, res) => {
         throw new Error("Código de estudiante ya registrado");
     }
 
-    // 3. Crear Persona
     const [personaResult] = await connection.query(
       `INSERT INTO persona 
          (nombres, apellido_paterno, apellido_materno, tipo_documento, numero_documento, correo, telefono, direccion, fecha_nacimiento, sexo) 
@@ -808,14 +743,12 @@ const crearUsuario = async (req, res) => {
     );
     const id_persona = personaResult.insertId;
 
-    // 4. Obtener ID Rol
     const [rolResult] = await connection.query(
       "SELECT id_rol FROM rol WHERE nombre = ?",
       [rol]
     );
     const id_rol = rolResult[0].id_rol;
 
-    // 5. Crear Usuario (Hash Password)
     const bcrypt = require("bcryptjs");
     const hashedPassword = await bcrypt.hash(password, 10);
     const [usuarioResult] = await connection.query(
@@ -824,7 +757,6 @@ const crearUsuario = async (req, res) => {
       [id_persona, id_rol, username, hashedPassword]
     );
 
-    // 6. Crear Registro Específico
     if (rol === "ESTUDIANTE") {
       await connection.query(
         `INSERT INTO estudiante (id_persona, codigo_estudiante, escuela_profesional, fecha_egreso) 
@@ -843,7 +775,7 @@ const crearUsuario = async (req, res) => {
     res.status(201).json({ message: "Usuario creado exitosamente" });
   } catch (err) {
     await connection.rollback();
-    console.error("ERROR crearUsuario:", err); // Usar console.error si logger no está disponible en este scope o importarlo
+    console.error("ERROR crearUsuario:", err);
     res.status(400).json({ message: err.message || "Error al crear usuario" });
   } finally {
     connection.release();

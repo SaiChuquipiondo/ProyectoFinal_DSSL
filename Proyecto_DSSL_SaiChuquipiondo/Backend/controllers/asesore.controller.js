@@ -1,7 +1,6 @@
 const pool = require("../config/database");
 const { notificar } = require("../utils/notificar");
 
-// LISTAR PROYECTOS PENDIENTES DEL ASESOR
 const listarPendientesAsesor = async (req, res) => {
   try {
     if (req.user.rol !== "DOCENTE")
@@ -29,7 +28,6 @@ const listarPendientesAsesor = async (req, res) => {
   }
 };
 
-// REVISIÓN DEL ASESOR
 const revisionAsesor = async (req, res) => {
   try {
     if (req.user.rol !== "DOCENTE")
@@ -39,14 +37,12 @@ const revisionAsesor = async (req, res) => {
     const { id_proyecto } = req.params;
     const { estado_revision, comentarios } = req.body;
 
-    // Validar estado
     if (!["APROBADO", "OBSERVADO"].includes(estado_revision)) {
       return res.status(400).json({
         message: "Estado inválido. Use: APROBADO u OBSERVADO",
       });
     }
 
-    // Verificar que el proyecto pertenece al asesor
     const [proy] = await pool.query(
       `SELECT id_asesor, estado_proyecto FROM proyecto_tesis WHERE id_proyecto = ?`,
       [id_proyecto]
@@ -60,7 +56,6 @@ const revisionAsesor = async (req, res) => {
         .status(403)
         .json({ message: "Este proyecto no pertenece al asesor" });
 
-    // Registrar revisión
     await pool.query(
       `INSERT INTO revision_proyecto_asesor
        (id_proyecto, id_asesor, estado_revision, comentarios)
@@ -68,7 +63,6 @@ const revisionAsesor = async (req, res) => {
       [id_proyecto, id_docente, estado_revision, comentarios]
     );
 
-    // Determinar nuevo estado del proyecto
     const nuevoEstadoProyecto =
       estado_revision === "APROBADO" ? "APROBADO_ASESOR" : "OBSERVADO_ASESOR";
 
@@ -123,7 +117,6 @@ const revisionAsesor = async (req, res) => {
         }
       }
 
-      // Notificar a coordinación
       const [coord] = await pool.query(
         `SELECT id_usuario FROM usuario WHERE id_rol = 3`
       );
@@ -149,10 +142,6 @@ const revisionAsesor = async (req, res) => {
   }
 };
 
-// Etapa 2
-// =============================
-// LISTAR BORRADORES PENDIENTES PARA EL ASESOR
-// =============================
 const borradoresPendientesAsesor = async (req, res) => {
   try {
     const { rol, id_docente } = req.user;
@@ -182,9 +171,6 @@ const borradoresPendientesAsesor = async (req, res) => {
   }
 };
 
-// =============================
-// REVISAR BORRADOR (APROBAR / OBSERVAR)
-// =============================
 const revisarBorradorAsesor = async (req, res) => {
   try {
     const { rol, id_docente } = req.user;
@@ -194,14 +180,12 @@ const revisarBorradorAsesor = async (req, res) => {
     const { id_borrador } = req.params;
     const { estado_revision, comentarios } = req.body;
 
-    // Validar estado
     if (!["APROBADO", "OBSERVADO"].includes(estado_revision)) {
       return res.status(400).json({
         message: "Estado inválido. Use: APROBADO u OBSERVADO",
       });
     }
 
-    // Obtener información del borrador y estudiante
     const [info] = await pool.query(
       `
       SELECT b.id_proyecto, e.id_estudiante,
@@ -221,7 +205,6 @@ const revisarBorradorAsesor = async (req, res) => {
 
     const { id_proyecto, id_estudiante, titulo, estudiante } = info[0];
 
-    // Validar que este asesor es el asesor asignado del proyecto
     const [proy] = await pool.query(
       `SELECT id_asesor FROM proyecto_tesis WHERE id_proyecto = ?`,
       [id_proyecto]
@@ -232,7 +215,6 @@ const revisarBorradorAsesor = async (req, res) => {
         .status(403)
         .json({ message: "Este proyecto no pertenece al asesor" });
 
-    // Registrar revisión del asesor
     await pool.query(
       `INSERT INTO revision_borrador_asesor
        (id_borrador, id_asesor, estado_revision, comentarios)
@@ -240,11 +222,7 @@ const revisarBorradorAsesor = async (req, res) => {
       [id_borrador, id_docente, estado_revision, comentarios || null]
     );
 
-    // =============================
-    // SI EL ASESOR OBSERVA EL BORRADOR
-    // =============================
     if (estado_revision === "OBSERVADO") {
-      // Notificar al estudiante
       const [userEstu] = await pool.query(
         `
         SELECT u.id_usuario
@@ -263,7 +241,6 @@ const revisarBorradorAsesor = async (req, res) => {
         );
       }
 
-      // Actualizar estado del borrador
       await pool.query(
         `UPDATE tesis_borrador SET estado='OBSERVADO_ASESOR' WHERE id_borrador=?`,
         [id_borrador]
@@ -272,17 +249,12 @@ const revisarBorradorAsesor = async (req, res) => {
       return res.json({ message: "Observación registrada correctamente" });
     }
 
-    // =============================
-    // SI EL ASESOR APRUEBA EL BORRADOR
-    // =============================
     if (estado_revision === "APROBADO") {
-      // Actualizar estado
       await pool.query(
         `UPDATE tesis_borrador SET estado='APROBADO_ASESOR' WHERE id_borrador=?`,
         [id_borrador]
       );
 
-      // Obtener jurados del proyecto
       const [jurados] = await pool.query(
         `
         SELECT u.id_usuario
@@ -294,7 +266,6 @@ const revisarBorradorAsesor = async (req, res) => {
         [id_proyecto]
       );
 
-      // Notificar a jurados: deben revisar
       for (const j of jurados) {
         await notificar(
           j.id_usuario,

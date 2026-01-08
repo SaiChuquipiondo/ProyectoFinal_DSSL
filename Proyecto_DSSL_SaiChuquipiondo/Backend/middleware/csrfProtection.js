@@ -2,7 +2,6 @@ const { doubleCsrf } = require("csrf-csrf");
 const cookieParser = require("cookie-parser");
 const logger = require("../config/logger");
 
-// Configurar CSRF protection
 const {
   invalidCsrfTokenError,
   generateToken,
@@ -23,9 +22,6 @@ const {
   getTokenFromRequest: (req) => req.headers["x-csrf-token"] || req.body._csrf,
 });
 
-/**
- * Middleware para manejar errores de CSRF
- */
 const csrfErrorHandler = (error, req, res, next) => {
   if (error == invalidCsrfTokenError) {
     logger.warn("Token CSRF inválido", {
@@ -45,9 +41,6 @@ const csrfErrorHandler = (error, req, res, next) => {
   next(error);
 };
 
-/**
- * Endpoint para generar un token CSRF
- */
 const generarTokenCSRF = (req, res) => {
   try {
     const csrfToken = generateToken(req, res);

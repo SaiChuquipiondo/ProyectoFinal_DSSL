@@ -1,9 +1,6 @@
 const pool = require("../config/database");
 const logger = require("../config/logger");
 
-/**
- * Obtener todas las especialidades activas
- */
 const getEspecialidades = async (req, res) => {
   try {
     const [rows] = await pool.query(`
@@ -27,9 +24,6 @@ const getEspecialidades = async (req, res) => {
   }
 };
 
-/**
- * Obtener docentes (asesores) por especialidad
- */
 const getAsesoresByEspecialidad = async (req, res) => {
   try {
     const { id_especialidad } = req.params;
