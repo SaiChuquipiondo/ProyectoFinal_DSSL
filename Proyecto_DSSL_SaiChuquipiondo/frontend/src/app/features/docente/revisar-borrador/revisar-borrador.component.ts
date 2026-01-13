@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { NotificacionService } from '../../../services/notificacion.service';
 import { ToastService } from '../../../services/toast.service';
 import { environment } from '../../../../environments/environment';
+import { DocenteService } from '../../../services/docente.service';
 
 interface Borrador {
   id_borrador: number;
@@ -50,7 +51,7 @@ export class RevisarBorradorComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
+    private docenteService: DocenteService,
     private notificacionService: NotificacionService,
     private toastService: ToastService
   ) {}
@@ -90,16 +91,12 @@ export class RevisarBorradorComponent implements OnInit, OnDestroy {
   
   cargarBorrador(id: number): void {
     this.loading = true;
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    // Seleccionar endpoint segun modo
-    const endpoint = this.esJurado 
-      ? `${this.apiUrl}/jurados/borrador/pendientes`
-      : `${this.apiUrl}/asesor/borrador/pendientes`;
+    // Seleccionar observable segun modo
+    const observable = this.esJurado 
+      ? this.docenteService.getBorradoresPendientesJurado()
+      : this.docenteService.getBorradoresPendientesAsesor();
 
-    this.http.get<any[]>(endpoint, { headers })
-      .subscribe({
+    observable.subscribe({
         next: (borradores) => {
           const borrador = borradores.find(b => b.id_borrador === id);
           if (borrador) {
@@ -227,23 +224,16 @@ export class RevisarBorradorComponent implements OnInit, OnDestroy {
     this.submitting = true;
     this.error = '';
     
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
     const body = {
       estado_revision: this.estadoRevision,
       comentarios: this.comentarios
     };
+
+    const observable = this.esJurado
+      ? this.docenteService.revisarBorradorJurado(this.borrador!.id_borrador, body)
+      : this.docenteService.revisarBorradorAsesor(this.borrador!.id_borrador, body);
     
-    const endpoint = this.esJurado
-      ? `${this.apiUrl}/jurados/borrador/revisar/${this.borrador?.id_borrador}`
-      : `${this.apiUrl}/asesor/borrador/revisar/${this.borrador?.id_borrador}`;
-    
-    this.http.post(
-      endpoint,
-      body,
-      { headers }
-    ).subscribe({
+    observable.subscribe({
       next: () => {
         const msg = `Borrador ${this.estadoRevision === 'APROBADO' ? 'aprobado' : 'observado'} correctamente`;
         this.toastService.success(msg);

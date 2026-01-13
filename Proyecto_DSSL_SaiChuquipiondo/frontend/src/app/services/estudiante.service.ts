@@ -58,4 +58,6 @@ export class EstudianteService {
   getMiActa(): Observable<any> {
     return this.http.get(`${this.apiUrl}/mi-acta`);
   }
+
+  
 }

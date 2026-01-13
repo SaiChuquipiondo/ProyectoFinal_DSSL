@@ -6,8 +6,6 @@ import { EstudianteService } from '../../../services/estudiante.service';
 import { AuthService } from '../../../services/auth.service';
 import { WebsocketService } from '../../../services/websocket.service';
 import { ToastService } from '../../../services/toast.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { EstudianteSidebarComponent } from '../components/estudiante-sidebar/estudiante-sidebar.component';
 
 @Component({
@@ -38,8 +36,7 @@ export class SubirProyectoComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private websocketService: WebsocketService,
-    private toastService: ToastService,
-    private http: HttpClient
+    private toastService: ToastService
   ) {
     this.proyectoForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
@@ -73,11 +70,9 @@ export class SubirProyectoComponent implements OnInit {
 
   loadProyectoData(proyectoId: number): void {
     this.loading = true;
-    this.http.get<any>(`${environment.apiUrl}/estudiante/proyectos/${proyectoId}`).subscribe({
+    this.estudianteService.getProyectoById(proyectoId).subscribe({
       next: (proyecto) => {
         this.proyectoActual = proyecto;
-
-        
         this.proyectoForm.patchValue({
           titulo: proyecto.titulo,
           resumen: proyecto.resumen,
@@ -117,7 +112,7 @@ export class SubirProyectoComponent implements OnInit {
 
   loadEspecialidades(): void {
     this.loading = true;
-    this.http.get<any[]>(`${environment.apiUrl}/especialidades`).subscribe({
+    this.estudianteService.getEspecialidades().subscribe({
       next: (data) => {
         this.especialidades = data;
         this.loading = false;
@@ -137,7 +132,7 @@ export class SubirProyectoComponent implements OnInit {
       this.proyectoForm.patchValue({ id_asesor: '' });
     }
     
-    this.http.get<any[]>(`${environment.apiUrl}/especialidades/${idEspecialidad}/asesores`).subscribe({
+    this.estudianteService.getAsesoresByEspecialidad(idEspecialidad).subscribe({
       next: (data) => {
         this.asesores = data;
         this.loadingAsesores = false;
@@ -187,14 +182,16 @@ export class SubirProyectoComponent implements OnInit {
   onSubmit(): void {
     
     const esResubmisionAsesor = this.proyectoActual?.estado_proyecto === 'OBSERVADO_ASESOR';
+    const esRechazadoAsesor = this.proyectoActual?.estado_asesor === 'RECHAZADO';
     
-    if (this.proyectoForm.invalid && !esResubmisionAsesor) {
+    // Si es edición, el archivo es opcional a menos que sea resubmisión por observación del asesor
+    if (this.proyectoForm.invalid) {
       this.toastService.warning('Por favor completa todos los campos correctamente', 3000);
       return;
     }
 
     if (esResubmisionAsesor && !this.selectedFile) {
-      this.toastService.warning('Debes subir el proyecto corregido en PDF', 3000);
+      this.toastService.warning('Debes subir el proyecto corregido en PDF para que el asesor lo revise de nuevo', 3000);
       return;
     }
 
@@ -218,7 +215,7 @@ export class SubirProyectoComponent implements OnInit {
     }
 
     const request = this.isEditMode && this.proyectoId
-      ? this.http.put(`${environment.apiUrl}/estudiante/proyectos/${this.proyectoId}`, formData)
+      ? this.estudianteService.actualizarProyecto(this.proyectoId, formData)
       : this.estudianteService.subirProyecto(formData);
 
     request.subscribe({

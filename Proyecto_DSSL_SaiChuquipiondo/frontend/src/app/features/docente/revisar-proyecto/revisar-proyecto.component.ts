@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { DocenteService } from '../../../services/docente.service';
 
 interface Proyecto {
   id_proyecto: number;
@@ -38,7 +39,7 @@ export class RevisarProyectoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private docenteService: DocenteService
   ) {}
   
   ngOnInit(): void {
@@ -50,15 +51,12 @@ export class RevisarProyectoComponent implements OnInit {
   
   cargarProyecto(id: number): void {
     this.loading = true;
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
-    // Detectar si es asesor o jurado basándose en la URL
     const esJurado = this.router.url.includes('/evaluar');
-    const endpoint = esJurado ? '/jurados/pendientes' : '/asesor/pendientes';
+    const observable = esJurado 
+      ? this.docenteService.getProyectosPendientesJurado() 
+      : this.docenteService.getProyectosPendientesAsesor();
     
-    this.http.get<Proyecto[]>(`${this.apiUrl}${endpoint}`, { headers })
-      .subscribe({
+    observable.subscribe({
         next: (proyectos) => {
           const proyecto = proyectos.find(p => p.id_proyecto === id);
           if (proyecto) {
@@ -97,25 +95,18 @@ export class RevisarProyectoComponent implements OnInit {
     this.submitting = true;
     this.error = '';
     
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    
     const body = {
       estado_revision: this.estadoRevision,
       comentarios: this.comentarios
     };
+
     
-    // Detectar si es asesor o jurado basándose en la URL
     const esJurado = this.router.url.includes('/evaluar');
-    const endpoint = esJurado 
-      ? `/jurados/proyecto/revisar/${this.proyecto?.id_proyecto}`
-      : `/asesor/proyecto/revisar/${this.proyecto?.id_proyecto}`;
+    const observable = esJurado 
+      ? this.docenteService.revisarProyectoJurado(this.proyecto!.id_proyecto, body)
+      : this.docenteService.revisarProyectoAsesor(this.proyecto!.id_proyecto, body);
     
-    this.http.post(
-      `${this.apiUrl}${endpoint}`,
-      body,
-      { headers }
-    ).subscribe({
+    observable.subscribe({
       next: () => {
         this.successMessage = `Proyecto ${this.estadoRevision === 'APROBADO' ? 'aprobado' : 'observado'} correctamente`;
         setTimeout(() => {

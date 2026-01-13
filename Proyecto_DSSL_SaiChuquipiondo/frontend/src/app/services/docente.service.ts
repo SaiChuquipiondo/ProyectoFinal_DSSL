@@ -13,35 +13,35 @@ export class DocenteService {
 
   // Como Asesor
   getProyectosPendientesAsesor(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/asesor/proyectos-pendientes`);
+    return this.http.get<any[]>(`${this.apiUrl}/asesor/pendientes`);
   }
 
   revisarProyectoAsesor(idProyecto: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/asesor/proyecto/${idProyecto}/revisar`, data);
+    return this.http.post(`${this.apiUrl}/asesor/proyecto/revisar/${idProyecto}`, data);
   }
 
   getBorradoresPendientesAsesor(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/asesor/borradores-pendientes`);
+    return this.http.get<any[]>(`${this.apiUrl}/asesor/borrador/pendientes`);
   }
 
   revisarBorradorAsesor(idBorrador: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/asesor/borrador/${idBorrador}/revisar`, data);
+    return this.http.post(`${this.apiUrl}/asesor/borrador/revisar/${idBorrador}`, data);
   }
 
   // Como Jurado
   getProyectosPendientesJurado(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/jurados/proyectos-pendientes`);
+    return this.http.get<any[]>(`${this.apiUrl}/jurados/pendientes`);
   }
 
   revisarProyectoJurado(idProyecto: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/jurados/proyecto/${idProyecto}/revisar`, data);
+    return this.http.post(`${this.apiUrl}/jurados/proyecto/revisar/${idProyecto}`, data);
   }
 
   getBorradoresPendientesJurado(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/jurados/borradores-pendientes`);
+    return this.http.get<any[]>(`${this.apiUrl}/jurados/borrador/pendientes`);
   }
 
   revisarBorradorJurado(idBorrador: number, data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/jurados/borrador/${idBorrador}/revisar`, data);
+    return this.http.post(`${this.apiUrl}/jurados/borrador/revisar/${idBorrador}`, data);
   }
 }

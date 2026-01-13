@@ -252,7 +252,7 @@
             <button
               type="submit"
               class="btn-primary"
-              [disabled]="proyectoForm.invalid || !selectedFile || uploading"
+              [disabled]="proyectoForm.invalid || (!selectedFile && !isEditMode) || uploading"
             >
               <span *ngIf="!uploading">
                 <svg

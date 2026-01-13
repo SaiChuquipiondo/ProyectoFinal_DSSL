@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tesisPendientesResolucion: any[] = [];
   currentUser: any;
 
-  // Notificaciones
   notificaciones: any[] = [];
   noLeidasCount: number = 0;
   showNotifications: boolean = false;
@@ -38,7 +37,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private noLeidasSubscription?: Subscription;
   expandedNotifications: Set<number> = new Set();
 
-  // Modales y estados
   showModalDetalles: boolean = false;
   showModalRechazo: boolean = false;
   showModalAsesor: boolean = false;
@@ -48,22 +46,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   cargandoDetalles: boolean = false;
   motivoRechazo: string = '';
 
-  // Asignación de jurados
   docentesDisponibles: any[] = [];
   cargandoDocentes: boolean = false;
   juradoPresidente: number | null = null;
   juradoSecretario: number | null = null;
   juradoVocal: number | null = null;
 
-  // Tesis Finales Management
+  
   generandoResolucion: { [key: number]: boolean } = {};
   programandoSustentacion = false;
-  showModalProgramacion = false; // Renamed to avoid confusion if other modals exist
+  showModalProgramacion = false; 
   showModalResultado = false;
   registrandoResultado = false;
   generandoActa: { [key: number]: boolean } = {};
   
-  tesisSeleccionadaSustentacion: any = null; // Renamed to distinguish from projects
+  tesisSeleccionadaSustentacion: any = null; 
 
   formSustentacion = {
     fecha_hora: '',
@@ -77,7 +74,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     observaciones: ''
   };
 
-  // Filtros
   filtroEstadoProyecto: string = '';
   filtroEstadoAsesor: string = '';
   filtroBusqueda: string = '';
@@ -98,12 +94,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loadData();
     this.cargarNotificaciones();
     
-    // Suscribirse al contador de no leídas
     this.noLeidasSubscription = this.notificacionService.noLeidas$.subscribe(
       count => this.noLeidasCount = count
     );
 
-    // Cargar contador inicial
+
     this.notificacionService.contarNoLeidas().subscribe({
       next: res => this.noLeidasCount = res.no_leidas,
       error: err => console.error('Error al cargar contador de notificaciones', err)
@@ -154,7 +149,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== NOTIFICACIONES ====================
   toggleNotifications(): void {
     this.showNotifications = !this.showNotifications;
     if (this.showNotifications) {
@@ -212,7 +206,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== GESTIÓN DE PROYECTOS ====================
   verDetalles(proyecto: any): void {
     this.proyectoSeleccionado = proyecto;
     this.cargandoDetalles = true;
@@ -281,6 +274,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: () => {
         this.toastService.success('Proyecto rechazado. Se notificó al estudiante.', 3000);
         this.cerrarModalRechazo();
+        this.cerrarModalDetalles(); // Cerrar también el modal de detalles
         this.loadData();
       },
       error: (err) => {
@@ -336,7 +330,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== ASIGNACIÓN DE JURADOS ====================
   mostrarModalJurados(proyecto: any): void {
     this.proyectoSeleccionado = proyecto;
     this.showModalJurados = true;
@@ -453,7 +446,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  // ==================== DICTAMEN FINAL ====================
   emitirDictamen(proyecto: any): void {
     if (!confirm(`¿Confirmar dictamen para aprobar el proyecto "${proyecto.titulo}" y permitir la presentación del borrador de tesis?`)) {
       return;
@@ -471,7 +463,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== VALIDACIÓN FORMATO BORRADOR ====================
   validarFormatoBorrador(borrador: any, aprobado: boolean): void {
     const mensaje = aprobado
       ? `¿Aprobar formato del borrador "${borrador.titulo}" versión #${borrador.numero_iteracion}?`
@@ -496,7 +487,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== DICTAMEN BORRADOR ====================
   emitirDictamenBorrador(borrador: any): void {
     if (!confirm(`¿Confirmar dictamen para aprobar el borrador de la tesis "${borrador.titulo}" y permitir la programación de sustentación?`)) {
       return;
@@ -515,7 +505,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // ==================== FILTROS ====================
   aplicarFiltros(): void {
     let proyectos = [...this.proyectosPendientes];
 
@@ -567,7 +556,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return `Hace ${months} mes${months > 1 ? 'es' : ''}`;
   }
 
-  // ==================== UTILIDADES ====================
   getUserFullName(): string {
     if (!this.currentUser) return 'Coordinador';
     const nombres = this.currentUser.nombres || '';
@@ -612,7 +600,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
-  // ==================== TESIS FINALES ====================
 
   verPDF(rutaPdf: string): void {
     window.open(`${environment.wsUrl}/uploads/tesis_final/${rutaPdf}`, '_blank');
@@ -645,7 +632,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     window.open(`${environment.apiUrl}/sustentacion/descargar/${idResolucion}`, '_blank');
   }
 
-  // --- Programación Sustentación ---
+  
   
   abrirModalProgramacion(tesis: any): void {
     this.tesisSeleccionadaSustentacion = tesis;
@@ -736,7 +723,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  // --- Actas ---
 
   generarActa(idSustentacion: number): void {
     if (confirm('¿Generar el Acta de Sustentación ahora?')) {

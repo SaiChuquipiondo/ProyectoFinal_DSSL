@@ -2149,8 +2149,7 @@
       </div>
 
       <div class="modal-footer">
-        @if (detallesProyecto.estado_proyecto === 'PENDIENTE' || detallesProyecto.estado_proyecto
-        === 'OBSERVADO_FORMATO') {
+        @if (detallesProyecto.estado_proyecto === 'PENDIENTE') {
         <button class="btn-success" (click)="aprobarProyecto(detallesProyecto.id_proyecto)">
           Aprobar Proyecto
         </button>

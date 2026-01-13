@@ -110,20 +110,28 @@ const actualizarProyecto = async (req, res) => {
 
     const proyectoActual = proyecto[0];
 
+    const esRechazadoAsesor = proyectoActual.estado_asesor === "RECHAZADO";
+
     const estadosObservados = [
       "OBSERVADO_FORMATO",
       "OBSERVADO_ASESOR",
       "OBSERVADO_JURADOS",
     ];
-    if (!estadosObservados.includes(proyectoActual.estado_proyecto)) {
+
+    if (
+      !estadosObservados.includes(proyectoActual.estado_proyecto) &&
+      !esRechazadoAsesor
+    ) {
       return res.status(400).json({
-        message: "Solo se pueden actualizar proyectos observados",
+        message:
+          "Solo se pueden actualizar proyectos observados o con asesor rechazado",
       });
     }
 
     const { titulo, resumen, id_especialidad, id_asesor } = req.body;
 
-    let nuevoEstado = "PENDIENTE";
+    let nuevoEstado = proyectoActual.estado_proyecto;
+    let nuevoEstadoAsesor = proyectoActual.estado_asesor;
     let resetearRevisiones = false;
 
     if (proyectoActual.estado_proyecto === "OBSERVADO_FORMATO") {
@@ -133,6 +141,14 @@ const actualizarProyecto = async (req, res) => {
     } else if (proyectoActual.estado_proyecto === "OBSERVADO_JURADOS") {
       nuevoEstado = "ASIGNADO_JURADOS";
       resetearRevisiones = true;
+    }
+
+    if (
+      id_asesor &&
+      (Number(id_asesor) !== proyectoActual.id_asesor ||
+        proyectoActual.estado_asesor === "RECHAZADO")
+    ) {
+      nuevoEstadoAsesor = "PROPUESTO";
     }
 
     if (req.file) {
@@ -149,6 +165,7 @@ const actualizarProyecto = async (req, res) => {
              id_asesor = ?, 
              ruta_pdf = ?, 
              estado_proyecto = ?,
+             estado_asesor = ?,
              fecha_subida = CURRENT_TIMESTAMP
          WHERE id_proyecto = ?`,
         [
@@ -158,6 +175,7 @@ const actualizarProyecto = async (req, res) => {
           id_asesor || null,
           nuevaRutaPdf,
           nuevoEstado,
+          nuevoEstadoAsesor,
           id_proyecto,
         ]
       );
@@ -169,6 +187,7 @@ const actualizarProyecto = async (req, res) => {
              id_especialidad = ?, 
              id_asesor = ?, 
              estado_proyecto = ?,
+             estado_asesor = ?,
              fecha_subida = CURRENT_TIMESTAMP
          WHERE id_proyecto = ?`,
         [
@@ -177,6 +196,7 @@ const actualizarProyecto = async (req, res) => {
           id_especialidad,
           id_asesor || null,
           nuevoEstado,
+          nuevoEstadoAsesor,
           id_proyecto,
         ]
       );
